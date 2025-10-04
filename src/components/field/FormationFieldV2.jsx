@@ -18,7 +18,7 @@ export default function FormationFieldV2({
   useEffect(() => {
     if (!formation && code) {
       setLoading(true);
-      fetch('/data/formations-authoritative.json')
+      fetch('/data/formations.json')
         .then(res => res.json())
         .then(data => {
           const normalized = String(code).toLowerCase().replace(/[^0-9a-z]/g, '');
@@ -39,7 +39,7 @@ export default function FormationFieldV2({
   const nodes = useMemo(() => {
     if (formationData?.slot_map && Array.isArray(formationData.slot_map)) {
       // Use actual coordinates from slot_map
-      // formations-authoritative.json uses 0-100% coords, top-down (attacking up)
+      // Canonical formations.json uses 0-100% coords, left-to-right (attacking right)
       // Origin is top-left, y increases downward (GK ≈ y=94)
       // Render positions directly as percentages of pitch dimensions
       // Pitch SVG viewBox is 0 0 105 68

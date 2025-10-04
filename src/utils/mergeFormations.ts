@@ -1,16 +1,13 @@
-import seedFormations from "../data/formations.json";
-import seedTactics from "../data/tactics.json";
+import tacticsData from "../data/tactics.json";
 import type { FormationSeed, TacticsText, FormationMerged } from "../types/formation";
 
-// Try to derive backline (3/4/5) from name like "3-5-2"
 const inferBackline = (name: string): 3 | 4 | 5 | undefined => {
-  const m = name?.match(/^\s*([345])-/);
+  const m = name?.match(/^\s*([345])/);
   if (!m) return undefined;
   const n = Number(m[1]);
   return (n === 3 || n === 4 || n === 5) ? (n as 3|4|5) : undefined;
 };
 
-// Normalize a key for matching ("3-5-2" → "352")
 const k = (s: string) => s.toLowerCase().replace(/[^0-9a-z]+/g, "");
 
 export type GroupedFormations = {
@@ -20,14 +17,25 @@ export type GroupedFormations = {
   unknown: FormationMerged[];
 };
 
-export function getMergedFormations(): GroupedFormations {
-  const formations = (seedFormations as FormationSeed[]).map(f => ({
+let formationsCache: FormationSeed[] | null = null;
+
+async function loadFormations(): Promise<FormationSeed[]> {
+  if (formationsCache) return formationsCache;
+
+  const response = await fetch('/data/formations.json');
+  const data = await response.json();
+  formationsCache = data.formations;
+  return formationsCache;
+}
+
+export async function getMergedFormations(): Promise<GroupedFormations> {
+  const formations = (await loadFormations()).map(f => ({
     ...f,
     backline: f.backline ?? inferBackline(f.name),
   }));
 
   const tIndex = new Map<string, TacticsText>();
-  (seedTactics as TacticsText[]).forEach(t => {
+  (tacticsData as TacticsText[]).forEach(t => {
     if (t?.name) tIndex.set(k(t.name), t);
   });
 

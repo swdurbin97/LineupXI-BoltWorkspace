@@ -1,18 +1,18 @@
 export type Slot = {
-  id?: string;
-  x?: number;
-  y?: number;
-  role?: string;
+  slot_code: string;
+  x: number;
+  y: number;
 };
 
 export type FormationSeed = {
-  name: string;            // e.g., "3-5-2"
-  nickname?: string;       // optional nickname
-  backline?: 3 | 4 | 5;    // convenience grouping
-  positions?: string[];    // optional flat list of role codes
-  slots?: Slot[];          // field coordinates
-  style?: string;          // optional text
-  description?: string;    // optional short description
+  code: string;
+  name: string;
+  style?: string;
+  slot_map: Slot[];
+  position_counts_sum?: number;
+  nickname?: string;
+  backline?: 3 | 4 | 5;
+  description?: string;
 };
 
 export type TacticsText = {

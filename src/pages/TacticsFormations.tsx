@@ -1,9 +1,31 @@
-import React from "react";
-import { getMergedFormations } from "../utils/mergeFormations";
+import React, { useEffect, useState } from "react";
+import { getMergedFormations, GroupedFormations } from "../utils/mergeFormations";
 import FormationSection from "../components/tactics/FormationSection";
 
 export default function TacticsFormations() {
-  const groups = getMergedFormations();
+  const [groups, setGroups] = useState<GroupedFormations>({
+    back3: [],
+    back4: [],
+    back5: [],
+    unknown: []
+  });
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    getMergedFormations().then(data => {
+      setGroups(data);
+      setLoading(false);
+    });
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="mx-auto max-w-7xl px-4 py-6">
+        <p>Loading formations...</p>
+      </div>
+    );
+  }
+
   return (
     <div className="mx-auto max-w-7xl px-4 py-6">
       <header className="mb-6">

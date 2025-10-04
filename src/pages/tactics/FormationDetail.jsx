@@ -16,8 +16,8 @@ export default function FormationDetail() {
     let alive = true;
     (async () => {
       try {
-        // Load merged formation data
-        const response = await fetch("/data/formations-authoritative.json");
+        // Load canonical formation data
+        const response = await fetch("/data/formations.json");
         
         if (!response.ok) {
           throw new Error("Failed to load formation data");
