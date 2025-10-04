@@ -17,7 +17,7 @@ export default function FormationDetail() {
     (async () => {
       try {
         // Load merged formation data
-        const response = await fetch("/data/formations-complete.json");
+        const response = await fetch("/data/formations-authoritative.json");
         
         if (!response.ok) {
           throw new Error("Failed to load formation data");

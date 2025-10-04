@@ -1,7 +1,7 @@
 import React from "react";
 
 /** Responsive SVG soccer pitch (105x68 ratio), full-width container */
-export default function Pitch({ children }) {
+export default function Pitch({ children, showGrid = false }) {
   // Keep 105:68 aspect ratio (FIFA standard pitch proportion)
   return (
     <div className="w-full max-w-4xl mx-auto">
@@ -19,6 +19,33 @@ export default function Pitch({ children }) {
             </linearGradient>
           </defs>
           <rect x="0" y="0" width="105" height="68" fill="url(#grass)" />
+
+          {/* Dev mode: 10% tick grid overlay */}
+          {showGrid && (
+            <g opacity="0.3">
+              {/* Vertical lines every 10% */}
+              {[10, 20, 30, 40, 50, 60, 70, 80, 90].map(pct => {
+                const x = (pct / 100) * 105;
+                return (
+                  <g key={`v${pct}`}>
+                    <line x1={x} y1="0" x2={x} y2="68" stroke="#ffff00" strokeWidth="0.3" strokeDasharray="1,1" />
+                    <text x={x} y="2" fontSize="2" fill="#ffff00" textAnchor="middle">{pct}</text>
+                  </g>
+                );
+              })}
+              {/* Horizontal lines every 10% */}
+              {[10, 20, 30, 40, 50, 60, 70, 80, 90].map(pct => {
+                const y = (pct / 100) * 68;
+                return (
+                  <g key={`h${pct}`}>
+                    <line x1="0" y1={y} x2="105" y2={y} stroke="#ffff00" strokeWidth="0.3" strokeDasharray="1,1" />
+                    <text x="2" y={y + 1} fontSize="2" fill="#ffff00">{pct}</text>
+                  </g>
+                );
+              })}
+            </g>
+          )}
+
           {/* touchlines */}
           <rect x="1" y="1" width="103" height="66" fill="none" stroke="#ffffff" strokeWidth="0.6" />
           {/* halfway + center */}

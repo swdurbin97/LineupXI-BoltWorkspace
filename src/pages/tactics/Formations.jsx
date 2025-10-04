@@ -19,7 +19,7 @@ export default function FormationsPage() {
   const [q, setQ] = useState("");
 
   useEffect(() => {
-    fetch("/data/formations-complete.json")
+    fetch("/data/formations-authoritative.json")
       .then((r) => r.json())
       .then((j) => setData(Array.isArray(j) ? j : j?.formations ?? []))
       .catch(() => setData([]));

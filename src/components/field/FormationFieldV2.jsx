@@ -1,6 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
 import Pitch from "./Pitch";
-import { toLeftRight } from "../../lib/coords";
 
 /**
  * FormationFieldV2 - Uses actual slot_map coordinates from data
@@ -19,7 +18,7 @@ export default function FormationFieldV2({
   useEffect(() => {
     if (!formation && code) {
       setLoading(true);
-      fetch('/data/formations-complete.json')
+      fetch('/data/formations-authoritative.json')
         .then(res => res.json())
         .then(data => {
           const normalized = String(code).toLowerCase().replace(/[^0-9a-z]/g, '');
@@ -40,17 +39,15 @@ export default function FormationFieldV2({
   const nodes = useMemo(() => {
     if (formationData?.slot_map && Array.isArray(formationData.slot_map)) {
       // Use actual coordinates from slot_map
-      // formations-complete.json uses 0-100% coords in top-down orientation (attacking up)
-      // We need to: 1) rotate to left-right, 2) convert to pitch coordinates
+      // formations-authoritative.json uses 0-100% coords, top-down (attacking up)
+      // Origin is top-left, y increases downward (GK ≈ y=94)
+      // Render positions directly as percentages of pitch dimensions
       // Pitch SVG viewBox is 0 0 105 68
       return formationData.slot_map.map(slot => {
-        // Step 1: Apply toLeftRight rotation (90° counter-clockwise)
-        // This transforms top-down (attacking up) to left-right (attacking right)
-        const rotated = toLeftRight(slot.x, slot.y);
-
-        // Step 2: Convert from percentage (0-100) to pitch coordinates (105x68)
-        const pitchX = (rotated.x / 100) * 105;
-        const pitchY = (rotated.y / 100) * 68;
+        // Convert from percentage (0-100) to pitch coordinates (105x68)
+        // No rotation - render directly as top-down orientation
+        const pitchX = (slot.x / 100) * 105;
+        const pitchY = (slot.y / 100) * 68;
 
         return {
           x: pitchX,
@@ -69,9 +66,12 @@ export default function FormationFieldV2({
   // Apply horizontal mirror if requested
   const mirrorX = (x) => (flip ? 105 - x : x);
 
+  // Enable grid in dev mode (check URL params)
+  const showGrid = typeof window !== 'undefined' && window.location.search.includes('grid');
+
   if (loading) {
     return (
-      <Pitch>
+      <Pitch showGrid={showGrid}>
         <text x="52.5" y="34" fontSize="3" textAnchor="middle" fill="#999">
           Loading...
         </text>
@@ -80,7 +80,7 @@ export default function FormationFieldV2({
   }
 
   return (
-    <Pitch>
+    <Pitch showGrid={showGrid}>
       {nodes.map((n, i) => (
         <g key={i} className="cursor-default group">
           <circle 

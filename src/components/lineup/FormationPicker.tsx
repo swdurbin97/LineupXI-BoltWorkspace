@@ -17,8 +17,8 @@ export default function FormationPicker() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Load formations from seed data
-    fetch('/data/formations-complete.json')
+    // Load formations from authoritative source
+    fetch('/data/formations-authoritative.json')
       .then(res => res.json())
       .then(data => {
         setFormations(data.formations || []);
@@ -26,17 +26,8 @@ export default function FormationPicker() {
       })
       .catch(err => {
         console.error('Failed to load formations:', err);
-        // Fallback to the original formations file
-        fetch('/seeds/formations_seed_with_coordinates_v3.json')
-          .then(res => res.json())
-          .then(data => {
-            setFormations(data.formations || []);
-            setLoading(false);
-          })
-          .catch(() => {
-            setFormations([]);
-            setLoading(false);
-          });
+        setFormations([]);
+        setLoading(false);
       });
   }, []);
 
