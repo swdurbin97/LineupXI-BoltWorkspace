@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import Pitch from "./Pitch";
+import { toLeftRight } from "../../lib/coords";
 
 /**
  * FormationFieldV2 - Uses actual slot_map coordinates from data
@@ -39,15 +40,18 @@ export default function FormationFieldV2({
   const nodes = useMemo(() => {
     if (formationData?.slot_map && Array.isArray(formationData.slot_map)) {
       // Use actual coordinates from slot_map
-      // Convert from percentage (0-100) to pitch coordinates
+      // formations-complete.json uses 0-100% coords in top-down orientation (attacking up)
+      // We need to: 1) rotate to left-right, 2) convert to pitch coordinates
       // Pitch SVG viewBox is 0 0 105 68
       return formationData.slot_map.map(slot => {
-        // Convert x from 0-100% to pitch coordinates (0-105)
-        // Note: in slot_map, x=50 is center, y=94 is near goal (defensive end)
-        // We need to flip Y since SVG origin is top-left
-        const pitchX = (slot.x / 100) * 105;
-        const pitchY = ((100 - slot.y) / 100) * 68; // Flip Y axis
-        
+        // Step 1: Apply toLeftRight rotation (90° counter-clockwise)
+        // This transforms top-down (attacking up) to left-right (attacking right)
+        const rotated = toLeftRight(slot.x, slot.y);
+
+        // Step 2: Convert from percentage (0-100) to pitch coordinates (105x68)
+        const pitchX = (rotated.x / 100) * 105;
+        const pitchY = (rotated.y / 100) * 68;
+
         return {
           x: pitchX,
           y: pitchY,
@@ -108,11 +112,9 @@ export default function FormationFieldV2({
 
 // Format slot codes to display labels
 function formatSlotLabel(slotCode) {
-  // Remove numbers from generic codes like CB1, CB2, etc.
-  if (/^(CB|CM|ST|LCB|RCB|LCM|RCM)\d+$/.test(slotCode)) {
-    return slotCode.replace(/\d+$/, '');
-  }
-  return slotCode;
+  // Strip numeric suffixes from all position codes (CB1→CB, ST2→ST, etc.)
+  // Keep underlying slot code intact - this is display only
+  return slotCode.replace(/\d+$/, '');
 }
 
 // Determine band/category from slot code
