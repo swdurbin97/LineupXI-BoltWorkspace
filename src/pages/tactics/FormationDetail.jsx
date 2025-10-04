@@ -12,6 +12,10 @@ export default function FormationDetail() {
   const [showLabels, setShowLabels] = useState(true);
   const [flip, setFlip] = useState(false);
 
+  // Check for debug mode
+  const searchParams = new URLSearchParams(window.location.search);
+  const showDebug = searchParams.get('debug') === '1';
+
   useEffect(() => {
     let alive = true;
     (async () => {
@@ -108,13 +112,44 @@ export default function FormationDetail() {
           </button>
         </div>
         
-        <FormationFieldV2 
-          code={displayName} 
+        <FormationFieldV2
+          code={displayName}
           formation={item}
-          showLabels={showLabels} 
-          flip={flip} 
+          showLabels={showLabels}
+          flip={flip}
         />
       </div>
+
+      {showDebug && item.slot_map && (
+        <div className="mb-8 p-4 bg-blue-50 border border-blue-200 rounded-lg text-sm">
+          <div className="font-semibold mb-2">Debug Info</div>
+          <div className="space-y-1 mb-3">
+            <div><span className="font-medium">Formation:</span> {item.code} - {item.name}</div>
+            <div><span className="font-medium">Source:</span> /data/formations.json</div>
+            <div><span className="font-medium">Slots:</span> {item.slot_map.length}</div>
+          </div>
+          <div className="overflow-x-auto">
+            <table className="w-full text-xs border-collapse">
+              <thead>
+                <tr className="border-b border-blue-300">
+                  <th className="text-left py-1 px-2">Slot Code</th>
+                  <th className="text-right py-1 px-2">X</th>
+                  <th className="text-right py-1 px-2">Y</th>
+                </tr>
+              </thead>
+              <tbody>
+                {item.slot_map.map((slot, idx) => (
+                  <tr key={idx} className="border-b border-blue-100">
+                    <td className="py-1 px-2 font-mono">{slot.slot_code}</td>
+                    <td className="text-right py-1 px-2 font-mono">{slot.x}</td>
+                    <td className="text-right py-1 px-2 font-mono">{slot.y}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
 
       {description && (
         <div className="mb-8 leading-7 text-gray-800 whitespace-pre-line">{description}</div>

@@ -17,8 +17,8 @@ export default function FormationPicker() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Load formations from authoritative source
-    fetch('/data/formations-authoritative.json')
+    // Load formations from canonical source
+    fetch('/data/formations.json')
       .then(res => res.json())
       .then(data => {
         setFormations(data.formations || []);

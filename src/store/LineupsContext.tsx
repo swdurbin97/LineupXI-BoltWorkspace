@@ -249,8 +249,8 @@ export function LineupsProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     const loadAndMigrate = async () => {
       try {
-        // Load formations seed for migration
-        const response = await fetch('/data/formations-complete.json');
+        // Load formations from canonical source
+        const response = await fetch('/data/formations.json');
         const data = await response.json();
         formationsSeedRef.current = data;
         

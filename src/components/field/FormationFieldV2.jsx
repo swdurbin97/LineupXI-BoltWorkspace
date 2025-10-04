@@ -38,14 +38,11 @@ export default function FormationFieldV2({
   // Generate nodes from slot_map or fallback to computed layout
   const nodes = useMemo(() => {
     if (formationData?.slot_map && Array.isArray(formationData.slot_map)) {
-      // Use actual coordinates from slot_map
-      // Canonical formations.json uses 0-100% coords, left-to-right (attacking right)
-      // Origin is top-left, y increases downward (GK ≈ y=94)
-      // Render positions directly as percentages of pitch dimensions
+      // Use coordinates from canonical formations.json
+      // Data format: 0-100 percentage values
       // Pitch SVG viewBox is 0 0 105 68
       return formationData.slot_map.map(slot => {
         // Convert from percentage (0-100) to pitch coordinates (105x68)
-        // No rotation - render directly as top-down orientation
         const pitchX = (slot.x / 100) * 105;
         const pitchY = (slot.y / 100) * 68;
 

@@ -5,7 +5,6 @@ import FormationPicker from '../../components/lineup/FormationPicker';
 import SlotMarker from '../../components/lineup/SlotMarker';
 import AvailableGrid from '../../components/lineup/AvailableGrid';
 import BenchGrid from '../../components/lineup/BenchGrid';
-import { toLeftRight } from '../../lib/coords';
 import ErrorBoundary from './ErrorBoundary';
 import { LAYOUT } from './layout-constants';
 import { getLayoutParams } from '../../lib/layout';
@@ -210,25 +209,14 @@ function LineupPageContent() {
   }, [resetWorking]);
 
   useEffect(() => {
-    // Load formations and apply overrides
+    // Load formations from canonical source
     const loadFormations = async () => {
       try {
-        const res = await fetch('/data/formations-complete.json');
+        const res = await fetch('/data/formations.json');
         const data = await res.json();
-        const overrides = await loadOverrides();
-        const formationsWithOverrides = applyOverrides(data.formations || [], overrides);
-        setFormations(formationsWithOverrides);
+        setFormations(data.formations || []);
       } catch {
-        // Fallback
-        try {
-          const res = await fetch('/seeds/formations_seed_with_coordinates_v3.json');
-          const data = await res.json();
-          const overrides = await loadOverrides();
-          const formationsWithOverrides = applyOverrides(data.formations || [], overrides);
-          setFormations(formationsWithOverrides);
-        } catch {
-          setFormations([]);
-        }
+        setFormations([]);
       }
     };
     loadFormations();
@@ -505,18 +493,16 @@ function LineupPageContent() {
                       const draftPos = editDraft[working.formationCode]?.slots?.[slot.slot_code];
                       const baseX = draftPos?.x ?? slot.x;
                       const baseY = draftPos?.y ?? slot.y;
-                      
-                      // Transform coordinates to left-right orientation
-                      // Original: x=50 is center, y=94 is near goal (defensive end)
-                      // Transformed: GK on left, strikers on right
-                      const { x, y } = toLeftRight(baseX, baseY);
-                      
+
+                      // Use coordinates directly from canonical formations.json
+                      // No transforms - data is already in correct orientation
+
                       return (
                         <SlotMarker
                           key={slot.slot_code}
                           slotCode={slot.slot_code}
-                          x={x}
-                          y={y}
+                          x={baseX}
+                          y={baseY}
                           player={player}
                           isSelected={selectedSlotCode === slot.slot_code}
                           tunerOn={positionsEditor}
