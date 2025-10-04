@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Lineup Layout Test</title>
+</head>
+<body>
+    <h1>Lineup Layout Test Results</h1>
+    
+    <h2>Test with debug params: ?debugLayout=1&fw=1320&fh=900&benchCols=8</h2>
+    <p>Expected behavior:</p>
+    <ul>
+        <li>✅ Container width: 1320px (overridden from default 1280px)</li>
+        <li>✅ Field height: 900px (overridden from responsive breakpoints)</li>
+        <li>✅ Bench columns: 8 (desktop single row)</li>
+        <li>✅ Debug overlay: Visible with dashed sky-400 borders</li>
+        <li>✅ Sections stacked: Available → Field → Bench → Roles</li>
+    </ul>
+    
+    <h2>Layout parameters resolved:</h2>
+    <pre>
+    {
+      debug: true,
+      fw: 1320,     // content max width override
+      fh: 900,      // field height override  
+      benchCols: 8  // desktop bench columns
+    }
+    </pre>
+    
+    <h2>Key Changes Implemented:</h2>
+    <ol>
+        <li><strong>COMMIT A:</strong> Created layout.ts with getLayoutParams() helper</li>
+        <li><strong>COMMIT B:</strong> Forced stacked sections, removed side-by-side layouts</li>
+        <li><strong>COMMIT C:</strong> Field sizing with URL override support</li>
+        <li><strong>COMMIT D:</strong> Bench moved below field, responsive grid</li>
+        <li><strong>COMMIT E:</strong> Unified DnD payload, added store helpers</li>
+    </ol>
+    
+    <h2>DnD Payload Format:</h2>
+    <pre>
+    {
+      playerId: string,
+      source: 'available' | 'field' | 'bench',
+      key: string | number  // slotCode for field, index for bench
+    }
+    </pre>
+    
+    <script>
+        // Log the layout params when visiting the actual page
+        console.log('Visit http://localhost:5173/lineup?debugLayout=1&fw=1320&fh=900&benchCols=8');
+        console.log('Layout params will be:', {
+            debug: true,
+            fw: 1320,
+            fh: 900,
+            benchCols: 8
+        });
+    </script>
+</body>
+</html>

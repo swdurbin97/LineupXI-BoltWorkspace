@@ -1,0 +1,7 @@
+/* Minimal spacing tidy if header containers exist */
+header, .lineup-header, [data-ui="lineup-header"] { gap: .5rem !important; row-gap: .5rem !important; }
+
+/* If the app already exposes helpful attributes, these catch them */
+[aria-label="Field Size"], [data-ui="field-size"], [data-testid="field-size-controls"] { display:none !important; }
+[aria-label="Orientation"], [data-ui="orientation"], [data-testid="orientation-indicator"] { display:none !important; }
+[aria-label="Adjust Positions"], [data-ui="adjust-positions"], [data-testid="adjust-positions"] { display:none !important; }

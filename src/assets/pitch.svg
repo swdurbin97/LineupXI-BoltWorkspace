@@ -1,0 +1,17 @@
+<svg viewBox="0 0 105 68" xmlns="http://www.w3.org/2000/svg">
+  <!-- Pitch lines only, no background (transparent) -->
+  <!-- touchlines -->
+  <rect x="1" y="1" width="103" height="66" fill="none" stroke="#ffffff" stroke-width="0.6" />
+  <!-- halfway + center -->
+  <line x1="52.5" y1="1" x2="52.5" y2="67" stroke="#ffffff" stroke-width="0.5" />
+  <circle cx="52.5" cy="34" r="5.5" fill="none" stroke="#ffffff" stroke-width="0.5" />
+  <!-- penalty boxes -->
+  <rect x="1" y="18" width="16.5" height="32" fill="none" stroke="#ffffff" stroke-width="0.5" />
+  <rect x="87.5" y="18" width="16.5" height="32" fill="none" stroke="#ffffff" stroke-width="0.5" />
+  <!-- 6-yard boxes -->
+  <rect x="1" y="26" width="5.5" height="16" fill="none" stroke="#ffffff" stroke-width="0.5" />
+  <rect x="98.5" y="26" width="5.5" height="16" fill="none" stroke="#ffffff" stroke-width="0.5" />
+  <!-- goals (visual only) -->
+  <rect x="0" y="30.5" width="1" height="7" fill="#ffffff" />
+  <rect x="104" y="30.5" width="1" height="7" fill="#ffffff" />
+</svg>
