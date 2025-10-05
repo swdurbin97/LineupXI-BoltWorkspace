@@ -4,6 +4,7 @@ import FormationsPage from './pages/tactics/Formations'
 import FormationDetail from './pages/tactics/FormationDetail'
 import TeamsheetsPage from './pages/teamsheets'
 import LineupPage from './pages/lineup'
+import SavedLineupsPage from './pages/saved'
 
 export default function App() {
   const link = "px-3 py-2 rounded hover:bg-neutral-100 dark:hover:bg-neutral-800";
@@ -22,6 +23,7 @@ export default function App() {
         <Route path="/" element={<TeamsheetsPage />} />
         <Route path="/teamsheets" element={<TeamsheetsPage />} />
         <Route path="/lineup" element={<LineupPage />} />
+        <Route path="/saved" element={<SavedLineupsPage />} />
         <Route path="/tactics/formations" element={<FormationsPage />} />
         <Route path="/tactics/formations/:code" element={<FormationDetail />} />
       </Routes>
