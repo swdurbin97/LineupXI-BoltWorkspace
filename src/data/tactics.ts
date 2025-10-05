@@ -26,17 +26,33 @@ export function sanitizeText(input?: string): string {
   s = s.replace(PLUS_CHAIN_RE, "");
   s = s.replace(DOMAIN_RE, "");
 
-  // Remove bracketed placeholder tokens: {{turn0view0}}, [turn1search2], (turn3view4)
+  // Remove domains with spaces around dot (e.g., "thetitansfa. com")
+  // Also handle split domains left by other operations (e.g., "In. com")
+  s = s.replace(/\b([\w-]+)\s*\.\s*(com|org|net|io|co|uk)\b/gi, "");
+  // Clean up standalone TLD remnants
+  s = s.replace(/\s+\.\s*(com|org|net|io|co|uk)\b/gi, "");
+
+  // Remove placeholder tokens (with or without brackets): {{turn0view0}}, turn1search2, etc.
   s = s.replace(/[\[\(\{]{1,2}\s*turn\d+(?:view|search)\d+\s*[\]\)\}]{1,2}\s*,?/gi, '');
+  s = s.replace(/\bturn\d+(?:view|search)\d+\b/gi, '');
+
+  // Fix concatenated brand seams (targeted to avoid breaking camelCase)
+  s = s.replace(/(Voice|Jobs|Community|Coaching)([A-Z][a-z]+)/g, '$1 $2');
 
   // Fix doubled brand fragments early (e.g., FootballFootball → Football, Jobs In FootballSoccer → Jobs In Football)
   s = s.replace(/\b([A-Z][a-z]+)\1\b/g, '$1');
 
   // Expanded brand list for comprehensive removal (case-insensitive)
   // Order matters: match longer phrases first to avoid partial matches
+  // ONLY matches at end of line/paragraph, not in middle of text
   const brands = [
+    'A-Champs Interactive Community',
+    'Sports Interactive Community',
+    'Soccer Est Du Quebec',
     'The Football Tactics Board',
     'The Football Analyst',
+    'Charlotte Rise FC',
+    'Ekkono Coaching',
     'Jobs In Football',
     'Football Analyst',
     'Soccer Coaching Pro',
@@ -49,13 +65,16 @@ export function sanitizeText(input?: string): string {
     'Coaching Pro',
     'In Football',
     'Footballizer',
+    'Buildlineup',
     'Wikipedia',
     'Mastermind',
     'Talksport',
     'BlazePod',
+    'Coach 365',
+    'Rise FC',
     'YouTube',
-    'Reddit',
-    'Jobs In'
+    'Reddit'
+    // Note: "Jobs In" removed - too short, causes false positives
   ];
 
   // Remove brands with optional suffixes at end of lines/paragraphs
@@ -83,7 +102,32 @@ export function sanitizeText(input?: string): string {
     }
   }
 
-  // Cleanup: collapse whitespace and fix punctuation spacing
+  // Remove brands anywhere in text (parentheses, citations, etc.)
+  // This is more aggressive - targets brands in any context
+  prev = '';
+  while (prev !== s) {
+    prev = s;
+    for (const brand of brands) {
+      const escapedBrand = brand.replace(/[()' .]/g, '\\$&');
+      // Remove brand with optional suffixes in any position (not just end)
+      s = s.replace(
+        new RegExp(`\\b${escapedBrand}(?:'?\\s*Voice|\\s+Coaching Pro)?(?:\\s+(?:inside|insides))?\\b`, 'gi'),
+        ''
+      );
+    }
+  }
+
+  // Generic title-case tail removal (last resort after brand list)
+  // Remove trailing 1-5 TitleCase words ending with whitelisted terms
+  // Reduces false positives by only matching known brand/source suffixes
+  prev = '';
+  while (prev !== s) {
+    prev = s;
+    s = s.replace(/\s+(?:[A-Z][a-z']+\s+){0,4}(?:Voice|Community|Coaching|Analyst|Pro|FC|DNA)\.?$/g, '.');
+  }
+
+  // Clean double punctuation and fix spacing
+  s = s.replace(/\.{2,}/g, '.').replace(/\s+\./g, '.');
   s = s.replace(/[ \t]+/g, " ").replace(/\s+([,.;:!?])/g, "$1").trim();
 
   return s;

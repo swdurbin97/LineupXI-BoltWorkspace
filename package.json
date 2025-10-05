@@ -8,7 +8,8 @@
     "build": "vite build",
     "preview": "vite preview",
     "build:overrides": "node tools/build-overrides.cjs",
-    "validate:tactics": "node tools/validate-tactics.mjs"
+    "validate:tactics": "node tools/validate-tactics.mjs",
+    "audit:tactics": "node tools/audit-sanitized-tactics.mjs"
   },
   "dependencies": {
     "react": "^19.1.1",
