@@ -2,11 +2,13 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import FormationRenderer from "../../components/field/FormationRenderer";
+import { loadTactics } from "../../data/tactics";
 
 export default function FormationDetail() {
   const { code } = useParams(); // e.g. "3412"
   const navigate = useNavigate();
   const [formations, setFormations] = useState([]);
+  const [tacticsData, setTacticsData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [err, setErr] = useState("");
   const [showLabels, setShowLabels] = useState(true);
@@ -20,16 +22,20 @@ export default function FormationDetail() {
     (async () => {
       try {
         // Load canonical formation data
-        const response = await fetch("/data/formations.json");
-        
-        if (!response.ok) {
+        const formationsResponse = await fetch("/data/formations.json");
+
+        if (!formationsResponse.ok) {
           throw new Error("Failed to load formation data");
         }
-        
-        const data = await response.json();
-        
+
+        const formationsData = await formationsResponse.json();
+
+        // Load tactics content (will return empty array if missing)
+        const tactics = await loadTactics();
+
         if (alive) {
-          setFormations(data.formations || []);
+          setFormations(formationsData.formations || []);
+          setTacticsData(tactics.tactics_content || []);
           setLoading(false);
         }
       } catch (e) {
@@ -41,27 +47,31 @@ export default function FormationDetail() {
 
   const item = useMemo(() => {
     const lower = String(code || "").toLowerCase().replace(/[^0-9a-z]/g, "");
-    
-    // Find formation from merged data
+
+    // Find formation from formations.json
     const formation = formations.find(f =>
       String(f.code ?? "").toLowerCase().replace(/[^0-9a-z]/g, "") === lower ||
       String(f.name ?? "").toLowerCase().replace(/[^0-9a-z]/g, "") === lower ||
       String(f.formation_code ?? "").toLowerCase().replace(/[^0-9a-z]/g, "") === lower
     );
-    
+
     if (!formation) return null;
-    
-    // Process the data for display
+
+    // Find tactics content by exact code match
+    const tactics = tacticsData.find(t => t.code === formation.code);
+
+    // Merge formation and tactics data
     return {
       ...formation,
-      // Convert string lists to arrays for consistent handling
-      advantages: formation.advantages ? formation.advantages.split('\n').filter(Boolean) : [],
-      disadvantages: formation.disadvantages ? formation.disadvantages.split('\n').filter(Boolean) : [],
-      howToCounter: formation.how_to_counter ? formation.how_to_counter.split('\n').filter(Boolean) : [],
-      suggestedCounters: formation.suggested_counters ? formation.suggested_counters.split('\n').filter(Boolean) : [],
-      roles: formation.player_roles ? formation.player_roles.split('\n').filter(Boolean) : []
+      ...tactics,
+      // Ensure arrays (tactics.json should already have arrays)
+      advantages: tactics?.advantages || [],
+      disadvantages: tactics?.disadvantages || [],
+      howToCounter: tactics?.how_to_counter || [],
+      suggestedCounters: tactics?.suggested_counters || [],
+      roles: tactics?.player_roles || []
     };
-  }, [formations, code]);
+  }, [formations, tacticsData, code]);
 
   if (loading) return <div className="px-6 py-10 text-sm text-gray-500">Loading…</div>;
   if (err) return <div className="px-6 py-10 text-sm text-red-600">Error: {err}</div>;
@@ -146,37 +156,48 @@ export default function FormationDetail() {
         </div>
       )}
 
-      {description && (
-        <div className="mb-8 leading-7 text-gray-800 whitespace-pre-line">{description}</div>
-      )}
+      {/* Tactical content sections */}
+      {!item.overview && !item.advantages?.length && !item.disadvantages?.length && !item.roles?.length ? (
+        <div className="mb-8 p-6 bg-blue-50 border border-blue-200 rounded-lg text-center">
+          <p className="text-gray-700">
+            Tactical notes coming soon for <span className="font-semibold">{item.code}</span>.
+          </p>
+        </div>
+      ) : (
+        <>
+          {item.overview && (
+            <div className="mb-8 leading-7 text-gray-800 whitespace-pre-line">{item.overview}</div>
+          )}
 
-      <div className="grid md:grid-cols-2 gap-6">
-        <Section title="Advantages" pills={item.advantages} color="green" />
-        <Section title="Disadvantages" pills={item.disadvantages} color="red" />
-        <Section title="How to counter" pills={item.howToCounter} />
-        <Section title="Suggested counter formations" pills={item.suggestedCounters} />
-      </div>
+          <div className="grid md:grid-cols-2 gap-6">
+            <Section title="Advantages" pills={item.advantages} color="green" />
+            <Section title="Disadvantages" pills={item.disadvantages} color="red" />
+            <Section title="How to counter" pills={item.howToCounter} />
+            <Section title="Suggested counter formations" pills={item.suggestedCounters} />
+          </div>
 
-      {item.roles?.length ? (
-        <div className="mt-10">
-          <h3 className="text-lg font-semibold mb-3">Player roles</h3>
-          <div className="space-y-3">
-            {item.roles.map((r, i) => (
-              <div key={i} className="text-sm leading-6 border-l-2 border-blue-200 pl-3">
-                {r}
+          {item.roles?.length > 0 && (
+            <div className="mt-10">
+              <h3 className="text-lg font-semibold mb-3">Player roles</h3>
+              <div className="space-y-3">
+                {item.roles.map((r, i) => (
+                  <div key={i} className="text-sm leading-6 border-l-2 border-blue-200 pl-3">
+                    {r}
+                  </div>
+                ))}
               </div>
-            ))}
-          </div>
-        </div>
-      ) : null}
+            </div>
+          )}
 
-      {item.summary_table && (
-        <div className="mt-10">
-          <h3 className="text-lg font-semibold mb-3">Summary</h3>
-          <div className="text-sm bg-gray-50 rounded-lg p-4 whitespace-pre-line font-mono">
-            {item.summary_table}
-          </div>
-        </div>
+          {item.summary_table && (
+            <div className="mt-10">
+              <h3 className="text-lg font-semibold mb-3">Summary</h3>
+              <div className="text-sm bg-gray-50 rounded-lg p-4 whitespace-pre-line font-mono">
+                {item.summary_table}
+              </div>
+            </div>
+          )}
+        </>
       )}
     </div>
   );
