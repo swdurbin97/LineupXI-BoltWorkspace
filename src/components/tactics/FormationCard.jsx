@@ -11,11 +11,11 @@ export default function FormationCard({ formation }) {
       to={`/tactics/formations/${formation.code}`}
       className="block rounded-lg border border-gray-200 bg-white hover:border-blue-300 hover:shadow-md transition-all overflow-hidden"
     >
-      {/* Formation Title (above preview) */}
+      {/* Formation Title (above preview, centered) */}
       <div className="px-4 pt-4 pb-2">
-        <h3 className="text-base font-semibold text-gray-900">{formation.name}</h3>
+        <h3 className="text-lg font-bold text-gray-900 text-center">{formation.name}</h3>
         {formation.style && (
-          <p className="mt-0.5 text-xs text-gray-500">{formation.style}</p>
+          <p className="text-xs text-gray-500 text-center mt-0.5">{formation.style}</p>
         )}
       </div>
 
@@ -29,7 +29,7 @@ export default function FormationCard({ formation }) {
             formation={formation}
             interactive={false}
             showLabels={false}
-            markerScale={0.80}
+            markerScale={0.72}
             className="w-full"
             targetHeight={160}
           />

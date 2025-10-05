@@ -73,18 +73,46 @@ export default function FormationDetail() {
     };
   }, [formation, tactics]);
 
-  // Helper: get canonical formation by name for routing
+  // Helper: get canonical formation by name for routing (with tolerant matching)
   const getCanonicalByName = (name) => {
     if (!name) return null;
     const normalized = name.trim().toLowerCase();
-    const formation = formations.find(f =>
-      f.name?.toLowerCase() === normalized
-    );
-    if (!formation) {
-      console.warn(`⚠️  Suggested counter not found in canonical formations: "${name}"`);
-      return null;
+
+    // 1. Try exact match
+    let formation = formations.find(f => f.name?.toLowerCase() === normalized);
+    if (formation) {
+      return { code: formation.code, name: formation.name };
     }
-    return { code: formation.code, name: formation.name };
+
+    // 2. Strip parentheticals and try again (e.g., "442 (flat)" → "442")
+    const withoutParens = name.replace(/\s*\([^)]*\)/g, '').trim().toLowerCase();
+    if (withoutParens !== normalized) {
+      formation = formations.find(f => f.name?.toLowerCase() === withoutParens);
+      if (formation) {
+        return { code: formation.code, name: formation.name };
+      }
+    }
+
+    // 3. Extract numeric code and find "Balanced" variant if multiple exist
+    const numericMatch = name.match(/(\d+[-–]?\d+[-–]?\d*[-–]?\d*)/);
+    if (numericMatch) {
+      const baseNumeric = numericMatch[1].replace(/[–]/g, '-');
+      const candidates = formations.filter(f => {
+        const fNumeric = f.name?.match(/(\d+[-–]?\d+[-–]?\d*[-–]?\d*)/)?.[1]?.replace(/[–]/g, '-');
+        return fNumeric === baseNumeric;
+      });
+
+      if (candidates.length > 0) {
+        // Prefer "Balanced" variant if multiple
+        const balanced = candidates.find(c => c.name?.includes('Balanced'));
+        formation = balanced || candidates[0];
+        return { code: formation.code, name: formation.name };
+      }
+    }
+
+    // 4. Not found - warn once and return null
+    console.warn(`⚠️  Suggested counter not recognized: "${name}"`);
+    return null;
   };
 
   if (loading) return <div className="px-6 py-10 text-sm text-gray-500">Loading…</div>;

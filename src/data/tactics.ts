@@ -5,44 +5,57 @@ const DOMAIN_RE = /\b[\w.-]+\.(?:com|org|net|io|co|uk)(?:\/\S*)?/gi;
 const PLUS_CHAIN_RE = /(?<!\s)\+(?:\d+|[A-Za-z][\w-]*)+/gi;
 
 /**
- * Sanitizes text by removing URLs, domains, plus-chains, and trailing source citations.
+ * Sanitizes text by removing URLs, domains, plus-chains, placeholder tokens, and trailing source citations.
  *
  * Test cases:
  * - "...defense.Wikipedia" → "...defense."
- * - "...effective.Talksport' Voice" → "...effective."
- * - "...build-ups.Wikipedia" → "...build-ups."
+ * - "...effective.YouTube" → "...effective."
+ * - "...build-ups.The Football Analyst" → "...build-ups."
  * - "...Jobs In FootballFootball insides" → "..." (strip tail, tidy spacing)
+ * - "Text {{turn0view0}}, [turn1search2]" → "Text" (removes placeholder tokens)
  */
 export function sanitizeText(input?: string): string {
   if (!input) return "";
   let s = input.replace(/\r\n/g, "\n");
+
+  // Fix missing space after punctuation (prevents .YouTube from escaping rules)
+  s = s.replace(/([.,;:])(?=[A-Za-z])/g, '$1 ');
 
   // Remove URLs and plus-chains first
   s = s.replace(URL_RE, "");
   s = s.replace(PLUS_CHAIN_RE, "");
   s = s.replace(DOMAIN_RE, "");
 
-  // Fix doubled brand fragments early (e.g., FootballFootball → Football)
+  // Remove bracketed placeholder tokens: {{turn0view0}}, [turn1search2], (turn3view4)
+  s = s.replace(/[\[\(\{]{1,2}\s*turn\d+(?:view|search)\d+\s*[\]\)\}]{1,2}\s*,?/gi, '');
+
+  // Fix doubled brand fragments early (e.g., FootballFootball → Football, Jobs In FootballSoccer → Jobs In Football)
   s = s.replace(/\b([A-Z][a-z]+)\1\b/g, '$1');
 
-  // Expanded brand list for comprehensive removal
+  // Expanded brand list for comprehensive removal (case-insensitive)
+  // Order matters: match longer phrases first to avoid partial matches
   const brands = [
-    'Wikipedia',
+    'The Football Tactics Board',
+    'The Football Analyst',
     'Jobs In Football',
+    'Football Analyst',
+    'Soccer Coaching Pro',
+    'Soccer Mastermind',
+    'Football insides',
+    'Football inside',
+    'Football DNA',
     "Coaches' Voice",
     "Coaches Voice",
-    'Footballizer',
-    'BlazePod',
-    'Soccer Coaching Pro',
-    'Talksport',
-    'The Football Tactics Board',
-    '3sportsessionplanner.com',
-    'Football inside',
-    'Football insides',
-    'Football DNA',
-    'Jobs In',
     'Coaching Pro',
-    'In Football'
+    'In Football',
+    'Footballizer',
+    'Wikipedia',
+    'Mastermind',
+    'Talksport',
+    'BlazePod',
+    'YouTube',
+    'Reddit',
+    'Jobs In'
   ];
 
   // Remove brands with optional suffixes at end of lines/paragraphs
