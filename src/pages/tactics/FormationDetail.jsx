@@ -1,7 +1,7 @@
 /** Formation detail page */
 import { useEffect, useMemo, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import FormationFieldV2 from "../../components/field/FormationFieldV2";
+import FormationRenderer from "../../components/field/FormationRenderer";
 
 export default function FormationDetail() {
   const { code } = useParams(); // e.g. "3412"
@@ -10,7 +10,6 @@ export default function FormationDetail() {
   const [loading, setLoading] = useState(true);
   const [err, setErr] = useState("");
   const [showLabels, setShowLabels] = useState(true);
-  const [flip, setFlip] = useState(false);
 
   // Check for debug mode
   const searchParams = new URLSearchParams(window.location.search);
@@ -103,20 +102,16 @@ export default function FormationDetail() {
             />
             <span>Show position labels</span>
           </label>
-          <button
-            className="px-3 py-1 rounded border border-gray-300 text-sm hover:bg-gray-50 transition-colors"
-            onClick={() => setFlip(v => !v)}
-            title="Mirror the field horizontally"
-          >
-            {flip ? "Reset field" : "Flip field"}
-          </button>
+          <span className="text-xs px-2 py-1 rounded bg-gray-100 text-gray-600">
+            Orientation: Left → Right
+          </span>
         </div>
-        
-        <FormationFieldV2
-          code={displayName}
+
+        <FormationRenderer
           formation={item}
           showLabels={showLabels}
-          flip={flip}
+          interactive={false}
+          targetHeight={520}
         />
       </div>
 
