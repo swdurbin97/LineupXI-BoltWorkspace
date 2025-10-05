@@ -36,33 +36,42 @@ export default function FormationDetail() {
     return () => { alive = false; };
   }, []);
 
-  const item = useMemo(() => {
-    const lower = String(code || "").toLowerCase().replace(/[^0-9a-z]/g, "");
+  // Find canonical formation by exact code match (for rendering)
+  const formation = useMemo(() => {
+    const f = formations.find(f => String(f.code) === String(code));
+    if (!f) {
+      console.warn('⚠️  Formation not found:', { code });
+      return null;
+    }
+    if (!f.slot_map || f.slot_map.length === 0) {
+      console.warn('⚠️  Formation has no slot_map:', { code, name: f.name });
+    }
+    return f;
+  }, [formations, code]);
 
-    // Find formation from formations.json
-    const formation = formations.find(f =>
-      String(f.code ?? "").toLowerCase().replace(/[^0-9a-z]/g, "") === lower ||
-      String(f.name ?? "").toLowerCase().replace(/[^0-9a-z]/g, "") === lower ||
-      String(f.formation_code ?? "").toLowerCase().replace(/[^0-9a-z]/g, "") === lower
-    );
-
+  // Find tactics content by exact NAME match (primary key)
+  const tactics = useMemo(() => {
     if (!formation) return null;
+    const t = tacticsData.find(t => t.name === formation.name);
+    if (!t) {
+      console.warn('⚠️  Tactics content not found:', { name: formation.name });
+    }
+    return t;
+  }, [formation, tacticsData]);
 
-    // Find tactics content by exact NAME match (primary key)
-    const tactics = tacticsData.find(t => t.name === formation.name);
-
-    // Merge formation and tactics data
+  // Merge for display
+  const item = useMemo(() => {
+    if (!formation) return null;
     return {
       ...formation,
       ...tactics,
-      // Ensure arrays (tactics.json should already have arrays)
       advantages: tactics?.advantages || [],
       disadvantages: tactics?.disadvantages || [],
       howToCounter: tactics?.how_to_counter || [],
       suggestedCounters: tactics?.suggested_counters || [],
       roles: tactics?.player_roles || []
     };
-  }, [formations, tacticsData, code]);
+  }, [formation, tactics]);
 
   // Helper: get canonical formation by name for routing
   const getCanonicalByName = (name) => {
@@ -126,7 +135,7 @@ export default function FormationDetail() {
 
       {/* Pitch Visualization */}
       <div className="bg-white border border-gray-200 rounded-lg p-6">
-        <FormationRenderer code={item.code} name={item.name} />
+        <FormationRenderer formation={formation} />
       </div>
 
       {/* Tactics Content Sections */}
