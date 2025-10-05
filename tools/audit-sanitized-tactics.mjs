@@ -34,10 +34,15 @@ const RED_FLAGS = {
       [
         'A-Champs Interactive Community',
         'Sports Interactive Community',
+        'Voice Interactive Community',
+        'The Philly Soccer Page',
         'Soccer Est Du Quebec',
         'The Football Tactics Board',
         'The Football Analyst',
+        'Interactive Community',
+        'Philly Soccer Page',
         'Charlotte Rise FC',
+        'Jobs In Coaching',
         'Ekkono Coaching',
         'Jobs In Football',
         'Football Analyst',
@@ -45,6 +50,7 @@ const RED_FLAGS = {
         'Soccer Mastermind',
         'Football insides',
         'Football inside',
+        'Build Lineup',
         'Football DNA',
         "Coaches' Voice",
         "Coaches Voice",
@@ -52,11 +58,13 @@ const RED_FLAGS = {
         'In Football',
         'Footballizer',
         'Buildlineup',
+        'The Guardian',
         'Wikipedia',
         'Mastermind',
         'Talksport',
         'BlazePod',
         'Coach 365',
+        'Guardian',
         'Rise FC',
         'YouTube',
         'Reddit'
@@ -69,6 +77,10 @@ const RED_FLAGS = {
   titleCaseTail: {
     pattern: /\s+(?:[A-Z][a-z']+\s+){0,4}(?:Voice|Community|Coaching|Analyst|Pro|FC|DNA)\.?$/,
     name: 'title-case tail'
+  },
+  danglingQuote: {
+    pattern: /[.?,!][''"]\s*$/,
+    name: 'dangling quote after punctuation'
   }
 };
 
@@ -80,6 +92,11 @@ const PLUS_CHAIN_RE = /(?<!\s)\+(?:\d+|[A-Za-z][\w-]*)+/gi;
 function sanitizeText(input) {
   if (!input) return "";
   let s = input.replace(/\r\n/g, "\n");
+
+  s = s.replace(
+    /\b(Footballizer|Wikipedia|Guardian|Analyst|Voice|Community|Coaching|Page|FC)(?=The\b)/g,
+    '$1 '
+  );
 
   s = s.replace(/([.,;:])(?=[A-Za-z])/g, '$1 ');
   s = s.replace(URL_RE, "");
@@ -95,10 +112,15 @@ function sanitizeText(input) {
   const brands = [
     'A-Champs Interactive Community',
     'Sports Interactive Community',
+    'Voice Interactive Community',
+    'The Philly Soccer Page',
     'Soccer Est Du Quebec',
     'The Football Tactics Board',
     'The Football Analyst',
+    'Interactive Community',
+    'Philly Soccer Page',
     'Charlotte Rise FC',
+    'Jobs In Coaching',
     'Ekkono Coaching',
     'Jobs In Football',
     'Football Analyst',
@@ -106,6 +128,7 @@ function sanitizeText(input) {
     'Soccer Mastermind',
     'Football insides',
     'Football inside',
+    'Build Lineup',
     'Football DNA',
     "Coaches' Voice",
     "Coaches Voice",
@@ -113,11 +136,13 @@ function sanitizeText(input) {
     'In Football',
     'Footballizer',
     'Buildlineup',
+    'The Guardian',
     'Wikipedia',
     'Mastermind',
     'Talksport',
     'BlazePod',
     'Coach 365',
+    'Guardian',
     'Rise FC',
     'YouTube',
     'Reddit'
@@ -157,8 +182,22 @@ function sanitizeText(input) {
     s = s.replace(/\s+(?:[A-Z][a-z']+\s+){0,4}(?:Voice|Community|Coaching|Analyst|Pro|FC|DNA)\.?$/g, '.');
   }
 
+  prev = '';
+  while (prev !== s) {
+    prev = s;
+    for (const brand of brands) {
+      const pattern = new RegExp(brand.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi');
+      s = s.replace(pattern, '');
+    }
+  }
+
+  s = s.replace(/([.?,!])[''"]\s*$/g, '$1');
+
   s = s.replace(/\.{2,}/g, '.').replace(/\s+\./g, '.');
   s = s.replace(/[ \t]+/g, " ").replace(/\s+([,.;:!?])/g, "$1").trim();
+
+  s = s.replace(/\bJobs In Coaching\b/gi, '');
+  s = s.replace(/[ \t]+/g, " ").trim();
 
   return s;
 }

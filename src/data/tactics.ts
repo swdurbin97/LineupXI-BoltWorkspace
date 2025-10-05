@@ -18,6 +18,12 @@ export function sanitizeText(input?: string): string {
   if (!input) return "";
   let s = input.replace(/\r\n/g, "\n");
 
+  // Seam fixer: insert space when brand/suffix is immediately followed by "The"
+  s = s.replace(
+    /\b(Footballizer|Wikipedia|Guardian|Analyst|Voice|Community|Coaching|Page|FC)(?=The\b)/g,
+    '$1 '
+  );
+
   // Fix missing space after punctuation (prevents .YouTube from escaping rules)
   s = s.replace(/([.,;:])(?=[A-Za-z])/g, '$1 ');
 
@@ -48,10 +54,15 @@ export function sanitizeText(input?: string): string {
   const brands = [
     'A-Champs Interactive Community',
     'Sports Interactive Community',
+    'Voice Interactive Community',
+    'The Philly Soccer Page',
     'Soccer Est Du Quebec',
     'The Football Tactics Board',
     'The Football Analyst',
+    'Interactive Community',
+    'Philly Soccer Page',
     'Charlotte Rise FC',
+    'Jobs In Coaching',
     'Ekkono Coaching',
     'Jobs In Football',
     'Football Analyst',
@@ -59,6 +70,7 @@ export function sanitizeText(input?: string): string {
     'Soccer Mastermind',
     'Football insides',
     'Football inside',
+    'Build Lineup',
     'Football DNA',
     "Coaches' Voice",
     "Coaches Voice",
@@ -66,11 +78,13 @@ export function sanitizeText(input?: string): string {
     'In Football',
     'Footballizer',
     'Buildlineup',
+    'The Guardian',
     'Wikipedia',
     'Mastermind',
     'Talksport',
     'BlazePod',
     'Coach 365',
+    'Guardian',
     'Rise FC',
     'YouTube',
     'Reddit'
@@ -126,9 +140,29 @@ export function sanitizeText(input?: string): string {
     s = s.replace(/\s+(?:[A-Z][a-z']+\s+){0,4}(?:Voice|Community|Coaching|Analyst|Pro|FC|DNA)\.?$/g, '.');
   }
 
+  // Final aggressive cleanup: remove any remaining brand fragments anywhere
+  // This catches brands that may have been created by previous transformations
+  // Simple global replacement without complex boundaries
+  prev = '';
+  while (prev !== s) {
+    prev = s;
+    for (const brand of brands) {
+      // Case-insensitive global replace
+      const pattern = new RegExp(brand.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi');
+      s = s.replace(pattern, '');
+    }
+  }
+
+  // Remove stray end quotes after punctuation (e.g., ." or .')
+  s = s.replace(/([.?,!])[''"]\s*$/g, '$1');
+
   // Clean double punctuation and fix spacing
   s = s.replace(/\.{2,}/g, '.').replace(/\s+\./g, '.');
   s = s.replace(/[ \t]+/g, " ").replace(/\s+([,.;:!?])/g, "$1").trim();
+
+  // Final safety net: remove specific problematic phrases that slip through
+  s = s.replace(/\bJobs In Coaching\b/gi, '');
+  s = s.replace(/[ \t]+/g, " ").trim();
 
   return s;
 }
