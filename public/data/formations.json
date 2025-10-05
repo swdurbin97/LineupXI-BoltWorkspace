@@ -10,67 +10,67 @@
           "slot_code": "GK",
           "x": 8,
           "y": 34,
-          "slot_id": 1
+          "slot_id": "3142:GK:0"
         },
         {
           "slot_code": "CB",
           "x": 22,
           "y": 17,
-          "slot_id": 2
+          "slot_id": "3142:CB:0"
         },
         {
           "slot_code": "CB",
           "x": 22,
           "y": 34,
-          "slot_id": 3
+          "slot_id": "3142:CB:1"
         },
         {
           "slot_code": "CB",
           "x": 22,
           "y": 51,
-          "slot_id": 4
+          "slot_id": "3142:CB:2"
         },
         {
           "slot_code": "CDM",
           "x": 45,
           "y": 34,
-          "slot_id": 5
+          "slot_id": "3142:CDM:0"
         },
         {
           "slot_code": "CM",
           "x": 55,
           "y": 27,
-          "slot_id": 6
+          "slot_id": "3142:CM:0"
         },
         {
           "slot_code": "CM",
           "x": 55,
           "y": 43,
-          "slot_id": 7
+          "slot_id": "3142:CM:1"
         },
         {
           "slot_code": "RM",
           "x": 58,
           "y": 8,
-          "slot_id": 8
+          "slot_id": "3142:RM:0"
         },
         {
           "slot_code": "LM",
           "x": 58,
           "y": 60,
-          "slot_id": 9
+          "slot_id": "3142:LM:0"
         },
         {
           "slot_code": "ST",
           "x": 82,
           "y": 26,
-          "slot_id": 10
+          "slot_id": "3142:ST:0"
         },
         {
           "slot_code": "ST",
           "x": 82,
           "y": 42,
-          "slot_id": 11
+          "slot_id": "3142:ST:1"
         }
       ],
       "orientation": "left-right"
@@ -85,67 +85,67 @@
           "slot_code": "GK",
           "x": 8,
           "y": 34,
-          "slot_id": 1
+          "slot_id": "3412:GK:0"
         },
         {
           "slot_code": "CB",
           "x": 22,
           "y": 17,
-          "slot_id": 2
+          "slot_id": "3412:CB:0"
         },
         {
           "slot_code": "CB",
           "x": 22,
           "y": 34,
-          "slot_id": 3
+          "slot_id": "3412:CB:1"
         },
         {
           "slot_code": "CB",
           "x": 22,
           "y": 51,
-          "slot_id": 4
+          "slot_id": "3412:CB:2"
         },
         {
           "slot_code": "CM",
           "x": 55,
           "y": 27,
-          "slot_id": 5
+          "slot_id": "3412:CM:0"
         },
         {
           "slot_code": "CM",
           "x": 55,
           "y": 43,
-          "slot_id": 6
+          "slot_id": "3412:CM:1"
         },
         {
           "slot_code": "RM",
           "x": 58,
           "y": 8,
-          "slot_id": 7
+          "slot_id": "3412:RM:0"
         },
         {
           "slot_code": "LM",
           "x": 58,
           "y": 60,
-          "slot_id": 8
+          "slot_id": "3412:LM:0"
         },
         {
           "slot_code": "CAM",
           "x": 65,
           "y": 34,
-          "slot_id": 9
+          "slot_id": "3412:CAM:0"
         },
         {
           "slot_code": "ST",
           "x": 82,
           "y": 26,
-          "slot_id": 10
+          "slot_id": "3412:ST:0"
         },
         {
           "slot_code": "ST",
           "x": 82,
           "y": 42,
-          "slot_id": 11
+          "slot_id": "3412:ST:1"
         }
       ],
       "orientation": "left-right"
@@ -160,67 +160,67 @@
           "slot_code": "GK",
           "x": 8,
           "y": 34,
-          "slot_id": 1
+          "slot_id": "3421:GK:0"
         },
         {
           "slot_code": "CB",
           "x": 22,
           "y": 17,
-          "slot_id": 2
+          "slot_id": "3421:CB:0"
         },
         {
           "slot_code": "CB",
           "x": 22,
           "y": 34,
-          "slot_id": 3
+          "slot_id": "3421:CB:1"
         },
         {
           "slot_code": "CB",
           "x": 22,
           "y": 51,
-          "slot_id": 4
+          "slot_id": "3421:CB:2"
         },
         {
           "slot_code": "CM",
           "x": 55,
           "y": 27,
-          "slot_id": 5
+          "slot_id": "3421:CM:0"
         },
         {
           "slot_code": "CM",
           "x": 55,
           "y": 43,
-          "slot_id": 6
+          "slot_id": "3421:CM:1"
         },
         {
           "slot_code": "RM",
           "x": 58,
           "y": 8,
-          "slot_id": 7
+          "slot_id": "3421:RM:0"
         },
         {
           "slot_code": "LM",
           "x": 58,
           "y": 60,
-          "slot_id": 8
+          "slot_id": "3421:LM:0"
         },
         {
           "slot_code": "RF",
           "x": 72,
           "y": 27,
-          "slot_id": 9
+          "slot_id": "3421:RF:0"
         },
         {
           "slot_code": "LF",
           "x": 72,
           "y": 41,
-          "slot_id": 10
+          "slot_id": "3421:LF:0"
         },
         {
           "slot_code": "ST",
           "x": 82,
           "y": 34,
-          "slot_id": 11
+          "slot_id": "3421:ST:0"
         }
       ],
       "orientation": "left-right"
@@ -235,67 +235,67 @@
           "slot_code": "GK",
           "x": 8,
           "y": 34,
-          "slot_id": 1
+          "slot_id": "343:GK:0"
         },
         {
           "slot_code": "CB",
           "x": 22,
           "y": 17,
-          "slot_id": 2
+          "slot_id": "343:CB:0"
         },
         {
           "slot_code": "CB",
           "x": 22,
           "y": 34,
-          "slot_id": 3
+          "slot_id": "343:CB:1"
         },
         {
           "slot_code": "CB",
           "x": 22,
           "y": 51,
-          "slot_id": 4
+          "slot_id": "343:CB:2"
         },
         {
           "slot_code": "CM",
           "x": 55,
           "y": 27,
-          "slot_id": 5
+          "slot_id": "343:CM:0"
         },
         {
           "slot_code": "CM",
           "x": 55,
           "y": 43,
-          "slot_id": 6
+          "slot_id": "343:CM:1"
         },
         {
           "slot_code": "RM",
           "x": 58,
           "y": 8,
-          "slot_id": 7
+          "slot_id": "343:RM:0"
         },
         {
           "slot_code": "LM",
           "x": 58,
           "y": 60,
-          "slot_id": 8
+          "slot_id": "343:LM:0"
         },
         {
           "slot_code": "RW",
           "x": 78,
           "y": 8,
-          "slot_id": 9
+          "slot_id": "343:RW:0"
         },
         {
           "slot_code": "LW",
           "x": 78,
           "y": 60,
-          "slot_id": 10
+          "slot_id": "343:LW:0"
         },
         {
           "slot_code": "ST",
           "x": 82,
           "y": 34,
-          "slot_id": 11
+          "slot_id": "343:ST:0"
         }
       ],
       "orientation": "left-right"
@@ -310,67 +310,67 @@
           "slot_code": "GK",
           "x": 8,
           "y": 34,
-          "slot_id": 1
+          "slot_id": "3511:GK:0"
         },
         {
           "slot_code": "CB",
           "x": 22,
           "y": 17,
-          "slot_id": 2
+          "slot_id": "3511:CB:0"
         },
         {
           "slot_code": "CB",
           "x": 22,
           "y": 34,
-          "slot_id": 3
+          "slot_id": "3511:CB:1"
         },
         {
           "slot_code": "CB",
           "x": 22,
           "y": 51,
-          "slot_id": 4
+          "slot_id": "3511:CB:2"
         },
         {
           "slot_code": "CDM",
           "x": 45,
           "y": 27,
-          "slot_id": 5
+          "slot_id": "3511:CDM:0"
         },
         {
           "slot_code": "CDM",
           "x": 45,
           "y": 41,
-          "slot_id": 6
+          "slot_id": "3511:CDM:1"
         },
         {
           "slot_code": "CM",
           "x": 54,
           "y": 34,
-          "slot_id": 7
+          "slot_id": "3511:CM:0"
         },
         {
           "slot_code": "RM",
           "x": 58,
           "y": 8,
-          "slot_id": 8
+          "slot_id": "3511:RM:0"
         },
         {
           "slot_code": "LM",
           "x": 58,
           "y": 60,
-          "slot_id": 9
+          "slot_id": "3511:LM:0"
         },
         {
           "slot_code": "CF",
           "x": 72,
           "y": 34,
-          "slot_id": 10
+          "slot_id": "3511:CF:0"
         },
         {
           "slot_code": "ST",
           "x": 82,
           "y": 34,
-          "slot_id": 11
+          "slot_id": "3511:ST:0"
         }
       ],
       "orientation": "left-right"
@@ -385,67 +385,67 @@
           "slot_code": "GK",
           "x": 8,
           "y": 34,
-          "slot_id": 1
+          "slot_id": "352:GK:0"
         },
         {
           "slot_code": "CB",
           "x": 22,
           "y": 17,
-          "slot_id": 2
+          "slot_id": "352:CB:0"
         },
         {
           "slot_code": "CB",
           "x": 22,
           "y": 34,
-          "slot_id": 3
+          "slot_id": "352:CB:1"
         },
         {
           "slot_code": "CB",
           "x": 22,
           "y": 51,
-          "slot_id": 4
+          "slot_id": "352:CB:2"
         },
         {
           "slot_code": "CDM",
           "x": 45,
           "y": 27,
-          "slot_id": 5
+          "slot_id": "352:CDM:0"
         },
         {
           "slot_code": "CDM",
           "x": 45,
           "y": 41,
-          "slot_id": 6
+          "slot_id": "352:CDM:1"
         },
         {
           "slot_code": "RM",
           "x": 58,
           "y": 8,
-          "slot_id": 7
+          "slot_id": "352:RM:0"
         },
         {
           "slot_code": "LM",
           "x": 58,
           "y": 60,
-          "slot_id": 8
+          "slot_id": "352:LM:0"
         },
         {
           "slot_code": "CAM",
           "x": 65,
           "y": 34,
-          "slot_id": 9
+          "slot_id": "352:CAM:0"
         },
         {
           "slot_code": "ST",
           "x": 82,
           "y": 26,
-          "slot_id": 10
+          "slot_id": "352:ST:0"
         },
         {
           "slot_code": "ST",
           "x": 82,
           "y": 42,
-          "slot_id": 11
+          "slot_id": "352:ST:1"
         }
       ],
       "orientation": "left-right"
@@ -460,67 +460,67 @@
           "slot_code": "GK",
           "x": 8,
           "y": 34,
-          "slot_id": 1
+          "slot_id": "41212 (Diamond):GK:0"
         },
         {
           "slot_code": "RB",
           "x": 29,
           "y": 9,
-          "slot_id": 2
+          "slot_id": "41212 (Diamond):RB:0"
         },
         {
           "slot_code": "LB",
           "x": 29,
           "y": 59,
-          "slot_id": 3
+          "slot_id": "41212 (Diamond):LB:0"
         },
         {
           "slot_code": "CB",
           "x": 26,
           "y": 26,
-          "slot_id": 4
+          "slot_id": "41212 (Diamond):CB:0"
         },
         {
           "slot_code": "CB",
           "x": 26,
           "y": 42,
-          "slot_id": 5
+          "slot_id": "41212 (Diamond):CB:1"
         },
         {
           "slot_code": "CDM",
           "x": 45,
           "y": 34,
-          "slot_id": 6
+          "slot_id": "41212 (Diamond):CDM:0"
         },
         {
           "slot_code": "CM",
           "x": 55,
           "y": 27,
-          "slot_id": 7
+          "slot_id": "41212 (Diamond):CM:0"
         },
         {
           "slot_code": "CM",
           "x": 55,
           "y": 43,
-          "slot_id": 8
+          "slot_id": "41212 (Diamond):CM:1"
         },
         {
           "slot_code": "CAM",
           "x": 65,
           "y": 34,
-          "slot_id": 9
+          "slot_id": "41212 (Diamond):CAM:0"
         },
         {
           "slot_code": "ST",
           "x": 82,
           "y": 26,
-          "slot_id": 10
+          "slot_id": "41212 (Diamond):ST:0"
         },
         {
           "slot_code": "ST",
           "x": 82,
           "y": 42,
-          "slot_id": 11
+          "slot_id": "41212 (Diamond):ST:1"
         }
       ],
       "orientation": "left-right"
@@ -535,67 +535,67 @@
           "slot_code": "GK",
           "x": 8,
           "y": 34,
-          "slot_id": 1
+          "slot_id": "41212 (Wide):GK:0"
         },
         {
           "slot_code": "RB",
           "x": 29,
           "y": 9,
-          "slot_id": 2
+          "slot_id": "41212 (Wide):RB:0"
         },
         {
           "slot_code": "LB",
           "x": 29,
           "y": 59,
-          "slot_id": 3
+          "slot_id": "41212 (Wide):LB:0"
         },
         {
           "slot_code": "CB",
           "x": 26,
           "y": 26,
-          "slot_id": 4
+          "slot_id": "41212 (Wide):CB:0"
         },
         {
           "slot_code": "CB",
           "x": 26,
           "y": 42,
-          "slot_id": 5
+          "slot_id": "41212 (Wide):CB:1"
         },
         {
           "slot_code": "CDM",
           "x": 45,
           "y": 34,
-          "slot_id": 6
+          "slot_id": "41212 (Wide):CDM:0"
         },
         {
           "slot_code": "RM",
           "x": 58,
           "y": 8,
-          "slot_id": 7
+          "slot_id": "41212 (Wide):RM:0"
         },
         {
           "slot_code": "LM",
           "x": 58,
           "y": 60,
-          "slot_id": 8
+          "slot_id": "41212 (Wide):LM:0"
         },
         {
           "slot_code": "CAM",
           "x": 65,
           "y": 34,
-          "slot_id": 9
+          "slot_id": "41212 (Wide):CAM:0"
         },
         {
           "slot_code": "ST",
           "x": 82,
           "y": 26,
-          "slot_id": 10
+          "slot_id": "41212 (Wide):ST:0"
         },
         {
           "slot_code": "ST",
           "x": 82,
           "y": 42,
-          "slot_id": 11
+          "slot_id": "41212 (Wide):ST:1"
         }
       ],
       "orientation": "left-right"
@@ -610,67 +610,67 @@
           "slot_code": "GK",
           "x": 8,
           "y": 34,
-          "slot_id": 1
+          "slot_id": "4123:GK:0"
         },
         {
           "slot_code": "RB",
           "x": 29,
           "y": 9,
-          "slot_id": 2
+          "slot_id": "4123:RB:0"
         },
         {
           "slot_code": "LB",
           "x": 29,
           "y": 59,
-          "slot_id": 3
+          "slot_id": "4123:LB:0"
         },
         {
           "slot_code": "CB",
           "x": 26,
           "y": 26,
-          "slot_id": 4
+          "slot_id": "4123:CB:0"
         },
         {
           "slot_code": "CB",
           "x": 26,
           "y": 42,
-          "slot_id": 5
+          "slot_id": "4123:CB:1"
         },
         {
           "slot_code": "CDM",
           "x": 45,
           "y": 34,
-          "slot_id": 6
+          "slot_id": "4123:CDM:0"
         },
         {
           "slot_code": "CM",
           "x": 55,
           "y": 27,
-          "slot_id": 7
+          "slot_id": "4123:CM:0"
         },
         {
           "slot_code": "CM",
           "x": 55,
           "y": 43,
-          "slot_id": 8
+          "slot_id": "4123:CM:1"
         },
         {
           "slot_code": "RW",
           "x": 78,
           "y": 8,
-          "slot_id": 9
+          "slot_id": "4123:RW:0"
         },
         {
           "slot_code": "LW",
           "x": 78,
           "y": 60,
-          "slot_id": 10
+          "slot_id": "4123:LW:0"
         },
         {
           "slot_code": "ST",
           "x": 82,
           "y": 34,
-          "slot_id": 11
+          "slot_id": "4123:ST:0"
         }
       ],
       "orientation": "left-right"
@@ -685,67 +685,67 @@
           "slot_code": "GK",
           "x": 8,
           "y": 34,
-          "slot_id": 1
+          "slot_id": "4132:GK:0"
         },
         {
           "slot_code": "RB",
           "x": 29,
           "y": 9,
-          "slot_id": 2
+          "slot_id": "4132:RB:0"
         },
         {
           "slot_code": "LB",
           "x": 29,
           "y": 59,
-          "slot_id": 3
+          "slot_id": "4132:LB:0"
         },
         {
           "slot_code": "CB",
           "x": 26,
           "y": 26,
-          "slot_id": 4
+          "slot_id": "4132:CB:0"
         },
         {
           "slot_code": "CB",
           "x": 26,
           "y": 42,
-          "slot_id": 5
+          "slot_id": "4132:CB:1"
         },
         {
           "slot_code": "CDM",
           "x": 45,
           "y": 34,
-          "slot_id": 6
+          "slot_id": "4132:CDM:0"
         },
         {
           "slot_code": "CM",
           "x": 54,
           "y": 34,
-          "slot_id": 7
+          "slot_id": "4132:CM:0"
         },
         {
           "slot_code": "RM",
           "x": 58,
           "y": 8,
-          "slot_id": 8
+          "slot_id": "4132:RM:0"
         },
         {
           "slot_code": "LM",
           "x": 58,
           "y": 60,
-          "slot_id": 9
+          "slot_id": "4132:LM:0"
         },
         {
           "slot_code": "ST",
           "x": 82,
           "y": 26,
-          "slot_id": 10
+          "slot_id": "4132:ST:0"
         },
         {
           "slot_code": "ST",
           "x": 82,
           "y": 42,
-          "slot_id": 11
+          "slot_id": "4132:ST:1"
         }
       ],
       "orientation": "left-right"
@@ -760,67 +760,67 @@
           "slot_code": "GK",
           "x": 8,
           "y": 34,
-          "slot_id": 1
+          "slot_id": "4141:GK:0"
         },
         {
           "slot_code": "RB",
           "x": 29,
           "y": 9,
-          "slot_id": 2
+          "slot_id": "4141:RB:0"
         },
         {
           "slot_code": "LB",
           "x": 29,
           "y": 59,
-          "slot_id": 3
+          "slot_id": "4141:LB:0"
         },
         {
           "slot_code": "CB",
           "x": 26,
           "y": 26,
-          "slot_id": 4
+          "slot_id": "4141:CB:0"
         },
         {
           "slot_code": "CB",
           "x": 26,
           "y": 42,
-          "slot_id": 5
+          "slot_id": "4141:CB:1"
         },
         {
           "slot_code": "CDM",
           "x": 45,
           "y": 34,
-          "slot_id": 6
+          "slot_id": "4141:CDM:0"
         },
         {
           "slot_code": "CM",
           "x": 55,
           "y": 27,
-          "slot_id": 7
+          "slot_id": "4141:CM:0"
         },
         {
           "slot_code": "CM",
           "x": 55,
           "y": 43,
-          "slot_id": 8
+          "slot_id": "4141:CM:1"
         },
         {
           "slot_code": "RM",
           "x": 58,
           "y": 8,
-          "slot_id": 9
+          "slot_id": "4141:RM:0"
         },
         {
           "slot_code": "LM",
           "x": 58,
           "y": 60,
-          "slot_id": 10
+          "slot_id": "4141:LM:0"
         },
         {
           "slot_code": "ST",
           "x": 82,
           "y": 34,
-          "slot_id": 11
+          "slot_id": "4141:ST:0"
         }
       ],
       "orientation": "left-right"
@@ -835,67 +835,67 @@
           "slot_code": "GK",
           "x": 8,
           "y": 34,
-          "slot_id": 1
+          "slot_id": "4222:GK:0"
         },
         {
           "slot_code": "RB",
           "x": 29,
           "y": 9,
-          "slot_id": 2
+          "slot_id": "4222:RB:0"
         },
         {
           "slot_code": "LB",
           "x": 29,
           "y": 59,
-          "slot_id": 3
+          "slot_id": "4222:LB:0"
         },
         {
           "slot_code": "CB",
           "x": 26,
           "y": 26,
-          "slot_id": 4
+          "slot_id": "4222:CB:0"
         },
         {
           "slot_code": "CB",
           "x": 26,
           "y": 42,
-          "slot_id": 5
+          "slot_id": "4222:CB:1"
         },
         {
           "slot_code": "CDM",
           "x": 45,
           "y": 27,
-          "slot_id": 6
+          "slot_id": "4222:CDM:0"
         },
         {
           "slot_code": "CDM",
           "x": 45,
           "y": 41,
-          "slot_id": 7
+          "slot_id": "4222:CDM:1"
         },
         {
           "slot_code": "CAM",
           "x": 65,
           "y": 26,
-          "slot_id": 8
+          "slot_id": "4222:CAM:0"
         },
         {
           "slot_code": "CAM",
           "x": 65,
           "y": 40,
-          "slot_id": 9
+          "slot_id": "4222:CAM:1"
         },
         {
           "slot_code": "ST",
           "x": 82,
           "y": 26,
-          "slot_id": 10
+          "slot_id": "4222:ST:0"
         },
         {
           "slot_code": "ST",
           "x": 82,
           "y": 42,
-          "slot_id": 11
+          "slot_id": "4222:ST:1"
         }
       ],
       "orientation": "left-right"
@@ -910,67 +910,67 @@
           "slot_code": "GK",
           "x": 8,
           "y": 34,
-          "slot_id": 1
+          "slot_id": "4231 (Narrow):GK:0"
         },
         {
           "slot_code": "RB",
           "x": 29,
           "y": 9,
-          "slot_id": 2
+          "slot_id": "4231 (Narrow):RB:0"
         },
         {
           "slot_code": "LB",
           "x": 29,
           "y": 59,
-          "slot_id": 3
+          "slot_id": "4231 (Narrow):LB:0"
         },
         {
           "slot_code": "CB",
           "x": 26,
           "y": 26,
-          "slot_id": 4
+          "slot_id": "4231 (Narrow):CB:0"
         },
         {
           "slot_code": "CB",
           "x": 26,
           "y": 42,
-          "slot_id": 5
+          "slot_id": "4231 (Narrow):CB:1"
         },
         {
           "slot_code": "CM",
           "x": 55,
           "y": 27,
-          "slot_id": 6
+          "slot_id": "4231 (Narrow):CM:0"
         },
         {
           "slot_code": "CM",
           "x": 55,
           "y": 43,
-          "slot_id": 7
+          "slot_id": "4231 (Narrow):CM:1"
         },
         {
           "slot_code": "CAM",
           "x": 65,
           "y": 34,
-          "slot_id": 8
+          "slot_id": "4231 (Narrow):CAM:0"
         },
         {
           "slot_code": "RAM",
           "x": 65,
           "y": 20,
-          "slot_id": 9
+          "slot_id": "4231 (Narrow):RAM:0"
         },
         {
           "slot_code": "LAM",
           "x": 65,
           "y": 48,
-          "slot_id": 10
+          "slot_id": "4231 (Narrow):LAM:0"
         },
         {
           "slot_code": "ST",
           "x": 82,
           "y": 34,
-          "slot_id": 11
+          "slot_id": "4231 (Narrow):ST:0"
         }
       ],
       "orientation": "left-right"
@@ -985,67 +985,67 @@
           "slot_code": "GK",
           "x": 8,
           "y": 34,
-          "slot_id": 1
+          "slot_id": "4231 (Wide):GK:0"
         },
         {
           "slot_code": "RB",
           "x": 29,
           "y": 9,
-          "slot_id": 2
+          "slot_id": "4231 (Wide):RB:0"
         },
         {
           "slot_code": "LB",
           "x": 29,
           "y": 59,
-          "slot_id": 3
+          "slot_id": "4231 (Wide):LB:0"
         },
         {
           "slot_code": "CB",
           "x": 26,
           "y": 26,
-          "slot_id": 4
+          "slot_id": "4231 (Wide):CB:0"
         },
         {
           "slot_code": "CB",
           "x": 26,
           "y": 42,
-          "slot_id": 5
+          "slot_id": "4231 (Wide):CB:1"
         },
         {
           "slot_code": "CDM",
           "x": 45,
           "y": 27,
-          "slot_id": 6
+          "slot_id": "4231 (Wide):CDM:0"
         },
         {
           "slot_code": "CDM",
           "x": 45,
           "y": 41,
-          "slot_id": 7
+          "slot_id": "4231 (Wide):CDM:1"
         },
         {
           "slot_code": "RM",
           "x": 58,
           "y": 8,
-          "slot_id": 8
+          "slot_id": "4231 (Wide):RM:0"
         },
         {
           "slot_code": "LM",
           "x": 58,
           "y": 60,
-          "slot_id": 9
+          "slot_id": "4231 (Wide):LM:0"
         },
         {
           "slot_code": "CAM",
           "x": 65,
           "y": 34,
-          "slot_id": 10
+          "slot_id": "4231 (Wide):CAM:0"
         },
         {
           "slot_code": "ST",
           "x": 82,
           "y": 34,
-          "slot_id": 11
+          "slot_id": "4231 (Wide):ST:0"
         }
       ],
       "orientation": "left-right"
@@ -1060,67 +1060,67 @@
           "slot_code": "GK",
           "x": 8,
           "y": 34,
-          "slot_id": 1
+          "slot_id": "424:GK:0"
         },
         {
           "slot_code": "RB",
           "x": 29,
           "y": 9,
-          "slot_id": 2
+          "slot_id": "424:RB:0"
         },
         {
           "slot_code": "LB",
           "x": 29,
           "y": 59,
-          "slot_id": 3
+          "slot_id": "424:LB:0"
         },
         {
           "slot_code": "CB",
           "x": 26,
           "y": 26,
-          "slot_id": 4
+          "slot_id": "424:CB:0"
         },
         {
           "slot_code": "CB",
           "x": 26,
           "y": 42,
-          "slot_id": 5
+          "slot_id": "424:CB:1"
         },
         {
           "slot_code": "CM",
           "x": 55,
           "y": 27,
-          "slot_id": 6
+          "slot_id": "424:CM:0"
         },
         {
           "slot_code": "CM",
           "x": 55,
           "y": 43,
-          "slot_id": 7
+          "slot_id": "424:CM:1"
         },
         {
           "slot_code": "RW",
           "x": 78,
           "y": 8,
-          "slot_id": 8
+          "slot_id": "424:RW:0"
         },
         {
           "slot_code": "LW",
           "x": 78,
           "y": 60,
-          "slot_id": 9
+          "slot_id": "424:LW:0"
         },
         {
           "slot_code": "ST",
           "x": 82,
           "y": 26,
-          "slot_id": 10
+          "slot_id": "424:ST:0"
         },
         {
           "slot_code": "ST",
           "x": 82,
           "y": 42,
-          "slot_id": 11
+          "slot_id": "424:ST:1"
         }
       ],
       "orientation": "left-right"
@@ -1135,67 +1135,67 @@
           "slot_code": "GK",
           "x": 8,
           "y": 34,
-          "slot_id": 1
+          "slot_id": "4312:GK:0"
         },
         {
           "slot_code": "RB",
           "x": 29,
           "y": 9,
-          "slot_id": 2
+          "slot_id": "4312:RB:0"
         },
         {
           "slot_code": "LB",
           "x": 29,
           "y": 59,
-          "slot_id": 3
+          "slot_id": "4312:LB:0"
         },
         {
           "slot_code": "CB",
           "x": 26,
           "y": 26,
-          "slot_id": 4
+          "slot_id": "4312:CB:0"
         },
         {
           "slot_code": "CB",
           "x": 26,
           "y": 42,
-          "slot_id": 5
+          "slot_id": "4312:CB:1"
         },
         {
           "slot_code": "CM",
           "x": 56,
           "y": 22,
-          "slot_id": 6
+          "slot_id": "4312:CM:0"
         },
         {
           "slot_code": "CM",
           "x": 54,
           "y": 34,
-          "slot_id": 7
+          "slot_id": "4312:CM:1"
         },
         {
           "slot_code": "CM",
           "x": 56,
           "y": 46,
-          "slot_id": 8
+          "slot_id": "4312:CM:2"
         },
         {
           "slot_code": "CAM",
           "x": 65,
           "y": 34,
-          "slot_id": 9
+          "slot_id": "4312:CAM:0"
         },
         {
           "slot_code": "ST",
           "x": 82,
           "y": 26,
-          "slot_id": 10
+          "slot_id": "4312:ST:0"
         },
         {
           "slot_code": "ST",
           "x": 82,
           "y": 42,
-          "slot_id": 11
+          "slot_id": "4312:ST:1"
         }
       ],
       "orientation": "left-right"
@@ -1210,67 +1210,67 @@
           "slot_code": "GK",
           "x": 8,
           "y": 34,
-          "slot_id": 1
+          "slot_id": "4321:GK:0"
         },
         {
           "slot_code": "RB",
           "x": 29,
           "y": 9,
-          "slot_id": 2
+          "slot_id": "4321:RB:0"
         },
         {
           "slot_code": "LB",
           "x": 29,
           "y": 59,
-          "slot_id": 3
+          "slot_id": "4321:LB:0"
         },
         {
           "slot_code": "CB",
           "x": 26,
           "y": 26,
-          "slot_id": 4
+          "slot_id": "4321:CB:0"
         },
         {
           "slot_code": "CB",
           "x": 26,
           "y": 42,
-          "slot_id": 5
+          "slot_id": "4321:CB:1"
         },
         {
           "slot_code": "CM",
           "x": 56,
           "y": 22,
-          "slot_id": 6
+          "slot_id": "4321:CM:0"
         },
         {
           "slot_code": "CM",
           "x": 54,
           "y": 34,
-          "slot_id": 7
+          "slot_id": "4321:CM:1"
         },
         {
           "slot_code": "CM",
           "x": 56,
           "y": 46,
-          "slot_id": 8
+          "slot_id": "4321:CM:2"
         },
         {
           "slot_code": "RF",
           "x": 72,
           "y": 27,
-          "slot_id": 9
+          "slot_id": "4321:RF:0"
         },
         {
           "slot_code": "LF",
           "x": 72,
           "y": 41,
-          "slot_id": 10
+          "slot_id": "4321:LF:0"
         },
         {
           "slot_code": "ST",
           "x": 82,
           "y": 34,
-          "slot_id": 11
+          "slot_id": "4321:ST:0"
         }
       ],
       "orientation": "left-right"
@@ -1285,67 +1285,67 @@
           "slot_code": "GK",
           "x": 8,
           "y": 34,
-          "slot_id": 1
+          "slot_id": "433 (Balanced):GK:0"
         },
         {
           "slot_code": "RB",
           "x": 29,
           "y": 9,
-          "slot_id": 2
+          "slot_id": "433 (Balanced):RB:0"
         },
         {
           "slot_code": "LB",
           "x": 29,
           "y": 59,
-          "slot_id": 3
+          "slot_id": "433 (Balanced):LB:0"
         },
         {
           "slot_code": "CB",
           "x": 26,
           "y": 26,
-          "slot_id": 4
+          "slot_id": "433 (Balanced):CB:0"
         },
         {
           "slot_code": "CB",
           "x": 26,
           "y": 42,
-          "slot_id": 5
+          "slot_id": "433 (Balanced):CB:1"
         },
         {
           "slot_code": "CM",
           "x": 56,
           "y": 22,
-          "slot_id": 6
+          "slot_id": "433 (Balanced):CM:0"
         },
         {
           "slot_code": "CM",
           "x": 54,
           "y": 34,
-          "slot_id": 7
+          "slot_id": "433 (Balanced):CM:1"
         },
         {
           "slot_code": "CM",
           "x": 56,
           "y": 46,
-          "slot_id": 8
+          "slot_id": "433 (Balanced):CM:2"
         },
         {
           "slot_code": "RW",
           "x": 78,
           "y": 8,
-          "slot_id": 9
+          "slot_id": "433 (Balanced):RW:0"
         },
         {
           "slot_code": "LW",
           "x": 78,
           "y": 60,
-          "slot_id": 10
+          "slot_id": "433 (Balanced):LW:0"
         },
         {
           "slot_code": "ST",
           "x": 82,
           "y": 34,
-          "slot_id": 11
+          "slot_id": "433 (Balanced):ST:0"
         }
       ],
       "orientation": "left-right"
@@ -1360,67 +1360,67 @@
           "slot_code": "GK",
           "x": 8,
           "y": 34,
-          "slot_id": 1
+          "slot_id": "433 (Defensive):GK:0"
         },
         {
           "slot_code": "RB",
           "x": 29,
           "y": 9,
-          "slot_id": 2
+          "slot_id": "433 (Defensive):RB:0"
         },
         {
           "slot_code": "LB",
           "x": 29,
           "y": 59,
-          "slot_id": 3
+          "slot_id": "433 (Defensive):LB:0"
         },
         {
           "slot_code": "CB",
           "x": 26,
           "y": 26,
-          "slot_id": 4
+          "slot_id": "433 (Defensive):CB:0"
         },
         {
           "slot_code": "CB",
           "x": 26,
           "y": 42,
-          "slot_id": 5
+          "slot_id": "433 (Defensive):CB:1"
         },
         {
           "slot_code": "CDM",
           "x": 45,
           "y": 27,
-          "slot_id": 6
+          "slot_id": "433 (Defensive):CDM:0"
         },
         {
           "slot_code": "CDM",
           "x": 45,
           "y": 41,
-          "slot_id": 7
+          "slot_id": "433 (Defensive):CDM:1"
         },
         {
           "slot_code": "CM",
           "x": 54,
           "y": 34,
-          "slot_id": 8
+          "slot_id": "433 (Defensive):CM:0"
         },
         {
           "slot_code": "RW",
           "x": 78,
           "y": 8,
-          "slot_id": 9
+          "slot_id": "433 (Defensive):RW:0"
         },
         {
           "slot_code": "LW",
           "x": 78,
           "y": 60,
-          "slot_id": 10
+          "slot_id": "433 (Defensive):LW:0"
         },
         {
           "slot_code": "ST",
           "x": 82,
           "y": 34,
-          "slot_id": 11
+          "slot_id": "433 (Defensive):ST:0"
         }
       ],
       "orientation": "left-right"
@@ -1435,67 +1435,67 @@
           "slot_code": "GK",
           "x": 8,
           "y": 34,
-          "slot_id": 1
+          "slot_id": "433 (Advanced):GK:0"
         },
         {
           "slot_code": "RB",
           "x": 29,
           "y": 9,
-          "slot_id": 2
+          "slot_id": "433 (Advanced):RB:0"
         },
         {
           "slot_code": "LB",
           "x": 29,
           "y": 59,
-          "slot_id": 3
+          "slot_id": "433 (Advanced):LB:0"
         },
         {
           "slot_code": "CB",
           "x": 26,
           "y": 26,
-          "slot_id": 4
+          "slot_id": "433 (Advanced):CB:0"
         },
         {
           "slot_code": "CB",
           "x": 26,
           "y": 42,
-          "slot_id": 5
+          "slot_id": "433 (Advanced):CB:1"
         },
         {
           "slot_code": "CM",
           "x": 55,
           "y": 27,
-          "slot_id": 6
+          "slot_id": "433 (Advanced):CM:0"
         },
         {
           "slot_code": "CM",
           "x": 55,
           "y": 43,
-          "slot_id": 7
+          "slot_id": "433 (Advanced):CM:1"
         },
         {
           "slot_code": "CAM",
           "x": 65,
           "y": 34,
-          "slot_id": 8
+          "slot_id": "433 (Advanced):CAM:0"
         },
         {
           "slot_code": "RW",
           "x": 78,
           "y": 8,
-          "slot_id": 9
+          "slot_id": "433 (Advanced):RW:0"
         },
         {
           "slot_code": "LW",
           "x": 78,
           "y": 60,
-          "slot_id": 10
+          "slot_id": "433 (Advanced):LW:0"
         },
         {
           "slot_code": "ST",
           "x": 82,
           "y": 34,
-          "slot_id": 11
+          "slot_id": "433 (Advanced):ST:0"
         }
       ],
       "orientation": "left-right"
@@ -1510,67 +1510,67 @@
           "slot_code": "GK",
           "x": 8,
           "y": 34,
-          "slot_id": 1
+          "slot_id": "433 (Attacking):GK:0"
         },
         {
           "slot_code": "RB",
           "x": 29,
           "y": 9,
-          "slot_id": 2
+          "slot_id": "433 (Attacking):RB:0"
         },
         {
           "slot_code": "LB",
           "x": 29,
           "y": 59,
-          "slot_id": 3
+          "slot_id": "433 (Attacking):LB:0"
         },
         {
           "slot_code": "CB",
           "x": 26,
           "y": 26,
-          "slot_id": 4
+          "slot_id": "433 (Attacking):CB:0"
         },
         {
           "slot_code": "CB",
           "x": 26,
           "y": 42,
-          "slot_id": 5
+          "slot_id": "433 (Attacking):CB:1"
         },
         {
           "slot_code": "CM",
           "x": 54,
           "y": 34,
-          "slot_id": 6
+          "slot_id": "433 (Attacking):CM:0"
         },
         {
           "slot_code": "CAM",
           "x": 65,
           "y": 26,
-          "slot_id": 7
+          "slot_id": "433 (Attacking):CAM:0"
         },
         {
           "slot_code": "CAM",
           "x": 65,
           "y": 40,
-          "slot_id": 8
+          "slot_id": "433 (Attacking):CAM:1"
         },
         {
           "slot_code": "RW",
           "x": 78,
           "y": 8,
-          "slot_id": 9
+          "slot_id": "433 (Attacking):RW:0"
         },
         {
           "slot_code": "LW",
           "x": 78,
           "y": 60,
-          "slot_id": 10
+          "slot_id": "433 (Attacking):LW:0"
         },
         {
           "slot_code": "ST",
           "x": 82,
           "y": 34,
-          "slot_id": 11
+          "slot_id": "433 (Attacking):ST:0"
         }
       ],
       "orientation": "left-right"
@@ -1585,67 +1585,67 @@
           "slot_code": "GK",
           "x": 8,
           "y": 34,
-          "slot_id": 1
+          "slot_id": "433 (False 9):GK:0"
         },
         {
           "slot_code": "RB",
           "x": 29,
           "y": 9,
-          "slot_id": 2
+          "slot_id": "433 (False 9):RB:0"
         },
         {
           "slot_code": "LB",
           "x": 29,
           "y": 59,
-          "slot_id": 3
+          "slot_id": "433 (False 9):LB:0"
         },
         {
           "slot_code": "CB",
           "x": 26,
           "y": 26,
-          "slot_id": 4
+          "slot_id": "433 (False 9):CB:0"
         },
         {
           "slot_code": "CB",
           "x": 26,
           "y": 42,
-          "slot_id": 5
+          "slot_id": "433 (False 9):CB:1"
         },
         {
           "slot_code": "CM",
           "x": 54,
           "y": 34,
-          "slot_id": 6
+          "slot_id": "433 (False 9):CM:0"
         },
         {
           "slot_code": "CAM",
           "x": 65,
           "y": 26,
-          "slot_id": 7
+          "slot_id": "433 (False 9):CAM:0"
         },
         {
           "slot_code": "CAM",
           "x": 65,
           "y": 40,
-          "slot_id": 8
+          "slot_id": "433 (False 9):CAM:1"
         },
         {
           "slot_code": "RW",
           "x": 78,
           "y": 8,
-          "slot_id": 9
+          "slot_id": "433 (False 9):RW:0"
         },
         {
           "slot_code": "LW",
           "x": 78,
           "y": 60,
-          "slot_id": 10
+          "slot_id": "433 (False 9):LW:0"
         },
         {
           "slot_code": "CF",
           "x": 72,
           "y": 34,
-          "slot_id": 11
+          "slot_id": "433 (False 9):CF:0"
         }
       ],
       "orientation": "left-right"
@@ -1660,67 +1660,67 @@
           "slot_code": "GK",
           "x": 8,
           "y": 34,
-          "slot_id": 1
+          "slot_id": "4411:GK:0"
         },
         {
           "slot_code": "RB",
           "x": 29,
           "y": 9,
-          "slot_id": 2
+          "slot_id": "4411:RB:0"
         },
         {
           "slot_code": "LB",
           "x": 29,
           "y": 59,
-          "slot_id": 3
+          "slot_id": "4411:LB:0"
         },
         {
           "slot_code": "CB",
           "x": 26,
           "y": 26,
-          "slot_id": 4
+          "slot_id": "4411:CB:0"
         },
         {
           "slot_code": "CB",
           "x": 26,
           "y": 42,
-          "slot_id": 5
+          "slot_id": "4411:CB:1"
         },
         {
           "slot_code": "CM",
           "x": 55,
           "y": 27,
-          "slot_id": 6
+          "slot_id": "4411:CM:0"
         },
         {
           "slot_code": "CM",
           "x": 55,
           "y": 43,
-          "slot_id": 7
+          "slot_id": "4411:CM:1"
         },
         {
           "slot_code": "RM",
           "x": 58,
           "y": 8,
-          "slot_id": 8
+          "slot_id": "4411:RM:0"
         },
         {
           "slot_code": "LM",
           "x": 58,
           "y": 60,
-          "slot_id": 9
+          "slot_id": "4411:LM:0"
         },
         {
           "slot_code": "CF",
           "x": 72,
           "y": 34,
-          "slot_id": 10
+          "slot_id": "4411:CF:0"
         },
         {
           "slot_code": "ST",
           "x": 82,
           "y": 34,
-          "slot_id": 11
+          "slot_id": "4411:ST:0"
         }
       ],
       "orientation": "left-right"
@@ -1735,67 +1735,67 @@
           "slot_code": "GK",
           "x": 8,
           "y": 34,
-          "slot_id": 1
+          "slot_id": "442:GK:0"
         },
         {
           "slot_code": "RB",
           "x": 29,
           "y": 9,
-          "slot_id": 2
+          "slot_id": "442:RB:0"
         },
         {
           "slot_code": "LB",
           "x": 29,
           "y": 59,
-          "slot_id": 3
+          "slot_id": "442:LB:0"
         },
         {
           "slot_code": "CB",
           "x": 26,
           "y": 26,
-          "slot_id": 4
+          "slot_id": "442:CB:0"
         },
         {
           "slot_code": "CB",
           "x": 26,
           "y": 42,
-          "slot_id": 5
+          "slot_id": "442:CB:1"
         },
         {
           "slot_code": "CM",
           "x": 55,
           "y": 27,
-          "slot_id": 6
+          "slot_id": "442:CM:0"
         },
         {
           "slot_code": "CM",
           "x": 55,
           "y": 43,
-          "slot_id": 7
+          "slot_id": "442:CM:1"
         },
         {
           "slot_code": "RM",
           "x": 58,
           "y": 8,
-          "slot_id": 8
+          "slot_id": "442:RM:0"
         },
         {
           "slot_code": "LM",
           "x": 58,
           "y": 60,
-          "slot_id": 9
+          "slot_id": "442:LM:0"
         },
         {
           "slot_code": "ST",
           "x": 82,
           "y": 26,
-          "slot_id": 10
+          "slot_id": "442:ST:0"
         },
         {
           "slot_code": "ST",
           "x": 82,
           "y": 42,
-          "slot_id": 11
+          "slot_id": "442:ST:1"
         }
       ],
       "orientation": "left-right"
@@ -1810,67 +1810,67 @@
           "slot_code": "GK",
           "x": 8,
           "y": 34,
-          "slot_id": 1
+          "slot_id": "442 (Defensive):GK:0"
         },
         {
           "slot_code": "RB",
           "x": 29,
           "y": 9,
-          "slot_id": 2
+          "slot_id": "442 (Defensive):RB:0"
         },
         {
           "slot_code": "LB",
           "x": 29,
           "y": 59,
-          "slot_id": 3
+          "slot_id": "442 (Defensive):LB:0"
         },
         {
           "slot_code": "CB",
           "x": 26,
           "y": 26,
-          "slot_id": 4
+          "slot_id": "442 (Defensive):CB:0"
         },
         {
           "slot_code": "CB",
           "x": 26,
           "y": 42,
-          "slot_id": 5
+          "slot_id": "442 (Defensive):CB:1"
         },
         {
           "slot_code": "CDM",
           "x": 45,
           "y": 27,
-          "slot_id": 6
+          "slot_id": "442 (Defensive):CDM:0"
         },
         {
           "slot_code": "CDM",
           "x": 45,
           "y": 41,
-          "slot_id": 7
+          "slot_id": "442 (Defensive):CDM:1"
         },
         {
           "slot_code": "RM",
           "x": 58,
           "y": 8,
-          "slot_id": 8
+          "slot_id": "442 (Defensive):RM:0"
         },
         {
           "slot_code": "LM",
           "x": 58,
           "y": 60,
-          "slot_id": 9
+          "slot_id": "442 (Defensive):LM:0"
         },
         {
           "slot_code": "ST",
           "x": 82,
           "y": 26,
-          "slot_id": 10
+          "slot_id": "442 (Defensive):ST:0"
         },
         {
           "slot_code": "ST",
           "x": 82,
           "y": 42,
-          "slot_id": 11
+          "slot_id": "442 (Defensive):ST:1"
         }
       ],
       "orientation": "left-right"
@@ -1885,67 +1885,67 @@
           "slot_code": "GK",
           "x": 8,
           "y": 34,
-          "slot_id": 1
+          "slot_id": "451 (Balanced):GK:0"
         },
         {
           "slot_code": "RB",
           "x": 29,
           "y": 9,
-          "slot_id": 2
+          "slot_id": "451 (Balanced):RB:0"
         },
         {
           "slot_code": "LB",
           "x": 29,
           "y": 59,
-          "slot_id": 3
+          "slot_id": "451 (Balanced):LB:0"
         },
         {
           "slot_code": "CB",
           "x": 26,
           "y": 26,
-          "slot_id": 4
+          "slot_id": "451 (Balanced):CB:0"
         },
         {
           "slot_code": "CB",
           "x": 26,
           "y": 42,
-          "slot_id": 5
+          "slot_id": "451 (Balanced):CB:1"
         },
         {
           "slot_code": "CM",
           "x": 56,
           "y": 22,
-          "slot_id": 6
+          "slot_id": "451 (Balanced):CM:0"
         },
         {
           "slot_code": "CM",
           "x": 54,
           "y": 34,
-          "slot_id": 7
+          "slot_id": "451 (Balanced):CM:1"
         },
         {
           "slot_code": "CM",
           "x": 56,
           "y": 46,
-          "slot_id": 8
+          "slot_id": "451 (Balanced):CM:2"
         },
         {
           "slot_code": "RM",
           "x": 58,
           "y": 8,
-          "slot_id": 9
+          "slot_id": "451 (Balanced):RM:0"
         },
         {
           "slot_code": "LM",
           "x": 58,
           "y": 60,
-          "slot_id": 10
+          "slot_id": "451 (Balanced):LM:0"
         },
         {
           "slot_code": "ST",
           "x": 82,
           "y": 34,
-          "slot_id": 11
+          "slot_id": "451 (Balanced):ST:0"
         }
       ],
       "orientation": "left-right"
@@ -1960,67 +1960,67 @@
           "slot_code": "GK",
           "x": 8,
           "y": 34,
-          "slot_id": 1
+          "slot_id": "451 (Attacking):GK:0"
         },
         {
           "slot_code": "RB",
           "x": 29,
           "y": 9,
-          "slot_id": 2
+          "slot_id": "451 (Attacking):RB:0"
         },
         {
           "slot_code": "LB",
           "x": 29,
           "y": 59,
-          "slot_id": 3
+          "slot_id": "451 (Attacking):LB:0"
         },
         {
           "slot_code": "CB",
           "x": 26,
           "y": 26,
-          "slot_id": 4
+          "slot_id": "451 (Attacking):CB:0"
         },
         {
           "slot_code": "CB",
           "x": 26,
           "y": 42,
-          "slot_id": 5
+          "slot_id": "451 (Attacking):CB:1"
         },
         {
           "slot_code": "CM",
           "x": 54,
           "y": 34,
-          "slot_id": 6
+          "slot_id": "451 (Attacking):CM:0"
         },
         {
           "slot_code": "RM",
           "x": 58,
           "y": 8,
-          "slot_id": 7
+          "slot_id": "451 (Attacking):RM:0"
         },
         {
           "slot_code": "LM",
           "x": 58,
           "y": 60,
-          "slot_id": 8
+          "slot_id": "451 (Attacking):LM:0"
         },
         {
           "slot_code": "CAM",
           "x": 65,
           "y": 26,
-          "slot_id": 9
+          "slot_id": "451 (Attacking):CAM:0"
         },
         {
           "slot_code": "CAM",
           "x": 65,
           "y": 40,
-          "slot_id": 10
+          "slot_id": "451 (Attacking):CAM:1"
         },
         {
           "slot_code": "ST",
           "x": 82,
           "y": 34,
-          "slot_id": 11
+          "slot_id": "451 (Attacking):ST:0"
         }
       ],
       "orientation": "left-right"
@@ -2035,67 +2035,67 @@
           "slot_code": "GK",
           "x": 8,
           "y": 34,
-          "slot_id": 1
+          "slot_id": "5212:GK:0"
         },
         {
           "slot_code": "RWB",
           "x": 37,
           "y": 5,
-          "slot_id": 2
+          "slot_id": "5212:RWB:0"
         },
         {
           "slot_code": "LWB",
           "x": 37,
           "y": 63,
-          "slot_id": 3
+          "slot_id": "5212:LWB:0"
         },
         {
           "slot_code": "CB",
           "x": 25,
           "y": 17,
-          "slot_id": 4
+          "slot_id": "5212:CB:0"
         },
         {
           "slot_code": "CB",
           "x": 25,
           "y": 34,
-          "slot_id": 5
+          "slot_id": "5212:CB:1"
         },
         {
           "slot_code": "CB",
           "x": 25,
           "y": 51,
-          "slot_id": 6
+          "slot_id": "5212:CB:2"
         },
         {
           "slot_code": "CM",
           "x": 55,
           "y": 27,
-          "slot_id": 7
+          "slot_id": "5212:CM:0"
         },
         {
           "slot_code": "CM",
           "x": 55,
           "y": 43,
-          "slot_id": 8
+          "slot_id": "5212:CM:1"
         },
         {
           "slot_code": "CAM",
           "x": 65,
           "y": 34,
-          "slot_id": 9
+          "slot_id": "5212:CAM:0"
         },
         {
           "slot_code": "ST",
           "x": 82,
           "y": 26,
-          "slot_id": 10
+          "slot_id": "5212:ST:0"
         },
         {
           "slot_code": "ST",
           "x": 82,
           "y": 42,
-          "slot_id": 11
+          "slot_id": "5212:ST:1"
         }
       ],
       "orientation": "left-right"
@@ -2110,67 +2110,67 @@
           "slot_code": "GK",
           "x": 8,
           "y": 34,
-          "slot_id": 1
+          "slot_id": "5221:GK:0"
         },
         {
           "slot_code": "RWB",
           "x": 37,
           "y": 5,
-          "slot_id": 2
+          "slot_id": "5221:RWB:0"
         },
         {
           "slot_code": "LWB",
           "x": 37,
           "y": 63,
-          "slot_id": 3
+          "slot_id": "5221:LWB:0"
         },
         {
           "slot_code": "CB",
           "x": 25,
           "y": 17,
-          "slot_id": 4
+          "slot_id": "5221:CB:0"
         },
         {
           "slot_code": "CB",
           "x": 25,
           "y": 34,
-          "slot_id": 5
+          "slot_id": "5221:CB:1"
         },
         {
           "slot_code": "CB",
           "x": 25,
           "y": 51,
-          "slot_id": 6
+          "slot_id": "5221:CB:2"
         },
         {
           "slot_code": "CM",
           "x": 55,
           "y": 27,
-          "slot_id": 7
+          "slot_id": "5221:CM:0"
         },
         {
           "slot_code": "CM",
           "x": 55,
           "y": 43,
-          "slot_id": 8
+          "slot_id": "5221:CM:1"
         },
         {
           "slot_code": "RF",
           "x": 72,
           "y": 27,
-          "slot_id": 9
+          "slot_id": "5221:RF:0"
         },
         {
           "slot_code": "LF",
           "x": 72,
           "y": 41,
-          "slot_id": 10
+          "slot_id": "5221:LF:0"
         },
         {
           "slot_code": "ST",
           "x": 82,
           "y": 34,
-          "slot_id": 11
+          "slot_id": "5221:ST:0"
         }
       ],
       "orientation": "left-right"
@@ -2185,67 +2185,67 @@
           "slot_code": "GK",
           "x": 8,
           "y": 34,
-          "slot_id": 1
+          "slot_id": "523:GK:0"
         },
         {
           "slot_code": "RWB",
           "x": 37,
           "y": 5,
-          "slot_id": 2
+          "slot_id": "523:RWB:0"
         },
         {
           "slot_code": "LWB",
           "x": 37,
           "y": 63,
-          "slot_id": 3
+          "slot_id": "523:LWB:0"
         },
         {
           "slot_code": "CB",
           "x": 25,
           "y": 17,
-          "slot_id": 4
+          "slot_id": "523:CB:0"
         },
         {
           "slot_code": "CB",
           "x": 25,
           "y": 34,
-          "slot_id": 5
+          "slot_id": "523:CB:1"
         },
         {
           "slot_code": "CB",
           "x": 25,
           "y": 51,
-          "slot_id": 6
+          "slot_id": "523:CB:2"
         },
         {
           "slot_code": "CM",
           "x": 55,
           "y": 27,
-          "slot_id": 7
+          "slot_id": "523:CM:0"
         },
         {
           "slot_code": "CM",
           "x": 55,
           "y": 43,
-          "slot_id": 8
+          "slot_id": "523:CM:1"
         },
         {
           "slot_code": "RW",
           "x": 78,
           "y": 8,
-          "slot_id": 9
+          "slot_id": "523:RW:0"
         },
         {
           "slot_code": "LW",
           "x": 78,
           "y": 60,
-          "slot_id": 10
+          "slot_id": "523:LW:0"
         },
         {
           "slot_code": "ST",
           "x": 82,
           "y": 34,
-          "slot_id": 11
+          "slot_id": "523:ST:0"
         }
       ],
       "orientation": "left-right"
@@ -2260,67 +2260,67 @@
           "slot_code": "GK",
           "x": 8,
           "y": 34,
-          "slot_id": 1
+          "slot_id": "532:GK:0"
         },
         {
           "slot_code": "RWB",
           "x": 37,
           "y": 5,
-          "slot_id": 2
+          "slot_id": "532:RWB:0"
         },
         {
           "slot_code": "LWB",
           "x": 37,
           "y": 63,
-          "slot_id": 3
+          "slot_id": "532:LWB:0"
         },
         {
           "slot_code": "CB",
           "x": 25,
           "y": 17,
-          "slot_id": 4
+          "slot_id": "532:CB:0"
         },
         {
           "slot_code": "CB",
           "x": 25,
           "y": 34,
-          "slot_id": 5
+          "slot_id": "532:CB:1"
         },
         {
           "slot_code": "CB",
           "x": 25,
           "y": 51,
-          "slot_id": 6
+          "slot_id": "532:CB:2"
         },
         {
           "slot_code": "CM",
           "x": 56,
           "y": 22,
-          "slot_id": 7
+          "slot_id": "532:CM:0"
         },
         {
           "slot_code": "CM",
           "x": 54,
           "y": 34,
-          "slot_id": 8
+          "slot_id": "532:CM:1"
         },
         {
           "slot_code": "CM",
           "x": 56,
           "y": 46,
-          "slot_id": 9
+          "slot_id": "532:CM:2"
         },
         {
           "slot_code": "ST",
           "x": 82,
           "y": 26,
-          "slot_id": 10
+          "slot_id": "532:ST:0"
         },
         {
           "slot_code": "ST",
           "x": 82,
           "y": 42,
-          "slot_id": 11
+          "slot_id": "532:ST:1"
         }
       ],
       "orientation": "left-right"
@@ -2335,67 +2335,67 @@
           "slot_code": "GK",
           "x": 8,
           "y": 34,
-          "slot_id": 1
+          "slot_id": "541:GK:0"
         },
         {
           "slot_code": "RWB",
           "x": 37,
           "y": 5,
-          "slot_id": 2
+          "slot_id": "541:RWB:0"
         },
         {
           "slot_code": "LWB",
           "x": 37,
           "y": 63,
-          "slot_id": 3
+          "slot_id": "541:LWB:0"
         },
         {
           "slot_code": "CB",
           "x": 25,
           "y": 17,
-          "slot_id": 4
+          "slot_id": "541:CB:0"
         },
         {
           "slot_code": "CB",
           "x": 25,
           "y": 34,
-          "slot_id": 5
+          "slot_id": "541:CB:1"
         },
         {
           "slot_code": "CB",
           "x": 25,
           "y": 51,
-          "slot_id": 6
+          "slot_id": "541:CB:2"
         },
         {
           "slot_code": "CM",
           "x": 55,
           "y": 27,
-          "slot_id": 7
+          "slot_id": "541:CM:0"
         },
         {
           "slot_code": "CM",
           "x": 55,
           "y": 43,
-          "slot_id": 8
+          "slot_id": "541:CM:1"
         },
         {
           "slot_code": "RM",
           "x": 58,
           "y": 8,
-          "slot_id": 9
+          "slot_id": "541:RM:0"
         },
         {
           "slot_code": "LM",
           "x": 58,
           "y": 60,
-          "slot_id": 10
+          "slot_id": "541:LM:0"
         },
         {
           "slot_code": "ST",
           "x": 82,
           "y": 34,
-          "slot_id": 11
+          "slot_id": "541:ST:0"
         }
       ],
       "orientation": "left-right"

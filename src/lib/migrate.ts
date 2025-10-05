@@ -49,22 +49,40 @@ export function migrateWorkingLineup(raw: any, formationsSeed: any): Lineup | nu
   );
 
   if (formation && formation.slot_map) {
-    // Build proper onField map with all slots
+    // Build proper onField map with all slots using slot_id
     const newOnField: Record<string, string | null> = {};
-    
-    formation.slot_map.forEach((slot: any) => {
-      const slotCode = slot.slot_code;
-      // Preserve existing placement if it exists
-      if (raw.onField && typeof raw.onField === 'object' && raw.onField[slotCode]) {
-        newOnField[slotCode] = raw.onField[slotCode];
-      } else {
-        newOnField[slotCode] = null;
-      }
-    });
-    
+
+    // Check if raw.onField uses old slot_code keys or new slot_id keys
+    const hasSlotIdKeys = raw.onField && Object.keys(raw.onField).some((k: string) => k.includes(':'));
+
+    if (hasSlotIdKeys) {
+      // Already using slot_id format - preserve directly
+      formation.slot_map.forEach((slot: any) => {
+        const slotId = slot.slot_id;
+        newOnField[slotId] = raw.onField && raw.onField[slotId] ? raw.onField[slotId] : null;
+      });
+    } else {
+      // Old format: keys are slot_code (e.g., "CB", "CM")
+      // Map each slot_code assignment to the first available slot with that code
+      const usedSlotIds = new Set<string>();
+
+      formation.slot_map.forEach((slot: any) => {
+        const slotId = slot.slot_id;
+        const slotCode = slot.slot_code;
+
+        // If this slot_code has a player assigned in old data, and we haven't used this slot_code yet
+        if (raw.onField && raw.onField[slotCode] && !usedSlotIds.has(slotCode)) {
+          newOnField[slotId] = raw.onField[slotCode];
+          usedSlotIds.add(slotCode);
+        } else {
+          newOnField[slotId] = null;
+        }
+      });
+    }
+
     migrated.onField = newOnField;
   } else if (raw.onField && typeof raw.onField === 'object') {
-    // No formation found but has onField - preserve it
+    // No formation found but has onField - preserve it as-is
     migrated.onField = raw.onField;
   } else {
     // No valid onField or formation - create empty map
@@ -73,7 +91,7 @@ export function migrateWorkingLineup(raw: any, formationsSeed: any): Lineup | nu
       migrated.formationCode = defaultFormation.code;
       const newOnField: Record<string, string | null> = {};
       defaultFormation.slot_map.forEach((slot: any) => {
-        newOnField[slot.slot_code] = null;
+        newOnField[slot.slot_id] = null;
       });
       migrated.onField = newOnField;
     }

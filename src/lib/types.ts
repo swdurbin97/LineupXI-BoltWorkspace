@@ -1,4 +1,5 @@
 export type PositionCode = string; // "GK", "RB", "LCB", etc.
+export type SlotId = string; // "442:CB:0", "442:CB:1", etc.
 
 export interface Player {
   id: string;
@@ -30,7 +31,7 @@ export interface FormationSlot {
 export interface Lineup {
   teamId: string;
   formationCode: string;
-  onField: Record<PositionCode, string | null>; // slot -> playerId
+  onField: Record<SlotId, string | null>; // slot_id -> playerId (e.g., "442:CB:0" -> "player123")
   bench: string[]; // DEPRECATED - for backwards compat
   benchSlots: (string | null)[]; // exactly 8 slots
   roles: {

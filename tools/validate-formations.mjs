@@ -41,12 +41,26 @@ formations.forEach((formation, idx) => {
     errors++;
   }
 
+  // Check slot_id uniqueness
+  const slotIds = slots.map(s => s.slot_id).filter(Boolean);
+  const uniqueSlotIds = new Set(slotIds);
+
+  if (slotIds.length !== uniqueSlotIds.size) {
+    console.error(`❌ ${name}: Duplicate slot_ids found`);
+    errors++;
+  }
+
+  if (slotIds.length !== slots.length) {
+    console.error(`❌ ${name}: Some slots missing slot_id`);
+    errors++;
+  }
+
   // Check coordinates
   let gkX = null;
   let maxForwardX = 0;
 
   slots.forEach(slot => {
-    const {slot_code, x, y} = slot;
+    const {slot_code, slot_id, x, y} = slot;
 
     // Bounds check
     if (x < 0 || x > 105) {
@@ -66,12 +80,6 @@ formations.forEach((formation, idx) => {
     // Forward check
     if (['ST', 'CF', 'RW', 'LW', 'RF', 'LF'].includes(slot_code) && x > maxForwardX) {
       maxForwardX = x;
-    }
-
-    // Check for slot_id
-    if (!slot.slot_id) {
-      console.warn(`⚠️  ${name}/${slot_code}: Missing slot_id`);
-      warnings++;
     }
   });
 

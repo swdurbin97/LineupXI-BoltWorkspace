@@ -11,15 +11,15 @@ interface LineupsState {
 
 type LineupsAction =
   | { type: 'SET_LINEUP'; lineup: Lineup | null }
-  | { type: 'PLACE_PLAYER'; slot: string; playerId: string }
-  | { type: 'REMOVE_FROM_SLOT'; slot: string }
-  | { type: 'SWAP_SLOTS'; slotA: string; slotB: string }
-  | { type: 'SET_FORMATION'; formationCode: string; slotCodes: string[] }
+  | { type: 'PLACE_PLAYER'; slotId: string; playerId: string }
+  | { type: 'REMOVE_FROM_SLOT'; slotId: string }
+  | { type: 'SWAP_SLOTS'; slotIdA: string; slotIdB: string }
+  | { type: 'SET_FORMATION'; formationCode: string; slots: Array<{slot_id: string, slot_code: string}> }
   | { type: 'SET_ROLE'; role: keyof Lineup['roles']; playerId: string | undefined }
   | { type: 'ASSIGN_TO_BENCH'; index: number; playerId: string }
   | { type: 'REMOVE_FROM_BENCH'; index: number }
   | { type: 'SWAP_BENCH_BENCH'; indexA: number; indexB: number }
-  | { type: 'MOVE_TO_BENCH'; index: number; playerId: string; fromSlot?: string };
+  | { type: 'MOVE_TO_BENCH'; index: number; playerId: string; fromSlotId?: string };
 
 function lineupsReducer(state: LineupsState, action: LineupsAction): LineupsState {
   switch (action.type) {
@@ -28,20 +28,20 @@ function lineupsReducer(state: LineupsState, action: LineupsAction): LineupsStat
     
     case 'PLACE_PLAYER': {
       if (!state.working) return state;
-      
+
       // Remove player from bench if they're there
       const newBench = state.working.bench.filter(id => id !== action.playerId);
-      
+
       // Remove player from any current slot
       const newOnField = { ...state.working.onField };
-      Object.keys(newOnField).forEach(slot => {
-        if (newOnField[slot] === action.playerId) {
-          newOnField[slot] = null;
+      Object.keys(newOnField).forEach(slotId => {
+        if (newOnField[slotId] === action.playerId) {
+          newOnField[slotId] = null;
         }
       });
-      
-      // Place player in new slot
-      newOnField[action.slot] = action.playerId;
+
+      // Place player in new slot (using slot_id)
+      newOnField[action.slotId] = action.playerId;
       
       return {
         working: {
@@ -54,16 +54,16 @@ function lineupsReducer(state: LineupsState, action: LineupsAction): LineupsStat
     
     case 'REMOVE_FROM_SLOT': {
       if (!state.working) return state;
-      
-      const playerId = state.working.onField[action.slot];
+
+      const playerId = state.working.onField[action.slotId];
       if (!playerId) return state;
-      
+
       return {
         working: {
           ...state.working,
           onField: {
             ...state.working.onField,
-            [action.slot]: null
+            [action.slotId]: null
           },
           bench: [...state.working.bench, playerId]
         }
@@ -72,17 +72,17 @@ function lineupsReducer(state: LineupsState, action: LineupsAction): LineupsStat
     
     case 'SWAP_SLOTS': {
       if (!state.working) return state;
-      
-      const playerA = state.working.onField[action.slotA];
-      const playerB = state.working.onField[action.slotB];
-      
+
+      const playerA = state.working.onField[action.slotIdA];
+      const playerB = state.working.onField[action.slotIdB];
+
       return {
         working: {
           ...state.working,
           onField: {
             ...state.working.onField,
-            [action.slotA]: playerB || null,
-            [action.slotB]: playerA || null
+            [action.slotIdA]: playerB || null,
+            [action.slotIdB]: playerA || null
           }
         }
       };
@@ -90,28 +90,28 @@ function lineupsReducer(state: LineupsState, action: LineupsAction): LineupsStat
     
     case 'SET_FORMATION': {
       if (!state.working) return state;
-      
-      // Create new onField object with new slot codes
+
+      // Create new onField object with new slot_ids
       const newOnField: Record<string, string | null> = {};
-      action.slotCodes.forEach(code => {
-        // Try to preserve existing placements if slot exists
-        newOnField[code] = state.working!.onField[code] || null;
+      const newSlotIds = action.slots.map(s => s.slot_id);
+
+      action.slots.forEach(slot => {
+        // Initialize all slots as empty
+        newOnField[slot.slot_id] = null;
       });
-      
-      // Move players who lost their slots to bench
-      const removedPlayers: string[] = [];
-      Object.entries(state.working.onField).forEach(([slot, playerId]) => {
-        if (playerId && !action.slotCodes.includes(slot)) {
-          removedPlayers.push(playerId);
-        }
+
+      // Move all current players to bench since formation changed
+      const allPlayers: string[] = [];
+      Object.values(state.working.onField).forEach(playerId => {
+        if (playerId) allPlayers.push(playerId);
       });
-      
+
       return {
         working: {
           ...state.working,
           formationCode: action.formationCode,
           onField: newOnField,
-          bench: [...state.working.bench, ...removedPlayers]
+          bench: [...state.working.bench, ...allPlayers]
         }
       };
     }
@@ -191,11 +191,11 @@ function lineupsReducer(state: LineupsState, action: LineupsAction): LineupsStat
     
     case 'MOVE_TO_BENCH': {
       if (!state.working) return state;
-      
-      // If from slot, remove from that slot
+
+      // If from slot, remove from that slot (using slot_id)
       const newOnField = { ...state.working.onField };
-      if (action.fromSlot) {
-        newOnField[action.fromSlot] = null;
+      if (action.fromSlotId) {
+        newOnField[action.fromSlotId] = null;
       }
       
       // Remove from other bench slots
@@ -234,7 +234,7 @@ interface LineupsContextType extends LineupsState {
   assignToBench: (index: number, playerId: string) => void;
   removeFromBench: (index: number) => void;
   swapBenchBench: (indexA: number, indexB: number) => void;
-  moveToBench: (index: number, playerId: string, fromSlot?: string) => void;
+  moveToBench: (index: number, playerId: string, fromSlotId?: string) => void;
 }
 
 const LineupsContext = createContext<LineupsContextType | null>(null);
@@ -316,20 +316,20 @@ export function LineupsProvider({ children }: { children: React.ReactNode }) {
     dispatch({ type: 'SET_LINEUP', lineup });
   };
 
-  const placePlayer = (slot: string, playerId: string) => {
-    dispatch({ type: 'PLACE_PLAYER', slot, playerId });
+  const placePlayer = (slotId: string, playerId: string) => {
+    dispatch({ type: 'PLACE_PLAYER', slotId, playerId });
   };
 
-  const removeFromSlot = (slot: string) => {
-    dispatch({ type: 'REMOVE_FROM_SLOT', slot });
+  const removeFromSlot = (slotId: string) => {
+    dispatch({ type: 'REMOVE_FROM_SLOT', slotId });
   };
 
-  const swapSlots = (slotA: string, slotB: string) => {
-    dispatch({ type: 'SWAP_SLOTS', slotA, slotB });
+  const swapSlots = (slotIdA: string, slotIdB: string) => {
+    dispatch({ type: 'SWAP_SLOTS', slotIdA, slotIdB });
   };
 
-  const setFormation = (formationCode: string, slotCodes: string[]) => {
-    dispatch({ type: 'SET_FORMATION', formationCode, slotCodes });
+  const setFormation = (formationCode: string, slots: Array<{slot_id: string, slot_code: string}>) => {
+    dispatch({ type: 'SET_FORMATION', formationCode, slots });
   };
 
   const setRole = (role: keyof Lineup['roles'], playerId?: string) => {
@@ -355,8 +355,8 @@ export function LineupsProvider({ children }: { children: React.ReactNode }) {
     dispatch({ type: 'SWAP_BENCH_BENCH', indexA, indexB });
   };
 
-  const moveToBench = (index: number, playerId: string, fromSlot?: string) => {
-    dispatch({ type: 'MOVE_TO_BENCH', index, playerId, fromSlot });
+  const moveToBench = (index: number, playerId: string, fromSlotId?: string) => {
+    dispatch({ type: 'MOVE_TO_BENCH', index, playerId, fromSlotId });
   };
 
   return (
