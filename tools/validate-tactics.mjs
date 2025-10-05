@@ -86,56 +86,83 @@ if (!existsSync(tacticsPath)) {
 
 const tacticsData = JSON.parse(readFileSync(tacticsPath, 'utf8'));
 const tacticsContent = tacticsData.tactics_content || [];
-const tacticsCodes = new Set(tacticsContent.map(t => t.code));
 
-console.log(`✓ Loaded ${tacticsCodes.size} tactics entries from tactics.json\n`);
+console.log(`✓ Loaded ${tacticsContent.length} tactics entries from tactics.json\n`);
 
-// Find missing content
-const missingContent = [...canonicalCodes].filter(code => !tacticsCodes.has(code));
+// Build name-based sets (PRIMARY KEY)
+const canonicalNames = new Set(formationsData.formations.map(f => f.name));
+const tacticsNames = new Set(tacticsContent.map(t => t.name));
 
-if (missingContent.length > 0) {
-  console.log('Missing content (in formations.json but not in tactics.json):');
+// Build code→name mapping from canonical formations
+const codeToName = new Map();
+formationsData.formations.forEach(f => {
+  if (!codeToName.has(f.code)) {
+    codeToName.set(f.code, []);
+  }
+  codeToName.get(f.code).push(f.name);
+});
+
+// 1:1 Coverage Check by NAME
+const missingByName = [...canonicalNames].filter(name => !tacticsNames.has(name));
+const unknownByName = [...tacticsNames].filter(name => !canonicalNames.has(name));
+
+if (missingByName.length > 0) {
+  console.log('Missing content by NAME (in formations.json but not in tactics.json):');
   console.log('─'.repeat(63));
-  missingContent.forEach(code => {
-    const formation = formationsData.formations.find(f => f.code === code);
-    console.log(`  • ${code.padEnd(20)} (${formation?.name || 'unknown'})`);
+  missingByName.forEach(name => {
+    const formation = formationsData.formations.find(f => f.name === name);
+    console.log(`  • ${formation.code.padEnd(20)} ${name}`);
   });
-  console.log(`\n  Total missing: ${missingContent.length}\n`);
+  console.log(`\n  Total missing: ${missingByName.length}\n`);
 } else {
-  console.log('✓ All formations have tactical content\n');
+  console.log('✓ All formations have tactical content (by name)\n');
 }
 
-// Find unknown codes
-const unknownCodes = [...tacticsCodes].filter(code => !canonicalCodes.has(code));
-
-if (unknownCodes.length > 0) {
-  console.log('Unknown codes (in tactics.json but not in formations.json):');
+if (unknownByName.length > 0) {
+  console.log('Unknown names (in tactics.json but not in formations.json):');
   console.log('─'.repeat(63));
+  unknownByName.forEach(name => {
+    console.log(`  ⚠️  "${name}"`);
+  });
+  console.log(`\n  Total unknown: ${unknownByName.length}\n`);
+} else {
+  console.log('✓ All tactics names match canonical formations\n');
+}
 
-  const canonicalCodesArray = [...canonicalCodes];
-  unknownCodes.forEach(code => {
-    const suggestions = findClosestMatches(code, canonicalCodesArray, 3);
-    console.log(`  ⚠️  "${code}"`);
-    console.log(`      Suggestions:`);
-    suggestions.forEach(({ code: suggestedCode, distance }) => {
-      console.log(`        - ${suggestedCode} (distance: ${distance})`);
+// Code Consistency Check (informational)
+const codeWarnings = [];
+tacticsContent.forEach(tactics => {
+  const formation = formationsData.formations.find(f => f.name === tactics.name);
+  if (formation && tactics.code !== formation.code) {
+    codeWarnings.push({
+      name: tactics.name,
+      tacticsCode: tactics.code,
+      expectedCode: formation.code
     });
+  }
+});
+
+if (codeWarnings.length > 0) {
+  console.log('⚠️  Code mismatches (informational - name is primary key):');
+  console.log('─'.repeat(63));
+  codeWarnings.forEach(({ name, tacticsCode, expectedCode }) => {
+    console.log(`  Name: "${name}"`);
+    console.log(`    Tactics code:  ${tacticsCode}`);
+    console.log(`    Expected code: ${expectedCode}`);
     console.log('');
   });
-
-  console.log(`  Total unknown: ${unknownCodes.length}\n`);
-} else {
-  console.log('✓ All tactics codes match canonical formations\n');
+  console.log(`  Total mismatches: ${codeWarnings.length}\n`);
 }
 
 // Summary
 console.log('═══════════════════════════════════════════════════════════════');
-console.log('VALIDATION SUMMARY');
+console.log('VALIDATION SUMMARY (by NAME - primary key)');
 console.log('═══════════════════════════════════════════════════════════════');
-console.log(`Canonical formations:  ${canonicalCodes.size}`);
-console.log(`Tactics entries:       ${tacticsCodes.size}`);
-console.log(`Missing content:       ${missingContent.length}`);
-console.log(`Unknown codes:         ${unknownCodes.length}`);
+console.log(`Canonical formations:  ${canonicalNames.size}`);
+console.log(`Tactics entries:       ${tacticsContent.length}`);
+console.log(`Missing by name:       ${missingByName.length}`);
+console.log(`Unknown names:         ${unknownByName.length}`);
+console.log(`Code warnings:         ${codeWarnings.length}`);
 console.log('═══════════════════════════════════════════════════════════════');
 
 process.exit(0);

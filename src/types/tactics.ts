@@ -1,5 +1,6 @@
 export type FormationTactics = {
-  code: string;                 // MUST exactly match formations.json "code"
+  code: string;                 // Formation code (e.g., "433")
+  name: string;                 // Exact canonical name from formations.json (e.g., "4-3-3 (Balanced)") - PRIMARY KEY
   title?: string;
   overview?: string;
   advantages?: string[];

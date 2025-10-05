@@ -57,8 +57,8 @@ export default function FormationDetail() {
 
     if (!formation) return null;
 
-    // Find tactics content by exact code match
-    const tactics = tacticsData.find(t => t.code === formation.code);
+    // Find tactics content by exact NAME match (primary key)
+    const tactics = tacticsData.find(t => t.name === formation.name);
 
     // Merge formation and tactics data
     return {
