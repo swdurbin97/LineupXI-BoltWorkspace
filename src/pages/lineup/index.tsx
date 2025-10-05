@@ -15,8 +15,6 @@ import { useElementSize } from '../../lib/useElementSize';
 import { useFieldFit } from '../../lib/useFieldFit';
 import { CARD_H, GAP_X, PAD_M, PAD_S, PAD_L, UI_SCALE } from '../../lib/sizes';
 import { SaveLineupModal } from '../../components/modals/SaveLineupModal';
-import { RenameLineupModal } from '../../components/modals/RenameLineupModal';
-import { DeleteConfirmModal } from '../../components/modals/DeleteConfirmModal';
 import { LoadLineupModal, LoadOptions } from '../../components/modals/LoadLineupModal';
 import { serializeLineup, isEqual, savedToSerialized, computeDiff } from '../../lib/lineupSerializer';
 import * as savedLineupsLib from '../../lib/savedLineups';
@@ -60,9 +58,6 @@ function LineupPageContent() {
   const [loadedLineupName, setLoadedLineupName] = useState<string>('');
   const [lastSavedSnapshot, setLastSavedSnapshot] = useState<SerializedBuilderState | null>(null);
   const [saveModalOpen, setSaveModalOpen] = useState(false);
-  const [saveAsModalOpen, setSaveAsModalOpen] = useState(false);
-  const [renameModalOpen, setRenameModalOpen] = useState(false);
-  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [loadModalOpen, setLoadModalOpen] = useState(false);
   const [lineupToLoad, setLineupToLoad] = useState<SavedLineup | null>(null);
   const [statusMenuOpen, setStatusMenuOpen] = useState(false);
@@ -336,7 +331,7 @@ function LineupPageContent() {
     }
   };
 
-  const handleSaveNew = (data: { name: string; notes?: string }) => {
+  const handleSaveNew = (data: { name: string; notes?: string; createCopy?: boolean }) => {
     if (!currentSerialized || !currentFormation) {
       console.error('handleSaveNew: Missing data', { currentSerialized, currentFormation });
       toast('No lineup data to save', 'error');
@@ -348,24 +343,64 @@ function LineupPageContent() {
       onFieldCount: Object.values(currentSerialized.assignments.onField).filter(Boolean).length,
       benchLen: currentSerialized.assignments.bench.length,
       formation: currentFormation,
-      teamId: currentSerialized.teamId
+      teamId: currentSerialized.teamId,
+      createCopy: data.createCopy
     });
 
     try {
-      const saved = savedLineupsLib.saveNew({
-        name: data.name,
-        formation: currentFormation,
-        assignments: currentSerialized.assignments,
-        teamId: currentSerialized.teamId,
-        teamName: currentSerialized.teamName,
-        roles: working?.roles,
-        notes: data.notes
-      });
-      console.log('Saved lineup:', saved.id, saved.name);
-      setLoadedLineupId(saved.id);
-      setLoadedLineupName(saved.name);
-      setLastSavedSnapshot(currentSerialized);
-      toast('Lineup saved', 'success');
+      if (data.createCopy && loadedLineupId) {
+        // Create a copy instead of updating
+        const saved = savedLineupsLib.saveNew({
+          name: data.name,
+          formation: currentFormation,
+          assignments: currentSerialized.assignments,
+          teamId: currentSerialized.teamId,
+          teamName: currentSerialized.teamName,
+          roles: working?.roles,
+          notes: data.notes
+        });
+        console.log('Created copy:', saved.id, saved.name);
+        setLoadedLineupId(saved.id);
+        setLoadedLineupName(saved.name);
+        setLastSavedSnapshot(currentSerialized);
+        toast('Copy created', 'success');
+      } else if (loadedLineupId) {
+        // Update existing lineup
+        const existing = savedLineupsLib.get(loadedLineupId);
+        if (!existing) {
+          toast('Lineup not found', 'error');
+          return;
+        }
+        savedLineupsLib.update({
+          ...existing,
+          name: data.name,
+          formation: currentFormation,
+          assignments: currentSerialized.assignments,
+          teamId: currentSerialized.teamId,
+          teamName: currentSerialized.teamName,
+          roles: working?.roles,
+          notes: data.notes
+        });
+        setLoadedLineupName(data.name);
+        setLastSavedSnapshot(currentSerialized);
+        toast('Lineup updated', 'success');
+      } else {
+        // New lineup
+        const saved = savedLineupsLib.saveNew({
+          name: data.name,
+          formation: currentFormation,
+          assignments: currentSerialized.assignments,
+          teamId: currentSerialized.teamId,
+          teamName: currentSerialized.teamName,
+          roles: working?.roles,
+          notes: data.notes
+        });
+        console.log('Saved lineup:', saved.id, saved.name);
+        setLoadedLineupId(saved.id);
+        setLoadedLineupName(saved.name);
+        setLastSavedSnapshot(currentSerialized);
+        toast('Lineup saved', 'success');
+      }
     } catch (err) {
       if (err instanceof savedLineupsLib.StorageFullError) {
         toast(err.message, 'error');
@@ -373,91 +408,6 @@ function LineupPageContent() {
         console.error('Save failed:', err);
         toast('Failed to save lineup', 'error');
       }
-    }
-  };
-
-  const handleSaveAs = (data: { name: string; notes?: string }) => {
-    if (!currentSerialized || !currentFormation) {
-      console.error('handleSaveAs: Missing data', { currentSerialized, currentFormation });
-      toast('No lineup data to save', 'error');
-      return;
-    }
-
-    console.log('serializeLineup (handleSaveAs):', {
-      onFieldKeys: Object.keys(currentSerialized.assignments.onField),
-      onFieldCount: Object.values(currentSerialized.assignments.onField).filter(Boolean).length,
-      benchLen: currentSerialized.assignments.bench.length,
-      formation: currentFormation,
-      teamId: currentSerialized.teamId
-    });
-
-    try {
-      const saved = savedLineupsLib.saveNew({
-        name: data.name,
-        formation: currentFormation,
-        assignments: currentSerialized.assignments,
-        teamId: currentSerialized.teamId,
-        teamName: currentSerialized.teamName,
-        roles: working?.roles,
-        notes: data.notes
-      });
-      console.log('Saved lineup (Save As):', saved.id, saved.name);
-      setLoadedLineupId(saved.id);
-      setLoadedLineupName(saved.name);
-      setLastSavedSnapshot(currentSerialized);
-      toast('Lineup saved', 'success');
-    } catch (err) {
-      if (err instanceof savedLineupsLib.StorageFullError) {
-        toast(err.message, 'error');
-      } else {
-        console.error('Save failed:', err);
-        toast('Failed to save lineup', 'error');
-      }
-    }
-  };
-
-  const handleRename = (newName: string) => {
-    if (!loadedLineupId) return;
-
-    try {
-      const existing = savedLineupsLib.get(loadedLineupId);
-      if (!existing) {
-        toast('Lineup not found', 'error');
-        return;
-      }
-      savedLineupsLib.update({ ...existing, name: newName });
-      setLoadedLineupName(newName);
-      toast('Lineup renamed', 'success');
-    } catch (err) {
-      console.error('Rename failed:', err);
-      toast('Failed to rename lineup', 'error');
-    }
-  };
-
-  const handleDelete = () => {
-    if (!loadedLineupId) return;
-
-    try {
-      savedLineupsLib.remove(loadedLineupId);
-      setLoadedLineupId(null);
-      setLoadedLineupName('');
-      setLastSavedSnapshot(null);
-      toast('Lineup deleted', 'success');
-    } catch (err) {
-      console.error('Delete failed:', err);
-      toast('Failed to delete lineup', 'error');
-    }
-  };
-
-  const handleDuplicate = () => {
-    if (!loadedLineupId) return;
-
-    try {
-      const dup = savedLineupsLib.duplicate(loadedLineupId);
-      toast('Lineup duplicated', 'success');
-    } catch (err) {
-      console.error('Duplicate failed:', err);
-      toast('Failed to duplicate lineup', 'error');
     }
   };
 
@@ -543,11 +493,7 @@ function LineupPageContent() {
     const handleKeyDown = (e: KeyboardEvent) => {
       if ((e.ctrlKey || e.metaKey) && e.key === 's') {
         e.preventDefault();
-        if (e.shiftKey) {
-          setSaveAsModalOpen(true);
-        } else {
-          handleSave();
-        }
+        handleSave();
       }
     };
 
@@ -713,25 +659,6 @@ function LineupPageContent() {
                   <div className="fixed inset-0 z-10" onClick={() => setStatusMenuOpen(false)} />
                   <div className="absolute right-0 top-full mt-1 z-20 bg-white rounded-lg shadow-lg border border-gray-200 py-1 w-48">
                     <button
-                      onClick={() => { setRenameModalOpen(true); setStatusMenuOpen(false); }}
-                      className="w-full px-4 py-2 text-left hover:bg-gray-50 text-sm"
-                    >
-                      Rename
-                    </button>
-                    <button
-                      onClick={() => { handleDuplicate(); setStatusMenuOpen(false); }}
-                      className="w-full px-4 py-2 text-left hover:bg-gray-50 text-sm"
-                    >
-                      Duplicate
-                    </button>
-                    <button
-                      onClick={() => { setDeleteModalOpen(true); setStatusMenuOpen(false); }}
-                      className="w-full px-4 py-2 text-left hover:bg-gray-50 text-sm text-red-600"
-                    >
-                      Delete
-                    </button>
-                    <div className="border-t my-1" />
-                    <button
                       onClick={() => { navigate('/saved'); setStatusMenuOpen(false); }}
                       className="w-full px-4 py-2 text-left hover:bg-gray-50 text-sm"
                     >
@@ -742,15 +669,6 @@ function LineupPageContent() {
               )}
             </div>
           )}
-
-          {/* Save As button */}
-          <button
-            onClick={() => setSaveAsModalOpen(true)}
-            className="px-3 py-1 text-sm border border-gray-300 rounded hover:bg-gray-50 transition-colors"
-            title="Shift+Ctrl/Cmd+S"
-          >
-            Save As...
-          </button>
 
           {/* Save / Save Changes button */}
           <button
@@ -1059,32 +977,7 @@ function LineupPageContent() {
         formationName={currentFormation?.name || ''}
         onFieldCount={onFieldCount}
         benchCount={(working?.benchSlots || []).filter(Boolean).length}
-      />
-
-      <SaveLineupModal
-        isOpen={saveAsModalOpen}
-        onClose={() => setSaveAsModalOpen(false)}
-        onSave={handleSaveAs}
-        mode="saveAs"
-        defaultName={`${currentTeam?.name || 'Untitled'} — ${currentFormation?.name || 'Formation'} — ${new Date().toISOString().split('T')[0]}`}
-        teamName={currentTeam?.name}
-        formationName={currentFormation?.name || ''}
-        onFieldCount={onFieldCount}
-        benchCount={(working?.benchSlots || []).filter(Boolean).length}
-      />
-
-      <RenameLineupModal
-        isOpen={renameModalOpen}
-        onClose={() => setRenameModalOpen(false)}
-        onRename={handleRename}
-        currentName={loadedLineupName}
-      />
-
-      <DeleteConfirmModal
-        isOpen={deleteModalOpen}
-        onClose={() => setDeleteModalOpen(false)}
-        onConfirm={handleDelete}
-        lineupName={loadedLineupName}
+        loadedLineupId={loadedLineupId}
       />
 
       {lineupToLoad && (

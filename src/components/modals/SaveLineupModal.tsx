@@ -4,7 +4,7 @@ import type { SavedLineup } from '../../types/lineup';
 interface SaveLineupModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onSave: (data: { name: string; notes?: string }) => void;
+  onSave: (data: { name: string; notes?: string; createCopy?: boolean }) => void;
   mode: 'save' | 'saveAs';
   currentLineup?: SavedLineup | null;
   defaultName: string;
@@ -12,6 +12,7 @@ interface SaveLineupModalProps {
   formationName: string;
   onFieldCount: number;
   benchCount: number;
+  loadedLineupId?: string | null;
 }
 
 export function SaveLineupModal({
@@ -24,10 +25,12 @@ export function SaveLineupModal({
   teamName,
   formationName,
   onFieldCount,
-  benchCount
+  benchCount,
+  loadedLineupId
 }: SaveLineupModalProps) {
   const [name, setName] = useState('');
   const [notes, setNotes] = useState('');
+  const [createCopy, setCreateCopy] = useState(false);
   const [error, setError] = useState('');
 
   useEffect(() => {
@@ -39,6 +42,7 @@ export function SaveLineupModal({
         setName(defaultName);
         setNotes('');
       }
+      setCreateCopy(false);
       setError('');
     }
   }, [isOpen, mode, currentLineup, defaultName]);
@@ -50,7 +54,11 @@ export function SaveLineupModal({
       setError('Name is required');
       return;
     }
-    onSave({ name: trimmedName, notes: notes.trim() || undefined });
+    onSave({
+      name: trimmedName,
+      notes: notes.trim() || undefined,
+      createCopy: createCopy
+    });
     onClose();
   };
 
@@ -109,6 +117,22 @@ export function SaveLineupModal({
               placeholder="Add any notes about this lineup"
             />
           </div>
+
+          {/* Create copy checkbox (only when lineup is loaded) */}
+          {loadedLineupId && (
+            <div className="flex items-center gap-2">
+              <input
+                id="create-copy"
+                type="checkbox"
+                checked={createCopy}
+                onChange={(e) => setCreateCopy(e.target.checked)}
+                className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-2 focus:ring-blue-500"
+              />
+              <label htmlFor="create-copy" className="text-sm text-gray-700 cursor-pointer">
+                Create a copy instead of updating
+              </label>
+            </div>
+          )}
 
           {/* Summary */}
           <div className="bg-gray-50 p-3 rounded-md text-sm space-y-1">
