@@ -21,7 +21,11 @@ import * as savedLineupsLib from '../../lib/savedLineups';
 import type { SavedLineup, SerializedBuilderState } from '../../types/lineup';
 import { toast } from '../../lib/toast';
 
-function LineupPageContent() {
+interface LineupBuilderCoreProps {
+  loadSavedId?: string | null;
+}
+
+function LineupBuilderCore({ loadSavedId }: LineupBuilderCoreProps) {
   const { teams, currentTeamId, setCurrentTeam } = useTeamsStore();
   const { working, startLineup, placePlayer, removeFromSlot, setRole, resetWorking, assignToBench, removeFromBench } = useLineupsStore();
   const [formations, setFormations] = useState<any[]>([]);
@@ -52,7 +56,6 @@ function LineupPageContent() {
   const [selectedSlotCode, setSelectedSlotCode] = useState<string | null>(null);
 
   // Saved lineup state
-  const location = useLocation();
   const navigate = useNavigate();
   const [loadedLineupId, setLoadedLineupId] = useState<string | null>(null);
   const [loadedLineupName, setLoadedLineupName] = useState<string>('');
@@ -61,6 +64,7 @@ function LineupPageContent() {
   const [loadModalOpen, setLoadModalOpen] = useState(false);
   const [lineupToLoad, setLineupToLoad] = useState<SavedLineup | null>(null);
   const [statusMenuOpen, setStatusMenuOpen] = useState(false);
+  const [hydrating, setHydrating] = useState<null | { id: string; saved: SavedLineup; options: LoadOptions }>(null);
 
   // Field sizing
   const { availRef, fieldRef, fitH, recalc } = useFieldFit();
@@ -268,6 +272,11 @@ function LineupPageContent() {
         loadedLineupId,
         loadedLineupName,
         isDirty,
+        hydrating: hydrating ? {
+          id: hydrating.id,
+          savedName: hydrating.saved.name,
+          options: hydrating.options
+        } : null,
         working: working ? {
           teamId: working.teamId,
           formationCode: working.formationCode,
@@ -282,7 +291,68 @@ function LineupPageContent() {
     return () => {
       delete (window as any).__dumpLineup;
     };
-  }, [currentSerialized, currentFormation, loadedLineupId, loadedLineupName, isDirty, working]);
+  }, [currentSerialized, currentFormation, loadedLineupId, loadedLineupName, isDirty, hydrating, working]);
+
+  // Phase 2: Apply assignments once team/formation are ready
+  useEffect(() => {
+    if (!hydrating) return;
+
+    const { saved, options } = hydrating;
+
+    // Wait for formation and team to be ready
+    const formationReady = !!currentFormation?.code;
+    const teamReady = !!working?.teamId && !!working?.formationCode;
+
+    console.log('Hydration check:', {
+      formationReady,
+      teamReady,
+      currentFormationCode: currentFormation?.code,
+      workingFormationCode: working?.formationCode,
+      workingTeamId: working?.teamId
+    });
+
+    if (!formationReady || !teamReady) {
+      console.log('Waiting for formation/team to be ready...');
+      return;
+    }
+
+    try {
+      console.log('Applying assignments from saved lineup:', saved.id);
+
+      // Apply onField assignments
+      Object.entries(saved.assignments.onField).forEach(([slotId, playerId]) => {
+        if (playerId && working?.onField && slotId in working.onField) {
+          placePlayer(slotId, playerId);
+        }
+      });
+
+      // Apply bench assignments
+      saved.assignments.bench.forEach((playerId, index) => {
+        if (playerId && index < 8) {
+          assignToBench(index, playerId);
+        }
+      });
+
+      // Apply roles
+      if (saved.roles) {
+        Object.entries(saved.roles).forEach(([role, playerId]) => {
+          if (playerId) {
+            setRole(role as any, playerId);
+          }
+        });
+      }
+
+      // Finalize
+      setLastSavedSnapshot(savedToSerialized(saved));
+      setHydrating(null);
+      toast(`Loaded '${saved.name}'`, 'success');
+      console.log('Hydration complete');
+    } catch (err) {
+      console.error('Phase 2 apply failed:', err);
+      toast('Failed to apply lineup assignments', 'error');
+      setHydrating(null);
+    }
+  }, [hydrating, currentFormation?.code, working?.teamId, working?.formationCode, working?.onField, placePlayer, assignToBench, setRole]);
 
   // Saved lineup: handlers
   const handleSave = () => {
@@ -411,67 +481,46 @@ function LineupPageContent() {
     }
   };
 
-  const applyLoadedLineup = (saved: SavedLineup, options: LoadOptions) => {
+  // Phase 1: Begin loading - switch team/formation and mark hydrating
+  const beginApplyLoadedLineup = (saved: SavedLineup, options: LoadOptions) => {
     try {
-      // Step 1: Switch formation if requested
+      console.log('beginApplyLoadedLineup:', { savedId: saved.id, options });
+
+      // Step 1: Switch team if requested
+      if (options.switchTeam && saved.teamId) {
+        console.log('Switching team to:', saved.teamId, saved.teamName);
+        setCurrentTeam(saved.teamId);
+      }
+
+      // Step 2: Switch formation if requested
       if (options.switchFormation) {
         const targetFormation = formations.find(f => f.code === saved.formation.code);
         if (targetFormation) {
+          console.log('Switching formation to:', saved.formation.code);
+          const teamId = saved.teamId || currentTeamId || '';
+          const team = teams.find(t => t.id === teamId);
           startLineup(
-            saved.teamId || currentTeamId || '',
+            teamId,
             targetFormation.code,
             targetFormation.slot_map.map((s: any) => ({ slot_id: s.slot_id, slot_code: s.slot_code })),
-            currentTeam?.players.map(p => p.id) || []
+            team?.players.map(p => p.id) || []
           );
         }
       }
 
-      // Step 2: Switch team if requested
-      if (options.switchTeam && saved.teamId) {
-        setCurrentTeam(saved.teamId);
-      }
-
-      // Step 3: Apply assignments after a short delay to ensure state is updated
-      setTimeout(() => {
-        // Apply onField
-        Object.entries(saved.assignments.onField).forEach(([slotId, playerId]) => {
-          if (playerId && working?.onField && slotId in working.onField) {
-            placePlayer(slotId, playerId);
-          }
-        });
-
-        // Apply bench
-        saved.assignments.bench.forEach((playerId, index) => {
-          if (index < 8) {
-            assignToBench(index, playerId);
-          }
-        });
-
-        // Apply roles
-        if (saved.roles) {
-          Object.entries(saved.roles).forEach(([role, playerId]) => {
-            if (playerId) {
-              setRole(role as any, playerId);
-            }
-          });
-        }
-
-        setLoadedLineupId(saved.id);
-        setLoadedLineupName(saved.name);
-        setLastSavedSnapshot(savedToSerialized(saved));
-        toast(`Loaded '${saved.name}'`, 'success');
-      }, 100);
+      // Mark as hydrating - Phase 2 will apply assignments
+      setHydrating({ id: saved.id, saved, options });
+      setLoadedLineupId(saved.id);
+      setLoadedLineupName(saved.name);
     } catch (err) {
-      console.error('Load failed:', err);
+      console.error('beginApplyLoadedLineup failed:', err);
       toast('Failed to load lineup', 'error');
+      setHydrating(null);
     }
   };
 
   // Load from saved page
   useEffect(() => {
-    const state = location.state as { loadSavedId?: string } | null;
-    const loadSavedId = state?.loadSavedId || new URLSearchParams(location.search).get('load');
-
     if (loadSavedId) {
       const saved = savedLineupsLib.get(loadSavedId);
       if (saved) {
@@ -480,13 +529,8 @@ function LineupPageContent() {
       } else {
         toast('Lineup not found', 'error');
       }
-
-      // Clear navigation state
-      if (state?.loadSavedId) {
-        navigate(location.pathname, { replace: true, state: {} });
-      }
     }
-  }, [location]);
+  }, [loadSavedId]);
 
   // Keyboard shortcuts
   useEffect(() => {
@@ -988,7 +1032,7 @@ function LineupPageContent() {
             setLineupToLoad(null);
           }}
           onLoad={(options) => {
-            applyLoadedLineup(lineupToLoad, options);
+            beginApplyLoadedLineup(lineupToLoad, options);
             setLoadModalOpen(false);
             setLineupToLoad(null);
           }}
@@ -1000,10 +1044,65 @@ function LineupPageContent() {
   );
 }
 
+// Shell component that handles routing and error states
+function LineupPageShell() {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const [error, setError] = useState<string | null>(null);
+
+  // Parse routing state
+  const state = location.state as { loadSavedId?: string } | null;
+  const loadSavedId = state?.loadSavedId || null;
+
+  // Clear navigation state after reading
+  useEffect(() => {
+    if (state?.loadSavedId) {
+      navigate(location.pathname, { replace: true, state: {} });
+    }
+  }, [state?.loadSavedId, navigate, location.pathname]);
+
+  // Defensive localStorage parsing
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem('lineupxi:saved_lineups:v1');
+      if (saved) {
+        JSON.parse(saved);
+      }
+    } catch (err) {
+      console.error('Failed to parse saved lineups:', err);
+      setError('Failed to load saved lineups. Storage may be corrupted.');
+    }
+  }, []);
+
+  // Error panel
+  if (error) {
+    return (
+      <div className="flex items-center justify-center min-h-screen p-4">
+        <div className="bg-red-50 border border-red-200 rounded-lg p-6 max-w-md">
+          <h2 className="text-xl font-bold text-red-800 mb-2">Error</h2>
+          <p className="text-red-700">{error}</p>
+          <button
+            onClick={() => {
+              localStorage.removeItem('lineupxi:saved_lineups:v1');
+              setError(null);
+              window.location.reload();
+            }}
+            className="mt-4 px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
+          >
+            Clear Storage and Reload
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  return <LineupBuilderCore loadSavedId={loadSavedId} />;
+}
+
 export default function LineupPage() {
   return (
     <ErrorBoundary>
-      <LineupPageContent />
+      <LineupPageShell />
     </ErrorBoundary>
   );
 }
