@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import FormationCard from "../../components/tactics/FormationCard";
+import { loadTactics } from "../../data/tactics";
 
 function groupByBackline(list) {
   const groups = { "3-Back": [], "4-Back": [], "5-Back": [], Other: [] };
@@ -16,26 +17,49 @@ function groupByBackline(list) {
 
 export default function FormationsPage() {
   const [data, setData] = useState([]);
+  const [tacticsData, setTacticsData] = useState([]);
   const [q, setQ] = useState("");
 
   useEffect(() => {
-    fetch("/data/formations.json")
-      .then((r) => r.json())
-      .then((j) => setData(Array.isArray(j) ? j : j?.formations ?? []))
-      .catch(() => setData([]));
+    Promise.all([
+      fetch("/data/formations.json").then((r) => r.json()),
+      loadTactics()
+    ])
+      .then(([formData, tactData]) => {
+        setData(Array.isArray(formData) ? formData : formData?.formations ?? []);
+        setTacticsData(tactData.tactics_content || []);
+      })
+      .catch(() => {
+        setData([]);
+        setTacticsData([]);
+      });
   }, []);
 
   const filtered = useMemo(() => {
     const needle = q.trim().toLowerCase();
     if (!needle) return data;
-    return data.filter((f) =>
-      [f?.name, f?.nickname, f?.description]
+    return data.filter((f) => {
+      // Search in formation metadata
+      const formationText = [f?.name, f?.nickname, f?.description]
         .filter(Boolean)
         .join(" ")
-        .toLowerCase()
-        .includes(needle)
-    );
-  }, [data, q]);
+        .toLowerCase();
+
+      // Find tactics content for this formation and search in it
+      const tactics = tacticsData.find(t => t.name === f.name);
+      const tacticsText = [
+        tactics?.overview,
+        ...(tactics?.advantages || []),
+        ...(tactics?.disadvantages || []),
+        ...(tactics?.player_roles || [])
+      ]
+        .filter(Boolean)
+        .join(" ")
+        .toLowerCase();
+
+      return formationText.includes(needle) || tacticsText.includes(needle);
+    });
+  }, [data, tacticsData, q]);
 
   const groups = useMemo(() => groupByBackline(filtered), [filtered]);
 
