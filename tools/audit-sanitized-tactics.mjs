@@ -207,31 +207,24 @@ function sanitizeList(items) {
   return arr.map(sanitizeText).map(s => s.trim()).filter(Boolean);
 }
 
-async function loadAndSanitizeTactics() {
+async function loadTacticsFromDisk() {
+  // Load directly from disk (no sanitization - file should already be clean)
   const tacticsPath = join(projectRoot, 'public', 'data', 'tactics.json');
   const raw = await readFile(tacticsPath, 'utf8');
   const data = JSON.parse(raw);
 
-  const sanitized = (data.tactics_content || []).map(entry => {
-    const overview = entry.overview ?
-      entry.overview.split('\n\n').map(sanitizeText).filter(Boolean).join('\n\n') :
-      '';
-
-    return {
-      code: entry.code,
-      name: entry.name,
-      title: entry.title,
-      overview,
-      advantages: sanitizeList(entry.advantages),
-      disadvantages: sanitizeList(entry.disadvantages),
-      how_to_counter: sanitizeList(entry.how_to_counter),
-      suggested_counters: sanitizeList(entry.suggested_counters),
-      player_roles: sanitizeList(entry.player_roles),
-      summary_table: entry.summary_table?.trim() || ''
-    };
-  });
-
-  return sanitized;
+  return (data.tactics_content || []).map(entry => ({
+    code: entry.code,
+    name: entry.name,
+    title: entry.title,
+    overview: entry.overview || '',
+    advantages: entry.advantages || [],
+    disadvantages: entry.disadvantages || [],
+    how_to_counter: entry.how_to_counter || [],
+    suggested_counters: entry.suggested_counters || [],
+    player_roles: entry.player_roles || [],
+    summary_table: entry.summary_table || ''
+  }));
 }
 
 function scanForArtifacts(text, flagName, pattern) {
@@ -265,8 +258,8 @@ async function audit() {
   console.log('TACTICS SANITIZATION AUDIT');
   console.log('═══════════════════════════════════════════════════════════════\n');
 
-  const tactics = await loadAndSanitizeTactics();
-  console.log(`Loaded ${tactics.length} formations (sanitized in-memory)\n`);
+  const tactics = await loadTacticsFromDisk();
+  console.log(`Loaded ${tactics.length} formations (from disk)\n`);
 
   const findings = [];
 
@@ -291,6 +284,54 @@ async function audit() {
             section: sectionName,
             ...m
           });
+        }
+      }
+    }
+
+    // Player Roles specific checks
+    if (tactic.player_roles && Array.isArray(tactic.player_roles)) {
+      for (let i = 0; i < tactic.player_roles.length; i++) {
+        const bullet = tactic.player_roles[i];
+
+        // Check 1: Malformed double colons
+        if (/:\s*:\s*/.test(bullet)) {
+          findings.push({
+            formation: tactic.name,
+            section: 'player_roles',
+            flag: 'malformed double colon',
+            match: bullet.match(/:\s*:\s*/)?.[0] || '::',
+            snippet: bullet.slice(0, 80)
+          });
+        }
+
+        // Check 2: Missing colon after role label with parenthetical
+        // Only flag if pattern like "Role Name (ABC)Text" exists (no colon after paren)
+        const missingColonMatch = bullet.match(/^([A-Z][A-Za-z\s-]*\([^)]*\))([A-Z])/);
+        if (missingColonMatch) {
+          findings.push({
+            formation: tactic.name,
+            section: 'player_roles',
+            flag: 'missing colon after role label',
+            match: missingColonMatch[1],
+            snippet: bullet.slice(0, 80)
+          });
+        }
+
+        // Check 2: Continuation bullet without merge
+        if (i > 0) {
+          const startsWithContinuation = /^(they|it|their|one|the other)\b/i.test(bullet);
+          const previousBullet = tactic.player_roles[i - 1];
+          const previousEndsWithTerminal = /[.!?]\s*$/.test(previousBullet);
+
+          if (startsWithContinuation && !previousEndsWithTerminal) {
+            findings.push({
+              formation: tactic.name,
+              section: 'player_roles',
+              flag: 'unmerged continuation bullet',
+              match: bullet.slice(0, 30),
+              snippet: `Previous: "${previousBullet.slice(-40)}" | Current: "${bullet.slice(0, 40)}"`
+            });
+          }
         }
       }
     }

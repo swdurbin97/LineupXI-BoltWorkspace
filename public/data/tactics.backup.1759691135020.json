@@ -65,9 +65,9 @@
       ],
       "player_roles": [
         "3 Central Defenders (CBs): Form the defensive core—organizing the backline, covering central channels, and neutralizing opposition forwards.",
-        "Left and Right Midfielders: (LM & RM): Provide width and defensive assistance, essential for stretching the play and supporting both phases.",
-        "Central Midfielders: (CMs): Two players who balance defensive duties and transitional support, helping connect backline functionality to attack. Soccer",
-        "Central Attacking Midfielder: (CAM / “10”): Operates between the lines, linking midfield to the forwards, unlocking defenses with key passes and creative movement.",
+        "Left and Right Midfielders : (LM & RM): Provide width and defensive assistance, essential for stretching the play and supporting both phases.",
+        "Central Midfielders : (CMs): Two players who balance defensive duties and transitional support, helping connect backline functionality to attack. Soccer",
+        "Central Attacking Midfielder : (CAM / “10”): Operates between the lines, linking midfield to the forwards, unlocking defenses with key passes and creative movement.",
         "2 Strikers (STs): Work in tandem—one may hold up play while the other runs in behind—providing constant attacking pressure and finishing capability."
       ],
       "summary_table": "Structure\n3 CBs, 2 wide CMs (LM/RM), 2 CMs, 1 CAM, 2 STs\nStrengths\nCentral control, creative CAM, adaptable shape transitions\nWeaknesses\nVulnerable flanks, transition gaps, player profile needs\nCounter Tactics\nWidth exploitation, CAM pressure, midfield overload\nEffective Counters\n433, 4231, 451 (wide)"
@@ -393,9 +393,9 @@
       ],
       "player_roles": [
         "Back Fou: r: Full-backs provide width when attacking but stay disciplined in defense, while center-backs maintain structure and cover centrally.",
-        "Double Pivot: (2 CDMs): These players are vital in shielding the backline, winning duels, and recycling possession. They also allow the team to press effectively without sacrificing defensive balance.",
+        "Double Pivot : (2 CDMs): These players are vital in shielding the backline, winning duels, and recycling possession. They also allow the team to press effectively without sacrificing defensive balance.",
         "Attacking Midfield Tri: o: Includes one central “10” player who creates chances and two wide midfielders providing support, width, and pressing intensity. They are crucial for unlocking defenses and offering link-up options for the striker.",
-        "Striker: (ST): Operates as a central focal point—pressing defenders, holding up play, and finishing moves created by the midfield trio."
+        "Striker : (ST): Operates as a central focal point—pressing defenders, holding up play, and finishing moves created by the midfield trio."
       ],
       "summary_table": "Structure\n4 defenders, 2 CDMs, 3 AMs (narrow), 1 ST\nStrengths\nDefensive balance, central overload, team pressing\nWeaknesses\nLack of width, high role demands, flank vulnerability\nCounter Tactics\nAttacking wings, midfield overload, quick transitions\nEffective Counters\n4-3-3, 4-4-2 (flat)"
     },
@@ -524,13 +524,13 @@
         "442 Flat – Adds dual forward pressing and wider midfield coverage to threaten both central and wide zones."
       ],
       "player_roles": [
-        "Back Four: (CBs + FBs): Center-backs offer cover and stability",
+        "Back Four : (CBs + FBs): Center-backs offer cover and stability",
         "Full-backs must stretch play by providing width and delivering service into central channels.",
-        "Central Midfield Trio: (CMs):",
-        "The deepest CM serves as a pivot:, linking defense and attack.",
-        "The other two shuttle forward:, retained for pressing and dynamic support.",
-        "Attacking Midfielders: (CAMs / Number 10s): Operate between lines, exploiting pockets of space by interchanging, dropping deep, or pushing wide when full-backs are advanced.",
-        "Lone Striker: (ST): Anchors attacks, combining hold-up play with movement into channels to open spaces for supporting runners."
+        "Central Midfield Trio : (CMs):",
+        "The deepest CM serves as a pivot: , linking defense and attack.",
+        "The other two shuttle forward: , retained for pressing and dynamic support.",
+        "Attacking Midfielders : (CAMs / Number 10s): Operate between lines, exploiting pockets of space by interchanging, dropping deep, or pushing wide when full-backs are advanced.",
+        "Lone Striker : (ST): Anchors attacks, combining hold-up play with movement into channels to open spaces for supporting runners."
       ],
       "summary_table": "Structure\n4 defenders, 3 CMs, 2 CAMs, 1 ST\nStrengths\nCentral dominance, pressing structure, fluid transitions\nWeaknesses\nNarrow setup, striker isolation, wing dependency\nCounter Tactics\nWidth overload, central pressure, fast transitions\nEffective Counters\n433 wide, 442 flat"
     },
@@ -593,11 +593,11 @@
         "451 (narrow or wide) — Crowds midfield and limits space for CAMs to operate effectively."
       ],
       "player_roles": [
-        "Back Four: (CBs + FBs): The defensive core maintains structure",
+        "Back Four : (CBs + FBs): The defensive core maintains structure",
         "Full-backs provide critical width and crosses, joining overloads when opportunities arise.",
-        "Central Midfielder: (CM): Acts as the engine room—balancing defensive cover and orchestrating forward progression by recycling play and linking defense with creative units.",
-        "Two Attacking Midfielders: (CAMs): Shape the creative heart by drifting between lines, delivering incisive passes, and supporting forwards with movement across the attacking third.",
-        "Front Three: (LW, ST, RW): Wingers stretch the pitch and overload wide channels, while the striker leads pressing sequences and finishes chance combinations emerging from CAM support. Football"
+        "Central Midfielder : (CM): Acts as the engine room—balancing defensive cover and orchestrating forward progression by recycling play and linking defense with creative units. ",
+        "Two Attacking Midfielders : (CAMs): Shape the creative heart by drifting between lines, delivering incisive passes, and supporting forwards with movement across the attacking third.",
+        "Front Three : (LW, ST, RW): Wingers stretch the pitch and overload wide channels, while the striker leads pressing sequences and finishes chance combinations emerging from CAM support. Football"
       ],
       "summary_table": "Structure\n4 defenders, 1 CM, 2 CAMs, 3 forwards\nStrengths\nCentral overloads, creative fluidity, pressing capability\nWeaknesses\nMidfield exposure, flanking dependency, creative fragility\nCounter Tactics\nCentral overload, flank exploitation, pressed stability\nEffective Counters\n433 (wide), 451 (narrow)"
     },
@@ -628,7 +628,7 @@
       "player_roles": [
         "Back Four (2 CBs + 2 FBs): Center-backs form a defensive foundation and initiate passing sequences",
         "Full-backs add width, support attacking transitions, and provide crossing options.",
-        "Midfield Trio: (CMs) One typically serves as the pivot: —breaking up attacks and supporting buildup.",
+        "Midfield Trio : (CMs) One typically serves as the pivot: —breaking up attacks and supporting buildup.",
         "The other two operate more dynamically: —joining attacks, pressing, and distributing centrally. This layer ensures possession control and transition flexibility.",
         "Front Three (LW, ST, RW): Wingers create width, cut inside, and stretch defenses, while the striker leads the pressing, channels runs, and finishes chances. Together, they offer multi-dimensional attacking options."
       ],
@@ -693,10 +693,10 @@
         "433 (wide): Mirrors width, maintaining central solidity while offering balanced attack."
       ],
       "player_roles": [
-        "Back Four: (2 CBs + 2 FBs): Organize defensively with full-backs providing essential width and attacking overlays.",
+        "Back Four : (2 CBs + 2 FBs): Organize defensively with full-backs providing essential width and attacking overlays.",
         "Midfield Tri: o: One CM typically anchors play while two others support transitions into forward channels.",
-        "False: 9 (ST): Drops into midfield to create overloads and act as a secondary playmaker while still posing scoring threats—requiring high technical precision and intelligent movement. Medium",
-        "Wingers: (LW & RW): Exploit the vacated space behind defenses, often cutting inside or overlapping on the flanks. Their runs are key to utilizing the False 9’s spatial disruption."
+        "False : 9 (ST): Drops into midfield to create overloads and act as a secondary playmaker while still posing scoring threats—requiring high technical precision and intelligent movement. Medium",
+        "Wingers : (LW & RW): Exploit the vacated space behind defenses, often cutting inside or overlapping on the flanks. Their runs are key to utilizing the False 9’s spatial disruption."
       ],
       "summary_table": "Structure\n4 defenders, 3 midfielders, False 9, 2 wingers\nStrengths\nFluidity, space creation, dynamic pressing\nWeaknesses\nStriker ambiguity, dependence on key players\nCounter Tactics\nCompact midfield, mark drop zones, width containment\nEffective Counters\n4231, 433 (wide)"
     },
@@ -761,9 +761,9 @@
         "352 with wingbacks: Matches structure depth and exposes the flanks."
       ],
       "player_roles": [
-        "Back Four: (CBs + FBs): Centerbacks offer security, while fullbacks support both defense and attack by advancing into wide areas.",
-        "Midfield Four: (2 CMs + 2 WMs): One CM focuses on defensive cover the other provides forward thrust. Wide midfielders balance flank attacks with defensive duties.",
-        "Two Strikers: (STs): They stretch defenses through runs behind or hold up play to connect midfield runners. One often drops deep while the other maintains forward presence."
+        "Back Four : (CBs + FBs): Centerbacks offer security, while fullbacks support both defense and attack by advancing into wide areas.",
+        "Midfield Four : (2 CMs + 2 WMs): One CM focuses on defensive cover the other provides forward thrust. Wide midfielders balance flank attacks with defensive duties.",
+        "Two Strikers : (STs): They stretch defenses through runs behind or hold up play to connect midfield runners. One often drops deep while the other maintains forward presence."
       ],
       "summary_table": "Structure\n4 defenders, 4 midfielders, 2 strikers\nStrengths\nClear roles, defensive stability, attacking flexibility\nWeaknesses\nCentral overload risk, wing exposure, predictable\nCounter Tactics\nMidfield overload, wide pressing, quick counter\nEffective Counters\n433, 4231, 352 (wide WB)"
     },
@@ -826,10 +826,10 @@
       ],
       "player_roles": [
         "Back Four (CBs + FBs): Provide defensive solidity. Full-backs support attacking phases with overlapping runs and width.",
-        "Midfield Trio: (1 CM + 2 CAMs)",
+        "Midfield Trio : (1 CM + 2 CAMs)",
         "C: M: Anchors and initiates transitions",
         "Manages defensive responsibilities.",
-        "CA: M: s: Operate between lines as creative fulcrums—generating key passes, supporting striker, and cycling into advanced positions.",
+        "CAM: s: Operate between lines as creative fulcrums—generating key passes, supporting striker, and cycling into advanced positions.",
         "Wide Midfielders (LM & RM): Provide width, penetrate attacking zones, and track back to assist defensively.",
         "Lone Striker (ST): Leads the attack by holding the ball, drawing defenders, and finishing moves crafted by CAMs and wide runners."
       ],
@@ -861,7 +861,7 @@
       ],
       "player_roles": [
         "Back Four (2 CBs + 2 FBs): Anchor the defensive phase and facilitate build-up by passing into central midfield or wide channels.",
-        "Central Midfield Trio (3 CMs): One typically shields the defense (pivot), while the other two drive forward with ball progression, linking play between wide areas and attack.",
+        "Central Midfield Trio (3 CMs): One typically shields the defense (pivot), while the other two drive forward with ball progression, linking play between wide areas and attack. ",
         "Wide Midfielders (LM & RM): Provide balance by offering width, delivering crosses, and drifting centrally when needed to create overloads or defensive coverage.",
         "Lone Striker (ST): Operates as both pressing initiator and focal point of attack, pressing defenders or holding the ball to bring midfield runners into play. '."
       ],

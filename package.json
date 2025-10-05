@@ -9,7 +9,8 @@
     "preview": "vite preview",
     "build:overrides": "node tools/build-overrides.cjs",
     "validate:tactics": "node tools/validate-tactics.mjs",
-    "audit:tactics": "node tools/audit-sanitized-tactics.mjs"
+    "audit:tactics": "node tools/audit-sanitized-tactics.mjs",
+    "materialize:tactics": "node tools/materialize-sanitized-tactics.mjs"
   },
   "dependencies": {
     "react": "^19.1.1",

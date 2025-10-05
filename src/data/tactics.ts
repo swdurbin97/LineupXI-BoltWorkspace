@@ -173,6 +173,62 @@ export function sanitizeList(items?: string[] | string): string[] {
 }
 
 /**
+ * Format Player Roles bullets:
+ * 1. Insert colon after role label if missing
+ * 2. Merge continuation bullets (starting with they/it/their/one/the other)
+ * 3. Capitalize first character
+ * 4. Remove trailing stray quotes
+ */
+export function formatPlayerRoles(items?: string[] | string): string[] {
+  let arr = Array.isArray(items) ? items : normalizeToArray(items);
+  arr = arr.map(s => s.trim()).filter(Boolean);
+
+  // B1: Insert missing colon after role label
+  arr = arr.map(bullet => {
+    // Pattern: detect lead label like "Three Center-Backs (CBs)" or "Back Four (CBs + FBs)"
+    // Match: Capital letter start, followed by letters/spaces/hyphens, optional parenthetical
+    const labelMatch = bullet.match(/^([A-Z][A-Za-z\s-]*(?:\([^)]*\))?)([^:])/);
+    if (labelMatch && labelMatch[2]) {
+      // If next char after label is not ':', insert ': '
+      const label = labelMatch[1];
+      const rest = bullet.slice(label.length);
+      return `${label}: ${rest.trim()}`;
+    }
+    return bullet;
+  });
+
+  // B2: Merge continuation bullets
+  const merged = [];
+  for (let i = 0; i < arr.length; i++) {
+    const current = arr[i];
+    const startsWithContinuation = /^(they|it|their|one|the other)\b/i.test(current);
+
+    if (startsWithContinuation && merged.length > 0) {
+      const previous = merged[merged.length - 1];
+      const endsWithTerminal = /[.!?]\s*$/.test(previous);
+
+      if (!endsWithTerminal) {
+        // Merge: append current to previous with a space
+        merged[merged.length - 1] = `${previous} ${current}`;
+        continue;
+      }
+    }
+
+    merged.push(current);
+  }
+
+  // Capitalize first character & remove trailing stray quotes
+  return merged.map(bullet => {
+    let s = bullet.trim();
+    if (s.length > 0) {
+      s = s.charAt(0).toUpperCase() + s.slice(1);
+    }
+    s = s.replace(/[''"]\s*$/g, '');
+    return s;
+  }).filter(Boolean);
+}
+
+/**
  * Load tactics content from public/data/tactics.json
  * Returns empty content if file is missing or invalid
  */
