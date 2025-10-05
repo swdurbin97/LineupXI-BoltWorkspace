@@ -1,0 +1,41 @@
+{
+  "id": "sl_1728165420000_abc12xy",
+  "name": "Manchester United — 4-3-3 — 2025-10-05",
+  "teamId": "team_mu_001",
+  "teamName": "Manchester United",
+  "formation": {
+    "code": "433",
+    "name": "4-3-3"
+  },
+  "createdAt": 1728165420000,
+  "updatedAt": 1728165420000,
+  "assignments": {
+    "onField": {
+      "433:GK:0": "player_mu_001",
+      "433:LB:0": "player_mu_002",
+      "433:CB:0": "player_mu_003",
+      "433:CB:1": "player_mu_004",
+      "433:RB:0": "player_mu_005",
+      "433:CM:0": "player_mu_006",
+      "433:CM:1": "player_mu_007",
+      "433:CM:2": "player_mu_008",
+      "433:LW:0": "player_mu_009",
+      "433:ST:0": "player_mu_010",
+      "433:RW:0": "player_mu_011"
+    },
+    "bench": [
+      "player_mu_012",
+      "player_mu_013",
+      "player_mu_014",
+      "player_mu_015"
+    ]
+  },
+  "roles": {
+    "captain": "player_mu_003",
+    "gk": "player_mu_001",
+    "pk": "player_mu_010",
+    "ck": "player_mu_007",
+    "fk": "player_mu_007"
+  },
+  "notes": "Preferred lineup for big games against top-6 opponents. Focus on possession through midfield."
+}

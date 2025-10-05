@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useMemo } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useTeamsStore } from '../../store/teams';
 import { useLineupsStore } from '../../store/lineups';
 import FormationPicker from '../../components/lineup/FormationPicker';
@@ -13,6 +14,14 @@ import pitchSvg from '../../assets/pitch.svg';
 import { useElementSize } from '../../lib/useElementSize';
 import { useFieldFit } from '../../lib/useFieldFit';
 import { CARD_H, GAP_X, PAD_M, PAD_S, PAD_L, UI_SCALE } from '../../lib/sizes';
+import { SaveLineupModal } from '../../components/modals/SaveLineupModal';
+import { RenameLineupModal } from '../../components/modals/RenameLineupModal';
+import { DeleteConfirmModal } from '../../components/modals/DeleteConfirmModal';
+import { LoadLineupModal, LoadOptions } from '../../components/modals/LoadLineupModal';
+import { serializeLineup, isEqual, savedToSerialized, computeDiff } from '../../lib/lineupSerializer';
+import * as savedLineupsLib from '../../lib/savedLineups';
+import type { SavedLineup, SerializedBuilderState } from '../../types/lineup';
+import { toast } from '../../lib/toast';
 
 function LineupPageContent() {
   const { teams, currentTeamId, setCurrentTeam } = useTeamsStore();
@@ -43,7 +52,21 @@ function LineupPageContent() {
     }
   });
   const [selectedSlotCode, setSelectedSlotCode] = useState<string | null>(null);
-  
+
+  // Saved lineup state
+  const location = useLocation();
+  const navigate = useNavigate();
+  const [loadedLineupId, setLoadedLineupId] = useState<string | null>(null);
+  const [loadedLineupName, setLoadedLineupName] = useState<string>('');
+  const [lastSavedSnapshot, setLastSavedSnapshot] = useState<SerializedBuilderState | null>(null);
+  const [saveModalOpen, setSaveModalOpen] = useState(false);
+  const [saveAsModalOpen, setSaveAsModalOpen] = useState(false);
+  const [renameModalOpen, setRenameModalOpen] = useState(false);
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [loadModalOpen, setLoadModalOpen] = useState(false);
+  const [lineupToLoad, setLineupToLoad] = useState<SavedLineup | null>(null);
+  const [statusMenuOpen, setStatusMenuOpen] = useState(false);
+
   // Field sizing
   const { availRef, fieldRef, fitH, recalc } = useFieldFit();
   const { ref: fieldContainerRef, width: fieldWidth } = useElementSize<HTMLDivElement>();
@@ -222,6 +245,270 @@ function LineupPageContent() {
     loadFormations();
   }, []);
 
+  // Saved lineup: compute current serialized state and dirty flag
+  const currentFormation = useMemo(() => {
+    if (!working?.formation) return null;
+    const f = formations.find(fm => fm.code === working.formation);
+    return f ? { code: f.code, name: f.name } : null;
+  }, [working?.formation, formations]);
+
+  const currentSerialized = useMemo(() => {
+    if (!working || !currentFormation) return null;
+    return serializeLineup(working, currentFormation.name, currentTeam?.name);
+  }, [working, currentFormation, currentTeam]);
+
+  const isDirty = useMemo(() => {
+    if (!lastSavedSnapshot) return true;
+    if (!currentSerialized) return false;
+    return !isEqual(currentSerialized, lastSavedSnapshot);
+  }, [currentSerialized, lastSavedSnapshot]);
+
+  // Saved lineup: handlers
+  const handleSave = () => {
+    if (!currentSerialized || !currentFormation) {
+      toast('No lineup to save', 'error');
+      return;
+    }
+
+    try {
+      if (loadedLineupId) {
+        // Update existing
+        const existing = savedLineupsLib.get(loadedLineupId);
+        if (!existing) {
+          toast('Lineup not found', 'error');
+          return;
+        }
+        const updated = savedLineupsLib.update({
+          ...existing,
+          name: existing.name,
+          formation: currentFormation,
+          assignments: currentSerialized.assignments,
+          teamId: currentSerialized.teamId,
+          teamName: currentSerialized.teamName,
+          roles: working?.roles
+        });
+        setLastSavedSnapshot(currentSerialized);
+        toast('Changes saved', 'success');
+      } else {
+        // Save new - open modal
+        setSaveModalOpen(true);
+      }
+    } catch (err) {
+      if (err instanceof savedLineupsLib.StorageFullError) {
+        toast(err.message, 'error');
+      } else {
+        console.error('Save failed:', err);
+        toast('Failed to save lineup', 'error');
+      }
+    }
+  };
+
+  const handleSaveNew = (data: { name: string; notes?: string }) => {
+    if (!currentSerialized || !currentFormation) return;
+
+    try {
+      const saved = savedLineupsLib.saveNew({
+        name: data.name,
+        formation: currentFormation,
+        assignments: currentSerialized.assignments,
+        teamId: currentSerialized.teamId,
+        teamName: currentSerialized.teamName,
+        roles: working?.roles,
+        notes: data.notes
+      });
+      setLoadedLineupId(saved.id);
+      setLoadedLineupName(saved.name);
+      setLastSavedSnapshot(currentSerialized);
+      toast('Lineup saved', 'success');
+    } catch (err) {
+      if (err instanceof savedLineupsLib.StorageFullError) {
+        toast(err.message, 'error');
+      } else {
+        console.error('Save failed:', err);
+        toast('Failed to save lineup', 'error');
+      }
+    }
+  };
+
+  const handleSaveAs = (data: { name: string; notes?: string }) => {
+    if (!currentSerialized || !currentFormation) return;
+
+    try {
+      const saved = savedLineupsLib.saveNew({
+        name: data.name,
+        formation: currentFormation,
+        assignments: currentSerialized.assignments,
+        teamId: currentSerialized.teamId,
+        teamName: currentSerialized.teamName,
+        roles: working?.roles,
+        notes: data.notes
+      });
+      setLoadedLineupId(saved.id);
+      setLoadedLineupName(saved.name);
+      setLastSavedSnapshot(currentSerialized);
+      toast('Lineup saved', 'success');
+    } catch (err) {
+      if (err instanceof savedLineupsLib.StorageFullError) {
+        toast(err.message, 'error');
+      } else {
+        console.error('Save failed:', err);
+        toast('Failed to save lineup', 'error');
+      }
+    }
+  };
+
+  const handleRename = (newName: string) => {
+    if (!loadedLineupId) return;
+
+    try {
+      const existing = savedLineupsLib.get(loadedLineupId);
+      if (!existing) {
+        toast('Lineup not found', 'error');
+        return;
+      }
+      savedLineupsLib.update({ ...existing, name: newName });
+      setLoadedLineupName(newName);
+      toast('Lineup renamed', 'success');
+    } catch (err) {
+      console.error('Rename failed:', err);
+      toast('Failed to rename lineup', 'error');
+    }
+  };
+
+  const handleDelete = () => {
+    if (!loadedLineupId) return;
+
+    try {
+      savedLineupsLib.remove(loadedLineupId);
+      setLoadedLineupId(null);
+      setLoadedLineupName('');
+      setLastSavedSnapshot(null);
+      toast('Lineup deleted', 'success');
+    } catch (err) {
+      console.error('Delete failed:', err);
+      toast('Failed to delete lineup', 'error');
+    }
+  };
+
+  const handleDuplicate = () => {
+    if (!loadedLineupId) return;
+
+    try {
+      const dup = savedLineupsLib.duplicate(loadedLineupId);
+      toast('Lineup duplicated', 'success');
+    } catch (err) {
+      console.error('Duplicate failed:', err);
+      toast('Failed to duplicate lineup', 'error');
+    }
+  };
+
+  const applyLoadedLineup = (saved: SavedLineup, options: LoadOptions) => {
+    try {
+      // Step 1: Switch formation if requested
+      if (options.switchFormation) {
+        const targetFormation = formations.find(f => f.code === saved.formation.code);
+        if (targetFormation) {
+          startLineup(
+            saved.teamId || currentTeamId || '',
+            targetFormation.code,
+            targetFormation.slot_map.map((s: any) => ({ slot_id: s.slot_id, slot_code: s.slot_code })),
+            currentTeam?.players.map(p => p.id) || []
+          );
+        }
+      }
+
+      // Step 2: Switch team if requested
+      if (options.switchTeam && saved.teamId) {
+        setCurrentTeam(saved.teamId);
+      }
+
+      // Step 3: Apply assignments after a short delay to ensure state is updated
+      setTimeout(() => {
+        // Apply onField
+        Object.entries(saved.assignments.onField).forEach(([slotId, playerId]) => {
+          if (playerId && working?.onField && slotId in working.onField) {
+            placePlayer(slotId, playerId);
+          }
+        });
+
+        // Apply bench
+        saved.assignments.bench.forEach((playerId, index) => {
+          if (index < 8) {
+            assignToBench(index, playerId);
+          }
+        });
+
+        // Apply roles
+        if (saved.roles) {
+          Object.entries(saved.roles).forEach(([role, playerId]) => {
+            if (playerId) {
+              setRole(role as any, playerId);
+            }
+          });
+        }
+
+        setLoadedLineupId(saved.id);
+        setLoadedLineupName(saved.name);
+        setLastSavedSnapshot(savedToSerialized(saved));
+        toast(`Loaded '${saved.name}'`, 'success');
+      }, 100);
+    } catch (err) {
+      console.error('Load failed:', err);
+      toast('Failed to load lineup', 'error');
+    }
+  };
+
+  // Load from saved page
+  useEffect(() => {
+    const state = location.state as { loadSavedId?: string } | null;
+    const loadSavedId = state?.loadSavedId || new URLSearchParams(location.search).get('load');
+
+    if (loadSavedId) {
+      const saved = savedLineupsLib.get(loadSavedId);
+      if (saved) {
+        setLineupToLoad(saved);
+        setLoadModalOpen(true);
+      } else {
+        toast('Lineup not found', 'error');
+      }
+
+      // Clear navigation state
+      if (state?.loadSavedId) {
+        navigate(location.pathname, { replace: true, state: {} });
+      }
+    }
+  }, [location]);
+
+  // Keyboard shortcuts
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.ctrlKey || e.metaKey) && e.key === 's') {
+        e.preventDefault();
+        if (e.shiftKey) {
+          setSaveAsModalOpen(true);
+        } else {
+          handleSave();
+        }
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [handleSave]);
+
+  // Unsaved changes guard
+  useEffect(() => {
+    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+      if (isDirty) {
+        e.preventDefault();
+        e.returnValue = '';
+      }
+    };
+
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    return () => window.removeEventListener('beforeunload', handleBeforeUnload);
+  }, [isDirty]);
+
   useEffect(() => {
     // Initialize lineup when team is selected and no working lineup exists
     if (currentTeam && (!working || working.teamId !== currentTeam.id)) {
@@ -343,33 +630,111 @@ function LineupPageContent() {
           </span>
         </div>
         
-        {/* Send Rest to Bench button */}
-        <button
-          className={`px-3 py-1 text-sm rounded transition-colors ${
-            !working || availablePlayers.length === 0 
-              ? 'bg-gray-300 text-gray-500 cursor-not-allowed' 
-              : 'bg-blue-600 text-white hover:bg-blue-700'
-          }`}
-          onClick={() => {
-            if (!working || availablePlayers.length === 0) return;
-            
-            // Get empty bench slots
-            const benchSlots = working.benchSlots ?? Array(8).fill(null);
-            const emptySlotIndices: number[] = [];
-            benchSlots.forEach((slot, idx) => {
-              if (!slot) emptySlotIndices.push(idx);
-            });
-            
-            // Assign available players to empty bench slots
-            const toAssign = Math.min(availablePlayers.length, emptySlotIndices.length);
-            for (let i = 0; i < toAssign; i++) {
-              assignToBench(emptySlotIndices[i], availablePlayers[i].id);
-            }
-          }}
-          disabled={!working || availablePlayers.length === 0}
-        >
-          Send Rest to Bench
-        </button>
+        {/* Right side controls */}
+        <div className="flex items-center gap-2">
+          {/* Loaded status chip */}
+          {loadedLineupId && (
+            <div className="relative">
+              <div className="flex items-center gap-2 px-3 py-1 bg-blue-50 border border-blue-200 rounded text-sm">
+                <span className="text-blue-700 font-medium">Loaded: {loadedLineupName}</span>
+                {isDirty && (
+                  <span className="w-2 h-2 bg-orange-500 rounded-full" title="Unsaved changes"></span>
+                )}
+                <button
+                  onClick={() => setStatusMenuOpen(!statusMenuOpen)}
+                  className="p-0.5 hover:bg-blue-100 rounded"
+                >
+                  <svg className="w-4 h-4 text-blue-700" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z" />
+                  </svg>
+                </button>
+              </div>
+              {statusMenuOpen && (
+                <>
+                  <div className="fixed inset-0 z-10" onClick={() => setStatusMenuOpen(false)} />
+                  <div className="absolute right-0 top-full mt-1 z-20 bg-white rounded-lg shadow-lg border border-gray-200 py-1 w-48">
+                    <button
+                      onClick={() => { setRenameModalOpen(true); setStatusMenuOpen(false); }}
+                      className="w-full px-4 py-2 text-left hover:bg-gray-50 text-sm"
+                    >
+                      Rename
+                    </button>
+                    <button
+                      onClick={() => { handleDuplicate(); setStatusMenuOpen(false); }}
+                      className="w-full px-4 py-2 text-left hover:bg-gray-50 text-sm"
+                    >
+                      Duplicate
+                    </button>
+                    <button
+                      onClick={() => { setDeleteModalOpen(true); setStatusMenuOpen(false); }}
+                      className="w-full px-4 py-2 text-left hover:bg-gray-50 text-sm text-red-600"
+                    >
+                      Delete
+                    </button>
+                    <div className="border-t my-1" />
+                    <button
+                      onClick={() => { navigate('/saved'); setStatusMenuOpen(false); }}
+                      className="w-full px-4 py-2 text-left hover:bg-gray-50 text-sm"
+                    >
+                      Open Saved Lineups
+                    </button>
+                  </div>
+                </>
+              )}
+            </div>
+          )}
+
+          {/* Save As button */}
+          <button
+            onClick={() => setSaveAsModalOpen(true)}
+            className="px-3 py-1 text-sm border border-gray-300 rounded hover:bg-gray-50 transition-colors"
+            title="Shift+Ctrl/Cmd+S"
+          >
+            Save As...
+          </button>
+
+          {/* Save / Save Changes button */}
+          <button
+            onClick={handleSave}
+            disabled={loadedLineupId && !isDirty}
+            className={`px-3 py-1 text-sm rounded transition-colors font-medium ${
+              loadedLineupId && !isDirty
+                ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                : 'bg-blue-600 text-white hover:bg-blue-700'
+            }`}
+            title="Ctrl/Cmd+S"
+          >
+            {loadedLineupId ? 'Save Changes' : 'Save Lineup'}
+          </button>
+
+          {/* Send Rest to Bench button */}
+          <button
+            className={`px-3 py-1 text-sm rounded transition-colors ${
+              !working || availablePlayers.length === 0
+                ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                : 'bg-green-600 text-white hover:bg-green-700'
+            }`}
+            onClick={() => {
+              if (!working || availablePlayers.length === 0) return;
+
+              // Get empty bench slots
+              const benchSlots = working.benchSlots ?? Array(8).fill(null);
+              const emptySlotIndices: number[] = [];
+              benchSlots.forEach((slot, idx) => {
+                if (!slot) emptySlotIndices.push(idx);
+              });
+
+              // Assign available players to empty bench slots
+              const toAssign = Math.min(availablePlayers.length, emptySlotIndices.length);
+              for (let i = 0; i < toAssign; i++) {
+                assignToBench(emptySlotIndices[i], availablePlayers[i].id);
+              }
+            }}
+            disabled={!working || availablePlayers.length === 0}
+          >
+            Send to Bench
+          </button>
+        </div>
       </div>
 
       {/* Status indicators */}
@@ -622,6 +987,62 @@ function LineupPageContent() {
               </div>
             </div>
         </div>
+      )}
+
+      {/* Modals */}
+      <SaveLineupModal
+        isOpen={saveModalOpen}
+        onClose={() => setSaveModalOpen(false)}
+        onSave={handleSaveNew}
+        mode="save"
+        defaultName={`${currentTeam?.name || 'Untitled'} — ${currentFormation?.name || 'Formation'} — ${new Date().toISOString().split('T')[0]}`}
+        teamName={currentTeam?.name}
+        formationName={currentFormation?.name || ''}
+        onFieldCount={onFieldCount}
+        benchCount={(working?.benchSlots || []).filter(Boolean).length}
+      />
+
+      <SaveLineupModal
+        isOpen={saveAsModalOpen}
+        onClose={() => setSaveAsModalOpen(false)}
+        onSave={handleSaveAs}
+        mode="saveAs"
+        defaultName={`${currentTeam?.name || 'Untitled'} — ${currentFormation?.name || 'Formation'} — ${new Date().toISOString().split('T')[0]}`}
+        teamName={currentTeam?.name}
+        formationName={currentFormation?.name || ''}
+        onFieldCount={onFieldCount}
+        benchCount={(working?.benchSlots || []).filter(Boolean).length}
+      />
+
+      <RenameLineupModal
+        isOpen={renameModalOpen}
+        onClose={() => setRenameModalOpen(false)}
+        onRename={handleRename}
+        currentName={loadedLineupName}
+      />
+
+      <DeleteConfirmModal
+        isOpen={deleteModalOpen}
+        onClose={() => setDeleteModalOpen(false)}
+        onConfirm={handleDelete}
+        lineupName={loadedLineupName}
+      />
+
+      {lineupToLoad && (
+        <LoadLineupModal
+          isOpen={loadModalOpen}
+          onClose={() => {
+            setLoadModalOpen(false);
+            setLineupToLoad(null);
+          }}
+          onLoad={(options) => {
+            applyLoadedLineup(lineupToLoad, options);
+            setLoadModalOpen(false);
+            setLineupToLoad(null);
+          }}
+          lineupName={lineupToLoad.name}
+          diff={currentSerialized ? computeDiff(currentSerialized, lineupToLoad, currentTeam?.players.map(p => p.id) || []) : null}
+        />
       )}
     </div>
   );

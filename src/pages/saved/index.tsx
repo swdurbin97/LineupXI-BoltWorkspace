@@ -68,7 +68,7 @@ export default function SavedLineupsPage() {
 
   const handleLoad = (lineup: SavedLineup) => {
     // Navigate to lineup page with lineup ID in state
-    navigate('/lineup', { state: { loadLineupId: lineup.id } });
+    navigate('/lineup', { state: { loadSavedId: lineup.id } });
   };
 
   // Get unique teams and formations for filters
