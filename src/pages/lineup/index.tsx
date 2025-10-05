@@ -247,10 +247,10 @@ function LineupPageContent() {
 
   // Saved lineup: compute current serialized state and dirty flag
   const currentFormation = useMemo(() => {
-    if (!working?.formation) return null;
-    const f = formations.find(fm => fm.code === working.formation);
+    if (!working?.formationCode) return null;
+    const f = formations.find(fm => fm.code === working.formationCode);
     return f ? { code: f.code, name: f.name } : null;
-  }, [working?.formation, formations]);
+  }, [working?.formationCode, formations]);
 
   const currentSerialized = useMemo(() => {
     if (!working || !currentFormation) return null;
@@ -263,21 +263,54 @@ function LineupPageContent() {
     return !isEqual(currentSerialized, lastSavedSnapshot);
   }, [currentSerialized, lastSavedSnapshot]);
 
+  // Debug diagnostics
+  useEffect(() => {
+    (window as any).__dumpLineup = () => {
+      const saved = localStorage.getItem('lineupxi:saved_lineups:v1');
+      return {
+        currentSerialized,
+        currentFormation,
+        loadedLineupId,
+        loadedLineupName,
+        isDirty,
+        working: working ? {
+          teamId: working.teamId,
+          formationCode: working.formationCode,
+          onFieldKeys: Object.keys(working.onField || {}),
+          onFieldCount: Object.values(working.onField || {}).filter(Boolean).length,
+          benchCount: (working.benchSlots || []).filter(Boolean).length
+        } : null,
+        saved: saved ? JSON.parse(saved) : []
+      };
+    };
+
+    return () => {
+      delete (window as any).__dumpLineup;
+    };
+  }, [currentSerialized, currentFormation, loadedLineupId, loadedLineupName, isDirty, working]);
+
   // Saved lineup: handlers
   const handleSave = () => {
-    if (!currentSerialized || !currentFormation) {
-      toast('No lineup to save', 'error');
-      return;
-    }
+    if (loadedLineupId) {
+      // Update existing lineup
+      if (!currentSerialized || !currentFormation) {
+        toast('No lineup data to save', 'error');
+        return;
+      }
 
-    try {
-      if (loadedLineupId) {
-        // Update existing
+      try {
         const existing = savedLineupsLib.get(loadedLineupId);
         if (!existing) {
           toast('Lineup not found', 'error');
           return;
         }
+
+        console.log('Saving changes:', {
+          onFieldKeys: Object.keys(currentSerialized.assignments.onField),
+          onFieldCount: Object.values(currentSerialized.assignments.onField).filter(Boolean).length,
+          benchLen: currentSerialized.assignments.bench.length
+        });
+
         const updated = savedLineupsLib.update({
           ...existing,
           name: existing.name,
@@ -289,22 +322,34 @@ function LineupPageContent() {
         });
         setLastSavedSnapshot(currentSerialized);
         toast('Changes saved', 'success');
-      } else {
-        // Save new - open modal
-        setSaveModalOpen(true);
+      } catch (err) {
+        if (err instanceof savedLineupsLib.StorageFullError) {
+          toast(err.message, 'error');
+        } else {
+          console.error('Save failed:', err);
+          toast('Failed to save lineup', 'error');
+        }
       }
-    } catch (err) {
-      if (err instanceof savedLineupsLib.StorageFullError) {
-        toast(err.message, 'error');
-      } else {
-        console.error('Save failed:', err);
-        toast('Failed to save lineup', 'error');
-      }
+    } else {
+      // No lineup loaded - open Save modal
+      setSaveModalOpen(true);
     }
   };
 
   const handleSaveNew = (data: { name: string; notes?: string }) => {
-    if (!currentSerialized || !currentFormation) return;
+    if (!currentSerialized || !currentFormation) {
+      console.error('handleSaveNew: Missing data', { currentSerialized, currentFormation });
+      toast('No lineup data to save', 'error');
+      return;
+    }
+
+    console.log('serializeLineup (handleSaveNew):', {
+      onFieldKeys: Object.keys(currentSerialized.assignments.onField),
+      onFieldCount: Object.values(currentSerialized.assignments.onField).filter(Boolean).length,
+      benchLen: currentSerialized.assignments.bench.length,
+      formation: currentFormation,
+      teamId: currentSerialized.teamId
+    });
 
     try {
       const saved = savedLineupsLib.saveNew({
@@ -316,6 +361,7 @@ function LineupPageContent() {
         roles: working?.roles,
         notes: data.notes
       });
+      console.log('Saved lineup:', saved.id, saved.name);
       setLoadedLineupId(saved.id);
       setLoadedLineupName(saved.name);
       setLastSavedSnapshot(currentSerialized);
@@ -331,7 +377,19 @@ function LineupPageContent() {
   };
 
   const handleSaveAs = (data: { name: string; notes?: string }) => {
-    if (!currentSerialized || !currentFormation) return;
+    if (!currentSerialized || !currentFormation) {
+      console.error('handleSaveAs: Missing data', { currentSerialized, currentFormation });
+      toast('No lineup data to save', 'error');
+      return;
+    }
+
+    console.log('serializeLineup (handleSaveAs):', {
+      onFieldKeys: Object.keys(currentSerialized.assignments.onField),
+      onFieldCount: Object.values(currentSerialized.assignments.onField).filter(Boolean).length,
+      benchLen: currentSerialized.assignments.bench.length,
+      formation: currentFormation,
+      teamId: currentSerialized.teamId
+    });
 
     try {
       const saved = savedLineupsLib.saveNew({
@@ -343,6 +401,7 @@ function LineupPageContent() {
         roles: working?.roles,
         notes: data.notes
       });
+      console.log('Saved lineup (Save As):', saved.id, saved.name);
       setLoadedLineupId(saved.id);
       setLoadedLineupName(saved.name);
       setLastSavedSnapshot(currentSerialized);
@@ -557,11 +616,11 @@ function LineupPageContent() {
     );
   }
 
-  // Check GK count with null guards
-  const gkCount = working?.onField 
+  // Check GK count by slot ID pattern (e.g., "4231w:GK:0")
+  const gkCount = working?.onField
     ? Object.entries(working.onField).filter(
-        ([slot, playerId]) => slot === 'GK' && playerId
-      ).length 
+        ([slotId, playerId]) => /:GK:\d+$/.test(slotId) && playerId
+      ).length
     : 0;
 
   const onFieldCount = working?.onField 
