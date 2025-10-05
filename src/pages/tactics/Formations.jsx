@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import FormationCard from "../../components/tactics/FormationCard";
+import FormationRenderer from "../../components/field/FormationRenderer";
 import { loadTactics } from "../../data/tactics";
 
 function groupByBackline(list) {

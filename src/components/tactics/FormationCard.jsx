@@ -1,17 +1,40 @@
-// Wrap the card in a Link to the detail page
 import { Link } from "react-router-dom";
+import FormationRenderer from "../field/FormationRenderer";
 
 export default function FormationCard({ formation }) {
-  const code = String(formation.code || formation.name || "").replace(/\s+/g, "");
-  const displayName = formation.title || formation.name || formation.formation_code || code;
-  const style = formation.style;
-  
+  if (!formation) return null;
+
+  const hasSlotMap = formation.slot_map && formation.slot_map.length > 0;
+
   return (
-    <Link to={`/tactics/formations/${code}`} className="block group">
-      <div className="border rounded-xl px-4 py-3 hover:shadow-sm transition bg-white hover:border-gray-300">
-        <div className="font-medium">{displayName}</div>
-        {style && (
-          <div className="text-xs text-gray-500">{style}</div>
+    <Link
+      to={`/tactics/formations/${formation.code}`}
+      className="block rounded-lg border border-gray-200 bg-white hover:border-blue-300 hover:shadow-md transition-all overflow-hidden"
+    >
+      {/* Mini Formation Preview */}
+      {hasSlotMap && (
+        <div
+          className="aspect-[105/68] w-full bg-gray-50 flex items-center justify-center overflow-hidden"
+          aria-label={`Formation preview for ${formation.name}`}
+        >
+          <FormationRenderer
+            formation={formation}
+            interactive={false}
+            showLabels={false}
+            className="w-full"
+            targetHeight={160}
+          />
+        </div>
+      )}
+
+      {/* Formation Info */}
+      <div className="p-4">
+        <h3 className="text-base font-semibold text-gray-900">{formation.name}</h3>
+        {formation.style && (
+          <p className="mt-1 text-xs text-gray-500">{formation.style}</p>
+        )}
+        {formation.description && (
+          <p className="mt-2 text-sm text-gray-600 line-clamp-2">{formation.description}</p>
         )}
       </div>
     </Link>
