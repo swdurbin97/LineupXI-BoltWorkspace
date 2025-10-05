@@ -11,6 +11,14 @@ export default function FormationCard({ formation }) {
       to={`/tactics/formations/${formation.code}`}
       className="block rounded-lg border border-gray-200 bg-white hover:border-blue-300 hover:shadow-md transition-all overflow-hidden"
     >
+      {/* Formation Title (above preview) */}
+      <div className="px-4 pt-4 pb-2">
+        <h3 className="text-base font-semibold text-gray-900">{formation.name}</h3>
+        {formation.style && (
+          <p className="mt-0.5 text-xs text-gray-500">{formation.style}</p>
+        )}
+      </div>
+
       {/* Mini Formation Preview */}
       {hasSlotMap && (
         <div
@@ -21,22 +29,19 @@ export default function FormationCard({ formation }) {
             formation={formation}
             interactive={false}
             showLabels={false}
+            markerScale={0.80}
             className="w-full"
             targetHeight={160}
           />
         </div>
       )}
 
-      {/* Formation Info */}
-      <div className="p-4">
-        <h3 className="text-base font-semibold text-gray-900">{formation.name}</h3>
-        {formation.style && (
-          <p className="mt-1 text-xs text-gray-500">{formation.style}</p>
-        )}
-        {formation.description && (
-          <p className="mt-2 text-sm text-gray-600 line-clamp-2">{formation.description}</p>
-        )}
-      </div>
+      {/* Formation Description (below preview) */}
+      {formation.description && (
+        <div className="px-4 pb-4 pt-2">
+          <p className="text-sm text-gray-600 line-clamp-2">{formation.description}</p>
+        </div>
+      )}
     </Link>
   );
 }

@@ -4,29 +4,75 @@ const URL_RE = /\bhttps?:\/\/\S+/gi;
 const DOMAIN_RE = /\b[\w.-]+\.(?:com|org|net|io|co|uk)(?:\/\S*)?/gi;
 const PLUS_CHAIN_RE = /(?<!\s)\+(?:\d+|[A-Za-z][\w-]*)+/gi;
 
+/**
+ * Sanitizes text by removing URLs, domains, plus-chains, and trailing source citations.
+ *
+ * Test cases:
+ * - "...defense.Wikipedia" → "...defense."
+ * - "...effective.Talksport' Voice" → "...effective."
+ * - "...build-ups.Wikipedia" → "...build-ups."
+ * - "...Jobs In FootballFootball insides" → "..." (strip tail, tidy spacing)
+ */
 export function sanitizeText(input?: string): string {
   if (!input) return "";
   let s = input.replace(/\r\n/g, "\n");
+
+  // Remove URLs and plus-chains first
   s = s.replace(URL_RE, "");
   s = s.replace(PLUS_CHAIN_RE, "");
   s = s.replace(DOMAIN_RE, "");
 
-  // Remove trailing source names (iteratively until stable)
-  const sources = [
-    'Coaches Voice', "Coaches' Voice", 'Footballizer', 'Jobs In Football',
-    'Wikipedia', 'BlazePod', 'Soccer Coaching Pro', 'Football DNA',
-    'Jobs In', 'Coaching Pro', 'In Football'
+  // Fix doubled brand fragments early (e.g., FootballFootball → Football)
+  s = s.replace(/\b([A-Z][a-z]+)\1\b/g, '$1');
+
+  // Expanded brand list for comprehensive removal
+  const brands = [
+    'Wikipedia',
+    'Jobs In Football',
+    "Coaches' Voice",
+    "Coaches Voice",
+    'Footballizer',
+    'BlazePod',
+    'Soccer Coaching Pro',
+    'Talksport',
+    'The Football Tactics Board',
+    '3sportsessionplanner.com',
+    'Football inside',
+    'Football insides',
+    'Football DNA',
+    'Jobs In',
+    'Coaching Pro',
+    'In Football'
   ];
+
+  // Remove brands with optional suffixes at end of lines/paragraphs
+  // Pattern handles: (brand)(?:'?\s*Voice| Coaching Pro)?(?:\s+(?:inside|insides))?
   let prev = '';
   while (prev !== s) {
     prev = s;
-    for (const source of sources) {
-      const pattern = new RegExp(`\\s+${source.replace(/[()' ]/g, '\\$&')}\\s*$`, 'gi');
-      s = s.replace(pattern, '');
+    for (const brand of brands) {
+      const escapedBrand = brand.replace(/[()' .]/g, '\\$&');
+
+      // Match brand at end with optional suffixes
+      // Pattern 1: After punctuation (preserve the punctuation)
+      // .Wikipedia → . (period stays), ,Talksport' Voice → , (comma stays)
+      s = s.replace(
+        new RegExp(`([.,])\\s*${escapedBrand}(?:'?\\s*Voice|\\s+Coaching Pro)?(?:\\s+(?:inside|insides))?\\s*$`, 'gi'),
+        '$1'
+      );
+
+      // Pattern 2: After space (no punctuation before brand)
+      // Jobs In FootballFootball insides → (empty)
+      s = s.replace(
+        new RegExp(`\\s+${escapedBrand}(?:'?\\s*Voice|\\s+Coaching Pro)?(?:\\s+(?:inside|insides))?\\s*$`, 'gi'),
+        ''
+      );
     }
   }
 
+  // Cleanup: collapse whitespace and fix punctuation spacing
   s = s.replace(/[ \t]+/g, " ").replace(/\s+([,.;:!?])/g, "$1").trim();
+
   return s;
 }
 

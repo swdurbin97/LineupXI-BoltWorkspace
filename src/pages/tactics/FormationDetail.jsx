@@ -134,8 +134,10 @@ export default function FormationDetail() {
       </div>
 
       {/* Pitch Visualization */}
-      <div className="bg-white border border-gray-200 rounded-lg p-6">
-        <FormationRenderer formation={formation} />
+      <div className="w-full lg:max-w-[820px] lg:mx-auto">
+        <div className="bg-white border border-gray-200 rounded-lg p-6">
+          <FormationRenderer formation={formation} markerScale={1.10} />
+        </div>
       </div>
 
       {/* Tactics Content Sections */}

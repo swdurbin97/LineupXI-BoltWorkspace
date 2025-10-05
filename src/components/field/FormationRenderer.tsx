@@ -20,6 +20,7 @@ interface FormationRendererProps {
   showLabels?: boolean;
   className?: string;
   targetHeight?: number;
+  markerScale?: number;
 }
 
 /**
@@ -32,7 +33,8 @@ export default function FormationRenderer({
   interactive = false,
   showLabels = true,
   className = '',
-  targetHeight = 520
+  targetHeight = 520,
+  markerScale = 1.0
 }: FormationRendererProps) {
   if (!formation?.slot_map) {
     return (
@@ -95,9 +97,13 @@ export default function FormationRenderer({
                 {/* Marker circle */}
                 <div
                   className={`
-                    w-8 h-8 rounded-full border-2 border-gray-900 flex items-center justify-center
+                    rounded-full border-2 border-gray-900 flex items-center justify-center
                     ${slot.slot_code === 'GK' ? 'bg-gray-900' : 'bg-white'}
                   `}
+                  style={{
+                    width: `${32 * markerScale}px`,
+                    height: `${32 * markerScale}px`,
+                  }}
                 >
                   {showLabels && (
                     <span
