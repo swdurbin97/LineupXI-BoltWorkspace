@@ -224,11 +224,11 @@ function lineupsReducer(state: LineupsState, action: LineupsAction): LineupsStat
 }
 
 interface LineupsContextType extends LineupsState {
-  startLineup: (teamId: string, formationCode: string, slotCodes: string[], rosterIds: string[]) => void;
-  placePlayer: (slot: string, playerId: string) => void;
-  removeFromSlot: (slot: string) => void;
-  swapSlots: (slotA: string, slotB: string) => void;
-  setFormation: (formationCode: string, slotCodes: string[]) => void;
+  startLineup: (teamId: string, formationCode: string, slots: Array<{slot_id: string, slot_code: string}>, rosterIds: string[]) => void;
+  placePlayer: (slotId: string, playerId: string) => void;
+  removeFromSlot: (slotId: string) => void;
+  swapSlots: (slotIdA: string, slotIdB: string) => void;
+  setFormation: (formationCode: string, slots: Array<{slot_id: string, slot_code: string}>) => void;
   setRole: (role: keyof Lineup['roles'], playerId?: string) => void;
   resetWorking: () => void;
   assignToBench: (index: number, playerId: string) => void;
@@ -298,10 +298,10 @@ export function LineupsProvider({ children }: { children: React.ReactNode }) {
     }
   }, [state.working]);
 
-  const startLineup = (teamId: string, formationCode: string, slotCodes: string[], rosterIds: string[]) => {
+  const startLineup = (teamId: string, formationCode: string, slots: Array<{slot_id: string, slot_code: string}>, rosterIds: string[]) => {
     const onField: Record<string, string | null> = {};
-    slotCodes.forEach(code => {
-      onField[code] = null;
+    slots.forEach(slot => {
+      onField[slot.slot_id] = null;
     });
 
     const lineup: Lineup = {

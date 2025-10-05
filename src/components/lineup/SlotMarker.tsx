@@ -4,7 +4,8 @@ import PlayerCard from './PlayerCard';
 import { CARD_W, CARD_H, PLACEHOLDER_W, PLACEHOLDER_H } from '../../lib/sizes';
 
 interface SlotMarkerProps {
-  slotCode: string;
+  slotId: string; // Unique slot identifier (e.g., "442:CB:0")
+  slotCode: string; // Display label (e.g., "CB")
   x: number; // percentage (0-100), top-left origin
   y: number; // percentage (0-100), top-left origin
   player?: Player;
@@ -19,8 +20,8 @@ interface SlotMarkerProps {
   scale?: number;
 }
 
-export default function SlotMarker({ 
-  slotCode, x, y, player, isSelected, onClick, onDrop, tunerOn, onNudge, onSelect, editMode, onPositionChange, scale = 1
+export default function SlotMarker({
+  slotId, slotCode, x, y, player, isSelected, onClick, onDrop, tunerOn, onNudge, onSelect, editMode, onPositionChange, scale = 1
 }: SlotMarkerProps) {
   const wrapperRef = useRef<HTMLDivElement>(null);
   const [isDragOver, setIsDragOver] = useState(false);
@@ -117,7 +118,8 @@ export default function SlotMarker({
         const payload = JSON.stringify({
           playerId: player.id,
           source: 'field',
-          key: slotCode
+          slotId: slotId, // Use slot_id for identity
+          slotCode: slotCode // Keep slot_code for display
         });
         e.dataTransfer.setData('application/x-yslm', payload);
         e.dataTransfer.setData('text/plain', payload);

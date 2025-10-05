@@ -35,8 +35,11 @@ export default function FormationPicker() {
     const code = e.target.value;
     const formation = formations.find(f => f.code === code);
     if (formation) {
-      const slotCodes = formation.slot_map.map(s => s.slot_code);
-      setFormation(code, slotCodes);
+      const slots = formation.slot_map.map(s => ({
+        slot_id: s.slot_id,
+        slot_code: s.slot_code
+      }));
+      setFormation(code, slots);
     }
   };
 

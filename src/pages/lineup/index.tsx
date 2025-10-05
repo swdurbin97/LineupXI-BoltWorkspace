@@ -227,9 +227,12 @@ function LineupPageContent() {
     if (currentTeam && (!working || working.teamId !== currentTeam.id)) {
       const defaultFormation = formations[0];
       if (defaultFormation) {
-        const slotCodes = defaultFormation.slot_map.map((s: any) => s.slot_code);
+        const slots = defaultFormation.slot_map.map((s: any) => ({
+          slot_id: s.slot_id,
+          slot_code: s.slot_code
+        }));
         const rosterIds = currentTeam.players.map(p => p.id);
-        startLineup(currentTeam.id, defaultFormation.code, slotCodes, rosterIds);
+        startLineup(currentTeam.id, defaultFormation.code, slots, rosterIds);
       }
     }
   }, [currentTeam, formations, working]);
@@ -486,7 +489,7 @@ function LineupPageContent() {
                     if (!formation) return null;
                     
                     return formation.slot_map.map((slot: any) => {
-                      const playerId = working.onField?.[slot.slot_code];
+                      const playerId = working.onField?.[slot.slot_id];
                       const player = playerId ? currentTeam.players.find(p => p.id === playerId) : undefined;
 
                       // Use draft positions if available in edit mode
@@ -504,7 +507,8 @@ function LineupPageContent() {
 
                       return (
                         <SlotMarker
-                          key={slot.slot_id || slot.slot_code}
+                          key={slot.slot_id}
+                          slotId={slot.slot_id}
                           slotCode={slot.slot_code}
                           x={renderX}
                           y={renderY}
@@ -519,17 +523,17 @@ function LineupPageContent() {
                               // If a bench player is selected, place them here
                               const benchSlots = working.benchSlots ?? [];
                               if (benchSlots.includes(selectedPlayerId)) {
-                                placePlayer(slot.slot_code, selectedPlayerId);
+                                placePlayer(slot.slot_id, selectedPlayerId);
                                 setSelectedPlayerId(null);
                               }
                             } else if (playerId) {
                               // If slot has a player, remove them to bench
-                              removeFromSlot(slot.slot_code);
+                              removeFromSlot(slot.slot_id);
                             }
                           }}
                           onDrop={!editMode ? (draggedPlayerId) => {
-                            // Handle drop - place player in this slot
-                            placePlayer(slot.slot_code, draggedPlayerId);
+                            // Handle drop - place player in this slot using slot_id
+                            placePlayer(slot.slot_id, draggedPlayerId);
                             setSelectedPlayerId(null);
                           } : undefined}
                         />
