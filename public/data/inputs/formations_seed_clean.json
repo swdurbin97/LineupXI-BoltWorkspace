@@ -1,2020 +1,619 @@
 {
+  "meta": {
+    "coordinate_system": "absolute_105x68",
+    "orientation": "left-right",
+    "note": "Fill all x/y with absolute coordinates on a 105 (width) x 68 (height) pitch. Origin is bottom-left."
+  },
   "formations": [
     {
       "code": "3142",
-      "name": "3142",
+      "name": "3-1-4-2",
       "style": "Balanced",
+      "family": "3-back",
       "slot_map": [
-        {
-          "slot_code": "GK",
-          "x": 50,
-          "y": 94
-        },
-        {
-          "slot_code": "CB",
-          "x": 62.0,
-          "y": 86
-        },
-        {
-          "slot_code": "CB",
-          "x": 50,
-          "y": 86
-        },
-        {
-          "slot_code": "CB",
-          "x": 38.0,
-          "y": 86
-        },
-        {
-          "slot_code": "CDM",
-          "x": 50,
-          "y": 70
-        },
-        {
-          "slot_code": "CM",
-          "x": 65.0,
-          "y": 62
-        },
-        {
-          "slot_code": "CM",
-          "x": 35.0,
-          "y": 62
-        },
-        {
-          "slot_code": "RM",
-          "x": 86,
-          "y": 62
-        },
-        {
-          "slot_code": "LM",
-          "x": 14,
-          "y": 62
-        },
-        {
-          "slot_code": "ST",
-          "x": 62.0,
-          "y": 28
-        },
-        {
-          "slot_code": "ST",
-          "x": 38.0,
-          "y": 28
-        }
-      ],
-      "position_counts_sum": 11
+        { "slot_code": "GK",  "x": 8, "y": 34 },
+        { "slot_code": "CB",  "x": 22, "y": 17 },
+        { "slot_code": "CB",  "x": 22, "y": 34 },
+        { "slot_code": "CB",  "x": 22, "y": 51 },
+        { "slot_code": "CDM", "x": 45, "y": 34 },
+        { "slot_code": "CM",  "x": 55, "y": 27 },
+        { "slot_code": "CM",  "x": 55, "y": 43 },
+        { "slot_code": "RM",  "x": 58, "y": 8 },
+        { "slot_code": "LM",  "x": 58, "y": 60 },
+        { "slot_code": "ST",  "x": 82, "y": 26 },
+        { "slot_code": "ST",  "x": 82, "y": 42 }
+      ]
     },
     {
       "code": "3412",
-      "name": "3412",
+      "name": "3-4-1-2",
       "style": "Balanced",
+      "family": "3-back",
       "slot_map": [
-        {
-          "slot_code": "GK",
-          "x": 50,
-          "y": 94
-        },
-        {
-          "slot_code": "CB",
-          "x": 62.0,
-          "y": 86
-        },
-        {
-          "slot_code": "CB",
-          "x": 50,
-          "y": 86
-        },
-        {
-          "slot_code": "CB",
-          "x": 38.0,
-          "y": 86
-        },
-        {
-          "slot_code": "CM",
-          "x": 65.0,
-          "y": 62
-        },
-        {
-          "slot_code": "CM",
-          "x": 35.0,
-          "y": 62
-        },
-        {
-          "slot_code": "RM",
-          "x": 86,
-          "y": 62
-        },
-        {
-          "slot_code": "LM",
-          "x": 14,
-          "y": 62
-        },
-        {
-          "slot_code": "CAM",
-          "x": 50,
-          "y": 52
-        },
-        {
-          "slot_code": "ST",
-          "x": 62.0,
-          "y": 28
-        },
-        {
-          "slot_code": "ST",
-          "x": 38.0,
-          "y": 28
-        }
-      ],
-      "position_counts_sum": 11
+        { "slot_code": "GK",  "x": 8, "y": 34 },
+        { "slot_code": "CB",  "x": 22, "y": 17 },
+        { "slot_code": "CB",  "x": 22, "y": 34 },
+        { "slot_code": "CB",  "x": 22, "y": 51 },
+        { "slot_code": "CM",  "x": 55, "y": 27 },
+        { "slot_code": "CM",  "x": 55, "y": 43 },
+        { "slot_code": "RM",  "x": 58, "y": 8 },
+        { "slot_code": "LM",  "x": 58, "y": 60 },
+        { "slot_code": "CAM", "x": 65, "y": 34 },
+        { "slot_code": "ST",  "x": 82, "y": 26 },
+        { "slot_code": "ST",  "x": 82, "y": 42 }
+      ]
     },
     {
       "code": "3421",
-      "name": "3421",
+      "name": "3-4-2-1",
       "style": "Defensive",
+      "family": "3-back",
       "slot_map": [
-        {
-          "slot_code": "GK",
-          "x": 50,
-          "y": 94
-        },
-        {
-          "slot_code": "CB",
-          "x": 62.0,
-          "y": 86
-        },
-        {
-          "slot_code": "CB",
-          "x": 50,
-          "y": 86
-        },
-        {
-          "slot_code": "CB",
-          "x": 38.0,
-          "y": 86
-        },
-        {
-          "slot_code": "CM",
-          "x": 65.0,
-          "y": 62
-        },
-        {
-          "slot_code": "CM",
-          "x": 35.0,
-          "y": 62
-        },
-        {
-          "slot_code": "RM",
-          "x": 86,
-          "y": 62
-        },
-        {
-          "slot_code": "LM",
-          "x": 14,
-          "y": 62
-        },
-        {
-          "slot_code": "RF",
-          "x": 62,
-          "y": 34
-        },
-        {
-          "slot_code": "LF",
-          "x": 38,
-          "y": 34
-        },
-        {
-          "slot_code": "ST",
-          "x": 50,
-          "y": 28
-        }
-      ],
-      "position_counts_sum": 11
+        { "slot_code": "GK",  "x": 8, "y": 34 },
+        { "slot_code": "CB",  "x": 22, "y": 17 },
+        { "slot_code": "CB",  "x": 22, "y": 34 },
+        { "slot_code": "CB",  "x": 22, "y": 51 },
+        { "slot_code": "CM",  "x": 55, "y": 27 },
+        { "slot_code": "CM",  "x": 55, "y": 43 },
+        { "slot_code": "RM",  "x": 58, "y": 8 },
+        { "slot_code": "LM",  "x": 58, "y": 60 },
+        { "slot_code": "RF",  "x": 72, "y": 27 },
+        { "slot_code": "LF",  "x": 72, "y": 41 },
+        { "slot_code": "ST",  "x": 82, "y": 34 }
+      ]
     },
     {
       "code": "343",
-      "name": "343",
+      "name": "3-4-3",
       "style": "Attacking",
+      "family": "3-back",
       "slot_map": [
-        {
-          "slot_code": "GK",
-          "x": 50,
-          "y": 94
-        },
-        {
-          "slot_code": "CB",
-          "x": 62.0,
-          "y": 86
-        },
-        {
-          "slot_code": "CB",
-          "x": 50,
-          "y": 86
-        },
-        {
-          "slot_code": "CB",
-          "x": 38.0,
-          "y": 86
-        },
-        {
-          "slot_code": "CM",
-          "x": 65.0,
-          "y": 62
-        },
-        {
-          "slot_code": "CM",
-          "x": 35.0,
-          "y": 62
-        },
-        {
-          "slot_code": "RM",
-          "x": 86,
-          "y": 62
-        },
-        {
-          "slot_code": "LM",
-          "x": 14,
-          "y": 62
-        },
-        {
-          "slot_code": "RW",
-          "x": 88,
-          "y": 40
-        },
-        {
-          "slot_code": "LW",
-          "x": 12,
-          "y": 40
-        },
-        {
-          "slot_code": "ST",
-          "x": 50,
-          "y": 28
-        }
-      ],
-      "position_counts_sum": 11
+        { "slot_code": "GK", "x": 8, "y": 34 },
+        { "slot_code": "CB", "x": 22, "y": 17 },
+        { "slot_code": "CB", "x": 22, "y": 34 },
+        { "slot_code": "CB", "x": 22, "y": 51 },
+        { "slot_code": "CM", "x": 55, "y": 27 },
+        { "slot_code": "CM", "x": 55, "y": 43 },
+        { "slot_code": "RM", "x": 58, "y": 8 },
+        { "slot_code": "LM", "x": 58, "y": 60 },
+        { "slot_code": "RW", "x": 78, "y": 8 },
+        { "slot_code": "LW", "x": 78, "y": 60 },
+        { "slot_code": "ST", "x": 82, "y": 34 }
+      ]
     },
     {
       "code": "3511",
-      "name": "3511",
+      "name": "3-5-1-1",
       "style": "Balanced",
+      "family": "3-back",
       "slot_map": [
-        {
-          "slot_code": "GK",
-          "x": 50,
-          "y": 94
-        },
-        {
-          "slot_code": "CB",
-          "x": 62.0,
-          "y": 86
-        },
-        {
-          "slot_code": "CB",
-          "x": 50,
-          "y": 86
-        },
-        {
-          "slot_code": "CB",
-          "x": 38.0,
-          "y": 86
-        },
-        {
-          "slot_code": "CDM",
-          "x": 60.0,
-          "y": 70
-        },
-        {
-          "slot_code": "CDM",
-          "x": 40.0,
-          "y": 70
-        },
-        {
-          "slot_code": "CM",
-          "x": 50,
-          "y": 62
-        },
-        {
-          "slot_code": "RM",
-          "x": 86,
-          "y": 62
-        },
-        {
-          "slot_code": "LM",
-          "x": 14,
-          "y": 62
-        },
-        {
-          "slot_code": "CF",
-          "x": 50,
-          "y": 32
-        },
-        {
-          "slot_code": "ST",
-          "x": 50,
-          "y": 28
-        }
-      ],
-      "position_counts_sum": 11
+        { "slot_code": "GK",  "x": 8, "y": 34 },
+        { "slot_code": "CB",  "x": 22, "y": 17 },
+        { "slot_code": "CB",  "x": 22, "y": 34 },
+        { "slot_code": "CB",  "x": 22, "y": 51 },
+        { "slot_code": "CDM", "x": 45, "y": 27 },
+        { "slot_code": "CDM", "x": 45, "y": 41 },
+        { "slot_code": "CM",  "x": 54, "y": 34 },
+        { "slot_code": "RM",  "x": 58, "y": 8 },
+        { "slot_code": "LM",  "x": 58, "y": 60 },
+        { "slot_code": "CF",  "x": 72, "y": 34 },
+        { "slot_code": "ST",  "x": 82, "y": 34 }
+      ]
     },
     {
       "code": "352",
-      "name": "352",
+      "name": "3-5-2",
       "style": "Balanced",
+      "family": "3-back",
       "slot_map": [
-        {
-          "slot_code": "GK",
-          "x": 50,
-          "y": 94
-        },
-        {
-          "slot_code": "CB",
-          "x": 62.0,
-          "y": 86
-        },
-        {
-          "slot_code": "CB",
-          "x": 50,
-          "y": 86
-        },
-        {
-          "slot_code": "CB",
-          "x": 38.0,
-          "y": 86
-        },
-        {
-          "slot_code": "CDM",
-          "x": 60.0,
-          "y": 70
-        },
-        {
-          "slot_code": "CDM",
-          "x": 40.0,
-          "y": 70
-        },
-        {
-          "slot_code": "RM",
-          "x": 86,
-          "y": 62
-        },
-        {
-          "slot_code": "LM",
-          "x": 14,
-          "y": 62
-        },
-        {
-          "slot_code": "CAM",
-          "x": 50,
-          "y": 52
-        },
-        {
-          "slot_code": "ST",
-          "x": 62.0,
-          "y": 28
-        },
-        {
-          "slot_code": "ST",
-          "x": 38.0,
-          "y": 28
-        }
-      ],
-      "position_counts_sum": 11
+        { "slot_code": "GK",  "x": 8, "y": 34 },
+        { "slot_code": "CB",  "x": 22, "y": 17 },
+        { "slot_code": "CB",  "x": 22, "y": 34 },
+        { "slot_code": "CB",  "x": 22, "y": 51 },
+        { "slot_code": "CDM", "x": 45, "y": 27 },
+        { "slot_code": "CDM", "x": 45, "y": 41 },
+        { "slot_code": "RM",  "x": 58, "y": 8 },
+        { "slot_code": "LM",  "x": 58, "y": 60 },
+        { "slot_code": "CAM", "x": 65, "y": 34 },
+        { "slot_code": "ST",  "x": 82, "y": 26 },
+        { "slot_code": "ST",  "x": 82, "y": 42 }
+      ]
     },
+
     {
       "code": "41212 (Diamond)",
-      "name": "41212 (Diamond)",
+      "name": "4-1-2-1-2 (Diamond)",
       "style": "Narrow",
+      "family": "4-back",
       "slot_map": [
-        {
-          "slot_code": "GK",
-          "x": 50,
-          "y": 94
-        },
-        {
-          "slot_code": "RB",
-          "x": 85,
-          "y": 82
-        },
-        {
-          "slot_code": "LB",
-          "x": 15,
-          "y": 82
-        },
-        {
-          "slot_code": "CB",
-          "x": 62.0,
-          "y": 86
-        },
-        {
-          "slot_code": "CB",
-          "x": 38.0,
-          "y": 86
-        },
-        {
-          "slot_code": "CDM",
-          "x": 50,
-          "y": 70
-        },
-        {
-          "slot_code": "CM",
-          "x": 65.0,
-          "y": 62
-        },
-        {
-          "slot_code": "CM",
-          "x": 35.0,
-          "y": 62
-        },
-        {
-          "slot_code": "CAM",
-          "x": 50,
-          "y": 52
-        },
-        {
-          "slot_code": "ST",
-          "x": 62.0,
-          "y": 28
-        },
-        {
-          "slot_code": "ST",
-          "x": 38.0,
-          "y": 28
-        }
-      ],
-      "position_counts_sum": 11
+        { "slot_code": "GK",  "x": 8, "y": 34 },
+        { "slot_code": "RB",  "x": 29, "y": 9 },
+        { "slot_code": "LB",  "x": 29, "y": 59 },
+        { "slot_code": "CB",  "x": 26, "y": 26 },
+        { "slot_code": "CB",  "x": 26, "y": 42 },
+        { "slot_code": "CDM", "x": 45, "y": 34 },
+        { "slot_code": "CM",  "x": 55, "y": 27 },
+        { "slot_code": "CM",  "x": 55, "y": 43 },
+        { "slot_code": "CAM", "x": 65, "y": 34 },
+        { "slot_code": "ST",  "x": 82, "y": 26 },
+        { "slot_code": "ST",  "x": 82, "y": 42 }
+      ]
     },
     {
       "code": "41212 (Wide)",
-      "name": "41212 (Wide)",
+      "name": "4-1-2-1-2 (Wide)",
       "style": "Wide",
+      "family": "4-back",
       "slot_map": [
-        {
-          "slot_code": "GK",
-          "x": 50,
-          "y": 94
-        },
-        {
-          "slot_code": "RB",
-          "x": 85,
-          "y": 82
-        },
-        {
-          "slot_code": "LB",
-          "x": 15,
-          "y": 82
-        },
-        {
-          "slot_code": "CB",
-          "x": 62.0,
-          "y": 86
-        },
-        {
-          "slot_code": "CB",
-          "x": 38.0,
-          "y": 86
-        },
-        {
-          "slot_code": "CDM",
-          "x": 50,
-          "y": 70
-        },
-        {
-          "slot_code": "RM",
-          "x": 86,
-          "y": 62
-        },
-        {
-          "slot_code": "LM",
-          "x": 14,
-          "y": 62
-        },
-        {
-          "slot_code": "CAM",
-          "x": 50,
-          "y": 52
-        },
-        {
-          "slot_code": "ST",
-          "x": 62.0,
-          "y": 28
-        },
-        {
-          "slot_code": "ST",
-          "x": 38.0,
-          "y": 28
-        }
-      ],
-      "position_counts_sum": 11
+        { "slot_code": "GK",  "x": 8, "y": 34 },
+        { "slot_code": "RB",  "x": 29, "y": 9 },
+        { "slot_code": "LB",  "x": 29, "y": 59 },
+        { "slot_code": "CB",  "x": 26, "y": 26 },
+        { "slot_code": "CB",  "x": 26, "y": 42 },
+        { "slot_code": "CDM", "x": 45, "y": 34 },
+        { "slot_code": "RM",  "x": 58, "y": 8 },
+        { "slot_code": "LM",  "x": 58, "y": 60 },
+        { "slot_code": "CAM", "x": 65, "y": 34 },
+        { "slot_code": "ST",  "x": 82, "y": 26 },
+        { "slot_code": "ST",  "x": 82, "y": 42 }
+      ]
     },
     {
       "code": "4123",
-      "name": "4123",
+      "name": "4-1-2-3",
       "style": "Attacking",
+      "family": "4-back",
       "slot_map": [
-        {
-          "slot_code": "GK",
-          "x": 50,
-          "y": 94
-        },
-        {
-          "slot_code": "RB",
-          "x": 85,
-          "y": 82
-        },
-        {
-          "slot_code": "LB",
-          "x": 15,
-          "y": 82
-        },
-        {
-          "slot_code": "CB",
-          "x": 62.0,
-          "y": 86
-        },
-        {
-          "slot_code": "CB",
-          "x": 38.0,
-          "y": 86
-        },
-        {
-          "slot_code": "CDM",
-          "x": 50,
-          "y": 70
-        },
-        {
-          "slot_code": "CM",
-          "x": 65.0,
-          "y": 62
-        },
-        {
-          "slot_code": "CM",
-          "x": 35.0,
-          "y": 62
-        },
-        {
-          "slot_code": "RW",
-          "x": 88,
-          "y": 40
-        },
-        {
-          "slot_code": "LW",
-          "x": 12,
-          "y": 40
-        },
-        {
-          "slot_code": "ST",
-          "x": 50,
-          "y": 28
-        }
-      ],
-      "position_counts_sum": 11
+        { "slot_code": "GK", "x": 8, "y": 34 },
+        { "slot_code": "RB", "x": 29, "y": 9 },
+        { "slot_code": "LB", "x": 29, "y": 59 },
+        { "slot_code": "CB", "x": 26, "y": 26 },
+        { "slot_code": "CB", "x": 26, "y": 42 },
+        { "slot_code": "CDM","x": 45, "y": 34 },
+        { "slot_code": "CM", "x": 55, "y": 27 },
+        { "slot_code": "CM", "x": 55, "y": 43 },
+        { "slot_code": "RW", "x": 78, "y": 8 },
+        { "slot_code": "LW", "x": 78, "y": 60 },
+        { "slot_code": "ST", "x": 82, "y": 34 }
+      ]
     },
     {
       "code": "4132",
-      "name": "4132",
+      "name": "4-1-3-2",
       "style": "Counter",
+      "family": "4-back",
       "slot_map": [
-        {
-          "slot_code": "GK",
-          "x": 50,
-          "y": 94
-        },
-        {
-          "slot_code": "RB",
-          "x": 85,
-          "y": 82
-        },
-        {
-          "slot_code": "LB",
-          "x": 15,
-          "y": 82
-        },
-        {
-          "slot_code": "CB",
-          "x": 62.0,
-          "y": 86
-        },
-        {
-          "slot_code": "CB",
-          "x": 38.0,
-          "y": 86
-        },
-        {
-          "slot_code": "CDM",
-          "x": 50,
-          "y": 70
-        },
-        {
-          "slot_code": "CM",
-          "x": 50,
-          "y": 62
-        },
-        {
-          "slot_code": "RM",
-          "x": 86,
-          "y": 62
-        },
-        {
-          "slot_code": "LM",
-          "x": 14,
-          "y": 62
-        },
-        {
-          "slot_code": "ST",
-          "x": 62.0,
-          "y": 28
-        },
-        {
-          "slot_code": "ST",
-          "x": 38.0,
-          "y": 28
-        }
-      ],
-      "position_counts_sum": 11
+        { "slot_code": "GK", "x": 8, "y": 34 },
+        { "slot_code": "RB", "x": 29, "y": 9 },
+        { "slot_code": "LB", "x": 29, "y": 59 },
+        { "slot_code": "CB", "x": 26, "y": 26 },
+        { "slot_code": "CB", "x": 26, "y": 42 },
+        { "slot_code": "CDM","x": 45, "y": 34 },
+        { "slot_code": "CM", "x": 54, "y": 34 },
+        { "slot_code": "RM", "x": 58, "y": 8 },
+        { "slot_code": "LM", "x": 58, "y": 60 },
+        { "slot_code": "ST", "x": 82, "y": 26 },
+        { "slot_code": "ST", "x": 82, "y": 42 }
+      ]
     },
     {
       "code": "4141",
-      "name": "4141",
+      "name": "4-1-4-1",
       "style": "Defensive",
+      "family": "4-back",
       "slot_map": [
-        {
-          "slot_code": "GK",
-          "x": 50,
-          "y": 94
-        },
-        {
-          "slot_code": "RB",
-          "x": 85,
-          "y": 82
-        },
-        {
-          "slot_code": "LB",
-          "x": 15,
-          "y": 82
-        },
-        {
-          "slot_code": "CB",
-          "x": 62.0,
-          "y": 86
-        },
-        {
-          "slot_code": "CB",
-          "x": 38.0,
-          "y": 86
-        },
-        {
-          "slot_code": "CDM",
-          "x": 50,
-          "y": 70
-        },
-        {
-          "slot_code": "CM",
-          "x": 65.0,
-          "y": 62
-        },
-        {
-          "slot_code": "CM",
-          "x": 35.0,
-          "y": 62
-        },
-        {
-          "slot_code": "RM",
-          "x": 86,
-          "y": 62
-        },
-        {
-          "slot_code": "LM",
-          "x": 14,
-          "y": 62
-        },
-        {
-          "slot_code": "ST",
-          "x": 50,
-          "y": 28
-        }
-      ],
-      "position_counts_sum": 11
+        { "slot_code": "GK", "x": 8, "y": 34 },
+        { "slot_code": "RB", "x": 29, "y": 9 },
+        { "slot_code": "LB", "x": 29, "y": 59 },
+        { "slot_code": "CB", "x": 26, "y": 26 },
+        { "slot_code": "CB", "x": 26, "y": 42 },
+        { "slot_code": "CDM","x": 45, "y": 34 },
+        { "slot_code": "CM", "x": 55, "y": 27 },
+        { "slot_code": "CM", "x": 55, "y": 43 },
+        { "slot_code": "RM", "x": 58, "y": 8 },
+        { "slot_code": "LM", "x": 58, "y": 60 },
+        { "slot_code": "ST", "x": 82, "y": 34 }
+      ]
     },
     {
       "code": "4222",
-      "name": "4222",
+      "name": "4-2-2-2",
       "style": "Balanced",
+      "family": "4-back",
       "slot_map": [
-        {
-          "slot_code": "GK",
-          "x": 50,
-          "y": 94
-        },
-        {
-          "slot_code": "RB",
-          "x": 85,
-          "y": 82
-        },
-        {
-          "slot_code": "LB",
-          "x": 15,
-          "y": 82
-        },
-        {
-          "slot_code": "CB",
-          "x": 62.0,
-          "y": 86
-        },
-        {
-          "slot_code": "CB",
-          "x": 38.0,
-          "y": 86
-        },
-        {
-          "slot_code": "CDM",
-          "x": 60.0,
-          "y": 70
-        },
-        {
-          "slot_code": "CDM",
-          "x": 40.0,
-          "y": 70
-        },
-        {
-          "slot_code": "CAM",
-          "x": 62.0,
-          "y": 52
-        },
-        {
-          "slot_code": "CAM",
-          "x": 38.0,
-          "y": 52
-        },
-        {
-          "slot_code": "ST",
-          "x": 62.0,
-          "y": 28
-        },
-        {
-          "slot_code": "ST",
-          "x": 38.0,
-          "y": 28
-        }
-      ],
-      "position_counts_sum": 11
+        { "slot_code": "GK",  "x": 8, "y": 34 },
+        { "slot_code": "RB",  "x": 29, "y": 9 },
+        { "slot_code": "LB",  "x": 29, "y": 59 },
+        { "slot_code": "CB",  "x": 26, "y": 26 },
+        { "slot_code": "CB",  "x": 26, "y": 42 },
+        { "slot_code": "CDM", "x": 45, "y": 27 },
+        { "slot_code": "CDM", "x": 45, "y": 41 },
+        { "slot_code": "CAM", "x": 65, "y": 26 },
+        { "slot_code": "CAM", "x": 65, "y": 40 },
+        { "slot_code": "ST",  "x": 82, "y": 26 },
+        { "slot_code": "ST",  "x": 82, "y": 42 }
+      ]
     },
     {
       "code": "4231 (Narrow)",
-      "name": "4231 (Narrow)",
+      "name": "4-2-3-1 (Narrow)",
       "style": "Narrow",
+      "family": "4-back",
       "slot_map": [
-        {
-          "slot_code": "GK",
-          "x": 50,
-          "y": 94
-        },
-        {
-          "slot_code": "RB",
-          "x": 85,
-          "y": 82
-        },
-        {
-          "slot_code": "LB",
-          "x": 15,
-          "y": 82
-        },
-        {
-          "slot_code": "CB",
-          "x": 62.0,
-          "y": 86
-        },
-        {
-          "slot_code": "CB",
-          "x": 38.0,
-          "y": 86
-        },
-        {
-          "slot_code": "CM",
-          "x": 65.0,
-          "y": 62
-        },
-        {
-          "slot_code": "CM",
-          "x": 35.0,
-          "y": 62
-        },
-        {
-          "slot_code": "CAM",
-          "x": 50,
-          "y": 52
-        },
-        {
-          "slot_code": "RAM",
-          "x": 74,
-          "y": 52
-        },
-        {
-          "slot_code": "LAM",
-          "x": 26,
-          "y": 52
-        },
-        {
-          "slot_code": "ST",
-          "x": 50,
-          "y": 28
-        }
-      ],
-      "position_counts_sum": 11
+        { "slot_code": "GK",  "x": 8, "y": 34 },
+        { "slot_code": "RB",  "x": 29, "y": 9 },
+        { "slot_code": "LB",  "x": 29, "y": 59 },
+        { "slot_code": "CB",  "x": 26, "y": 26 },
+        { "slot_code": "CB",  "x": 26, "y": 42 },
+        { "slot_code": "CM",  "x": 55, "y": 27 },
+        { "slot_code": "CM",  "x": 55, "y": 43 },
+        { "slot_code": "CAM", "x": 65, "y": 34 },
+        { "slot_code": "RAM", "x": 65, "y": 20 },
+        { "slot_code": "LAM", "x": 65, "y": 48 },
+        { "slot_code": "ST",  "x": 82, "y": 34 }
+      ]
     },
     {
       "code": "4231 (Wide)",
-      "name": "4231 (Wide)",
+      "name": "4-2-3-1 (Wide)",
       "style": "Wide",
+      "family": "4-back",
       "slot_map": [
-        {
-          "slot_code": "GK",
-          "x": 50,
-          "y": 94
-        },
-        {
-          "slot_code": "RB",
-          "x": 85,
-          "y": 82
-        },
-        {
-          "slot_code": "LB",
-          "x": 15,
-          "y": 82
-        },
-        {
-          "slot_code": "CB",
-          "x": 62.0,
-          "y": 86
-        },
-        {
-          "slot_code": "CB",
-          "x": 38.0,
-          "y": 86
-        },
-        {
-          "slot_code": "CDM",
-          "x": 60.0,
-          "y": 70
-        },
-        {
-          "slot_code": "CDM",
-          "x": 40.0,
-          "y": 70
-        },
-        {
-          "slot_code": "RM",
-          "x": 86,
-          "y": 62
-        },
-        {
-          "slot_code": "LM",
-          "x": 14,
-          "y": 62
-        },
-        {
-          "slot_code": "CAM",
-          "x": 50,
-          "y": 52
-        },
-        {
-          "slot_code": "ST",
-          "x": 50,
-          "y": 28
-        }
-      ],
-      "position_counts_sum": 11
+        { "slot_code": "GK",  "x": 8, "y": 34 },
+        { "slot_code": "RB",  "x": 29, "y": 9 },
+        { "slot_code": "LB",  "x": 29, "y": 59 },
+        { "slot_code": "CB",  "x": 26, "y": 26 },
+        { "slot_code": "CB",  "x": 26, "y": 42 },
+        { "slot_code": "CDM", "x": 45, "y": 27 },
+        { "slot_code": "CDM", "x": 45, "y": 41 },
+        { "slot_code": "RM",  "x": 58, "y": 8 },
+        { "slot_code": "LM",  "x": 58, "y": 60 },
+        { "slot_code": "CAM", "x": 65, "y": 34 },
+        { "slot_code": "ST",  "x": 82, "y": 34 }
+      ]
     },
     {
       "code": "424",
-      "name": "424",
+      "name": "4-2-4",
       "style": "Attacking",
+      "family": "4-back",
       "slot_map": [
-        {
-          "slot_code": "GK",
-          "x": 50,
-          "y": 94
-        },
-        {
-          "slot_code": "RB",
-          "x": 85,
-          "y": 82
-        },
-        {
-          "slot_code": "LB",
-          "x": 15,
-          "y": 82
-        },
-        {
-          "slot_code": "CB",
-          "x": 62.0,
-          "y": 86
-        },
-        {
-          "slot_code": "CB",
-          "x": 38.0,
-          "y": 86
-        },
-        {
-          "slot_code": "CM",
-          "x": 65.0,
-          "y": 62
-        },
-        {
-          "slot_code": "CM",
-          "x": 35.0,
-          "y": 62
-        },
-        {
-          "slot_code": "RW",
-          "x": 88,
-          "y": 40
-        },
-        {
-          "slot_code": "LW",
-          "x": 12,
-          "y": 40
-        },
-        {
-          "slot_code": "ST",
-          "x": 62.0,
-          "y": 28
-        },
-        {
-          "slot_code": "ST",
-          "x": 38.0,
-          "y": 28
-        }
-      ],
-      "position_counts_sum": 11
+        { "slot_code": "GK", "x": 8, "y": 34 },
+        { "slot_code": "RB", "x": 29, "y": 9 },
+        { "slot_code": "LB", "x": 29, "y": 59 },
+        { "slot_code": "CB", "x": 26, "y": 26 },
+        { "slot_code": "CB", "x": 26, "y": 42 },
+        { "slot_code": "CM", "x": 55, "y": 27 },
+        { "slot_code": "CM", "x": 55, "y": 43 },
+        { "slot_code": "RW", "x": 78, "y": 8 },
+        { "slot_code": "LW", "x": 78, "y": 60 },
+        { "slot_code": "ST", "x": 82, "y": 26 },
+        { "slot_code": "ST", "x": 82, "y": 42 }
+      ]
     },
     {
       "code": "4312",
-      "name": "4312",
+      "name": "4-3-1-2",
       "style": "Narrow",
+      "family": "4-back",
       "slot_map": [
-        {
-          "slot_code": "GK",
-          "x": 50,
-          "y": 94
-        },
-        {
-          "slot_code": "RB",
-          "x": 85,
-          "y": 82
-        },
-        {
-          "slot_code": "LB",
-          "x": 15,
-          "y": 82
-        },
-        {
-          "slot_code": "CB",
-          "x": 62.0,
-          "y": 86
-        },
-        {
-          "slot_code": "CB",
-          "x": 38.0,
-          "y": 86
-        },
-        {
-          "slot_code": "CM",
-          "x": 65.0,
-          "y": 62
-        },
-        {
-          "slot_code": "CM",
-          "x": 50,
-          "y": 62
-        },
-        {
-          "slot_code": "CM",
-          "x": 35.0,
-          "y": 62
-        },
-        {
-          "slot_code": "CAM",
-          "x": 50,
-          "y": 52
-        },
-        {
-          "slot_code": "ST",
-          "x": 62.0,
-          "y": 28
-        },
-        {
-          "slot_code": "ST",
-          "x": 38.0,
-          "y": 28
-        }
-      ],
-      "position_counts_sum": 11
+        { "slot_code": "GK",  "x": 8, "y": 34 },
+        { "slot_code": "RB",  "x": 29, "y": 9 },
+        { "slot_code": "LB",  "x": 29, "y": 59 },
+        { "slot_code": "CB",  "x": 26, "y": 26 },
+        { "slot_code": "CB",  "x": 26, "y": 42 },
+        { "slot_code": "CM",  "x": 56, "y": 22 },
+        { "slot_code": "CM",  "x": 54, "y": 34 },
+        { "slot_code": "CM",  "x": 56, "y": 46 },
+        { "slot_code": "CAM", "x": 65, "y": 34 },
+        { "slot_code": "ST",  "x": 82, "y": 26 },
+        { "slot_code": "ST",  "x": 82, "y": 42 }
+      ]
     },
     {
       "code": "4321",
-      "name": "4321",
+      "name": "4-3-2-1",
       "style": "Defensive",
+      "family": "4-back",
       "slot_map": [
-        {
-          "slot_code": "GK",
-          "x": 50,
-          "y": 94
-        },
-        {
-          "slot_code": "RB",
-          "x": 85,
-          "y": 82
-        },
-        {
-          "slot_code": "LB",
-          "x": 15,
-          "y": 82
-        },
-        {
-          "slot_code": "CB",
-          "x": 62.0,
-          "y": 86
-        },
-        {
-          "slot_code": "CB",
-          "x": 38.0,
-          "y": 86
-        },
-        {
-          "slot_code": "CM",
-          "x": 65.0,
-          "y": 62
-        },
-        {
-          "slot_code": "CM",
-          "x": 50,
-          "y": 62
-        },
-        {
-          "slot_code": "CM",
-          "x": 35.0,
-          "y": 62
-        },
-        {
-          "slot_code": "RF",
-          "x": 62,
-          "y": 34
-        },
-        {
-          "slot_code": "LF",
-          "x": 38,
-          "y": 34
-        },
-        {
-          "slot_code": "ST",
-          "x": 50,
-          "y": 28
-        }
-      ],
-      "position_counts_sum": 11
+        { "slot_code": "GK", "x": 8, "y": 34 },
+        { "slot_code": "RB", "x": 29, "y": 9 },
+        { "slot_code": "LB", "x": 29, "y": 59 },
+        { "slot_code": "CB", "x": 26, "y": 26 },
+        { "slot_code": "CB", "x": 26, "y": 42 },
+        { "slot_code": "CM", "x": 56, "y": 22 },
+        { "slot_code": "CM", "x": 54, "y": 34 },
+        { "slot_code": "CM", "x": 56, "y": 46 },
+        { "slot_code": "RF", "x": 72, "y": 27 },
+        { "slot_code": "LF", "x": 72, "y": 41 },
+        { "slot_code": "ST", "x": 82, "y": 34 }
+      ]
     },
     {
       "code": "433 (Balanced)",
-      "name": "433 (Balanced)",
+      "name": "4-3-3 (Balanced)",
       "style": "Balanced",
+      "family": "4-back",
       "slot_map": [
-        {
-          "slot_code": "GK",
-          "x": 50,
-          "y": 94
-        },
-        {
-          "slot_code": "RB",
-          "x": 85,
-          "y": 82
-        },
-        {
-          "slot_code": "LB",
-          "x": 15,
-          "y": 82
-        },
-        {
-          "slot_code": "CB",
-          "x": 62.0,
-          "y": 86
-        },
-        {
-          "slot_code": "CB",
-          "x": 38.0,
-          "y": 86
-        },
-        {
-          "slot_code": "CM",
-          "x": 65.0,
-          "y": 62
-        },
-        {
-          "slot_code": "CM",
-          "x": 50,
-          "y": 62
-        },
-        {
-          "slot_code": "CM",
-          "x": 35.0,
-          "y": 62
-        },
-        {
-          "slot_code": "RW",
-          "x": 88,
-          "y": 40
-        },
-        {
-          "slot_code": "LW",
-          "x": 12,
-          "y": 40
-        },
-        {
-          "slot_code": "ST",
-          "x": 50,
-          "y": 28
-        }
-      ],
-      "position_counts_sum": 11
+        { "slot_code": "GK", "x": 8, "y": 34 },
+        { "slot_code": "RB", "x": 29, "y": 9 },
+        { "slot_code": "LB", "x": 29, "y": 59 },
+        { "slot_code": "CB", "x": 26, "y": 26 },
+        { "slot_code": "CB", "x": 26, "y": 42 },
+        { "slot_code": "CM", "x": 56, "y": 22 },
+        { "slot_code": "CM", "x": 54, "y": 34 },
+        { "slot_code": "CM", "x": 56, "y": 46 },
+        { "slot_code": "RW", "x": 78, "y": 8 },
+        { "slot_code": "LW", "x": 78, "y": 60 },
+        { "slot_code": "ST", "x": 82, "y": 34 }
+      ]
     },
     {
       "code": "433 (Defensive)",
-      "name": "433 (Defensive)",
+      "name": "4-3-3 (Defensive)",
       "style": "Defensive",
+      "family": "4-back",
       "slot_map": [
-        {
-          "slot_code": "GK",
-          "x": 50,
-          "y": 94
-        },
-        {
-          "slot_code": "RB",
-          "x": 85,
-          "y": 82
-        },
-        {
-          "slot_code": "LB",
-          "x": 15,
-          "y": 82
-        },
-        {
-          "slot_code": "CB",
-          "x": 62.0,
-          "y": 86
-        },
-        {
-          "slot_code": "CB",
-          "x": 38.0,
-          "y": 86
-        },
-        {
-          "slot_code": "CDM",
-          "x": 60.0,
-          "y": 70
-        },
-        {
-          "slot_code": "CDM",
-          "x": 40.0,
-          "y": 70
-        },
-        {
-          "slot_code": "CM",
-          "x": 50,
-          "y": 62
-        },
-        {
-          "slot_code": "RW",
-          "x": 88,
-          "y": 40
-        },
-        {
-          "slot_code": "LW",
-          "x": 12,
-          "y": 40
-        },
-        {
-          "slot_code": "ST",
-          "x": 50,
-          "y": 28
-        }
-      ],
-      "position_counts_sum": 11
+        { "slot_code": "GK",  "x": 8, "y": 34 },
+        { "slot_code": "RB",  "x": 29, "y": 9 },
+        { "slot_code": "LB",  "x": 29, "y": 59 },
+        { "slot_code": "CB",  "x": 26, "y": 26 },
+        { "slot_code": "CB",  "x": 26, "y": 42 },
+        { "slot_code": "CDM", "x": 45, "y": 27 },
+        { "slot_code": "CDM", "x": 45, "y": 41 },
+        { "slot_code": "CM",  "x": 54, "y": 34 },
+        { "slot_code": "RW",  "x": 78, "y": 8 },
+        { "slot_code": "LW",  "x": 78, "y": 60 },
+        { "slot_code": "ST",  "x": 82, "y": 34 }
+      ]
     },
     {
       "code": "433 (Advanced)",
-      "name": "433 (Advanced)",
+      "name": "4-3-3 (Advanced)",
       "style": "Attacking",
+      "family": "4-back",
       "slot_map": [
-        {
-          "slot_code": "GK",
-          "x": 50,
-          "y": 94
-        },
-        {
-          "slot_code": "RB",
-          "x": 85,
-          "y": 82
-        },
-        {
-          "slot_code": "LB",
-          "x": 15,
-          "y": 82
-        },
-        {
-          "slot_code": "CB",
-          "x": 62.0,
-          "y": 86
-        },
-        {
-          "slot_code": "CB",
-          "x": 38.0,
-          "y": 86
-        },
-        {
-          "slot_code": "CM",
-          "x": 65.0,
-          "y": 62
-        },
-        {
-          "slot_code": "CM",
-          "x": 35.0,
-          "y": 62
-        },
-        {
-          "slot_code": "CAM",
-          "x": 50,
-          "y": 52
-        },
-        {
-          "slot_code": "RW",
-          "x": 88,
-          "y": 40
-        },
-        {
-          "slot_code": "LW",
-          "x": 12,
-          "y": 40
-        },
-        {
-          "slot_code": "ST",
-          "x": 50,
-          "y": 28
-        }
-      ],
-      "position_counts_sum": 11
+        { "slot_code": "GK",  "x": 8, "y": 34 },
+        { "slot_code": "RB",  "x": 29, "y": 9 },
+        { "slot_code": "LB",  "x": 29, "y": 59 },
+        { "slot_code": "CB",  "x": 26, "y": 26 },
+        { "slot_code": "CB",  "x": 26, "y": 42 },
+        { "slot_code": "CM",  "x": 55, "y": 27 },
+        { "slot_code": "CM",  "x": 55, "y": 43 },
+        { "slot_code": "CAM", "x": 65, "y": 34 },
+        { "slot_code": "RW",  "x": 78, "y": 8 },
+        { "slot_code": "LW",  "x": 78, "y": 60 },
+        { "slot_code": "ST",  "x": 82, "y": 34 }
+      ]
     },
     {
       "code": "433 (Attacking)",
-      "name": "433 (Attacking)",
+      "name": "4-3-3 (Attacking)",
       "style": "Attacking",
+      "family": "4-back",
       "slot_map": [
-        {
-          "slot_code": "GK",
-          "x": 50,
-          "y": 94
-        },
-        {
-          "slot_code": "RB",
-          "x": 85,
-          "y": 82
-        },
-        {
-          "slot_code": "LB",
-          "x": 15,
-          "y": 82
-        },
-        {
-          "slot_code": "CB",
-          "x": 62.0,
-          "y": 86
-        },
-        {
-          "slot_code": "CB",
-          "x": 38.0,
-          "y": 86
-        },
-        {
-          "slot_code": "CM",
-          "x": 50,
-          "y": 62
-        },
-        {
-          "slot_code": "CAM",
-          "x": 62.0,
-          "y": 52
-        },
-        {
-          "slot_code": "CAM",
-          "x": 38.0,
-          "y": 52
-        },
-        {
-          "slot_code": "RW",
-          "x": 88,
-          "y": 40
-        },
-        {
-          "slot_code": "LW",
-          "x": 12,
-          "y": 40
-        },
-        {
-          "slot_code": "ST",
-          "x": 50,
-          "y": 28
-        }
-      ],
-      "position_counts_sum": 11
+        { "slot_code": "GK",  "x": 8, "y": 34 },
+        { "slot_code": "RB",  "x": 29, "y": 9 },
+        { "slot_code": "LB",  "x": 29, "y": 59 },
+        { "slot_code": "CB",  "x": 26, "y": 26 },
+        { "slot_code": "CB",  "x": 26, "y": 42 },
+        { "slot_code": "CM",  "x": 54, "y": 34 },
+        { "slot_code": "CAM", "x": 65, "y": 26 },
+        { "slot_code": "CAM", "x": 65, "y": 40 },
+        { "slot_code": "RW",  "x": 78, "y": 8 },
+        { "slot_code": "LW",  "x": 78, "y": 60 },
+        { "slot_code": "ST",  "x": 82, "y": 34 }
+      ]
     },
     {
       "code": "433 (False 9)",
-      "name": "433 (False 9)",
+      "name": "4-3-3 (False 9)",
       "style": "Attacking",
+      "family": "4-back",
       "slot_map": [
-        {
-          "slot_code": "GK",
-          "x": 50,
-          "y": 94
-        },
-        {
-          "slot_code": "RB",
-          "x": 85,
-          "y": 82
-        },
-        {
-          "slot_code": "LB",
-          "x": 15,
-          "y": 82
-        },
-        {
-          "slot_code": "CB",
-          "x": 62.0,
-          "y": 86
-        },
-        {
-          "slot_code": "CB",
-          "x": 38.0,
-          "y": 86
-        },
-        {
-          "slot_code": "CM",
-          "x": 50,
-          "y": 62
-        },
-        {
-          "slot_code": "CAM",
-          "x": 62.0,
-          "y": 52
-        },
-        {
-          "slot_code": "CAM",
-          "x": 38.0,
-          "y": 52
-        },
-        {
-          "slot_code": "RW",
-          "x": 88,
-          "y": 40
-        },
-        {
-          "slot_code": "LW",
-          "x": 12,
-          "y": 40
-        },
-        {
-          "slot_code": "CF",
-          "x": 50,
-          "y": 32
-        }
-      ],
-      "position_counts_sum": 11
+        { "slot_code": "GK", "x": 8, "y": 34 },
+        { "slot_code": "RB", "x": 29, "y": 9 },
+        { "slot_code": "LB", "x": 29, "y": 59 },
+        { "slot_code": "CB", "x": 26, "y": 26 },
+        { "slot_code": "CB", "x": 26, "y": 42 },
+        { "slot_code": "CM", "x": 54, "y": 34 },
+        { "slot_code": "CAM","x": 65, "y": 26 },
+        { "slot_code": "CAM","x": 65, "y": 40 },
+        { "slot_code": "RW", "x": 78, "y": 8 },
+        { "slot_code": "LW", "x": 78, "y": 60 },
+        { "slot_code": "CF", "x": 72, "y": 34 }
+      ]
     },
     {
       "code": "4411",
-      "name": "4411",
+      "name": "4-4-1-1",
       "style": "Counter",
+      "family": "4-back",
       "slot_map": [
-        {
-          "slot_code": "GK",
-          "x": 50,
-          "y": 94
-        },
-        {
-          "slot_code": "RB",
-          "x": 85,
-          "y": 82
-        },
-        {
-          "slot_code": "LB",
-          "x": 15,
-          "y": 82
-        },
-        {
-          "slot_code": "CB",
-          "x": 62.0,
-          "y": 86
-        },
-        {
-          "slot_code": "CB",
-          "x": 38.0,
-          "y": 86
-        },
-        {
-          "slot_code": "CM",
-          "x": 65.0,
-          "y": 62
-        },
-        {
-          "slot_code": "CM",
-          "x": 35.0,
-          "y": 62
-        },
-        {
-          "slot_code": "RM",
-          "x": 86,
-          "y": 62
-        },
-        {
-          "slot_code": "LM",
-          "x": 14,
-          "y": 62
-        },
-        {
-          "slot_code": "CF",
-          "x": 50,
-          "y": 32
-        },
-        {
-          "slot_code": "ST",
-          "x": 50,
-          "y": 28
-        }
-      ],
-      "position_counts_sum": 11
+        { "slot_code": "GK", "x": 8, "y": 34 },
+        { "slot_code": "RB", "x": 29, "y": 9 },
+        { "slot_code": "LB", "x": 29, "y": 59 },
+        { "slot_code": "CB", "x": 26, "y": 26 },
+        { "slot_code": "CB", "x": 26, "y": 42 },
+        { "slot_code": "CM", "x": 55, "y": 27 },
+        { "slot_code": "CM", "x": 55, "y": 43 },
+        { "slot_code": "RM", "x": 58, "y": 8 },
+        { "slot_code": "LM", "x": 58, "y": 60 },
+        { "slot_code": "CF", "x": 72, "y": 34 },
+        { "slot_code": "ST", "x": 82, "y": 34 }
+      ]
     },
     {
       "code": "442",
-      "name": "442",
+      "name": "4-4-2",
       "style": "Balanced",
+      "family": "4-back",
       "slot_map": [
-        {
-          "slot_code": "GK",
-          "x": 50,
-          "y": 94
-        },
-        {
-          "slot_code": "RB",
-          "x": 85,
-          "y": 82
-        },
-        {
-          "slot_code": "LB",
-          "x": 15,
-          "y": 82
-        },
-        {
-          "slot_code": "CB",
-          "x": 62.0,
-          "y": 86
-        },
-        {
-          "slot_code": "CB",
-          "x": 38.0,
-          "y": 86
-        },
-        {
-          "slot_code": "CM",
-          "x": 65.0,
-          "y": 62
-        },
-        {
-          "slot_code": "CM",
-          "x": 35.0,
-          "y": 62
-        },
-        {
-          "slot_code": "RM",
-          "x": 86,
-          "y": 62
-        },
-        {
-          "slot_code": "LM",
-          "x": 14,
-          "y": 62
-        },
-        {
-          "slot_code": "ST",
-          "x": 62.0,
-          "y": 28
-        },
-        {
-          "slot_code": "ST",
-          "x": 38.0,
-          "y": 28
-        }
-      ],
-      "position_counts_sum": 11
+        { "slot_code": "GK", "x": 8, "y": 34 },
+        { "slot_code": "RB", "x": 29, "y": 9 },
+        { "slot_code": "LB", "x": 29, "y": 59 },
+        { "slot_code": "CB", "x": 26, "y": 26 },
+        { "slot_code": "CB", "x": 26, "y": 42 },
+        { "slot_code": "CM", "x": 55, "y": 27 },
+        { "slot_code": "CM", "x": 55, "y": 43 },
+        { "slot_code": "RM", "x": 58, "y": 8 },
+        { "slot_code": "LM", "x": 58, "y": 60 },
+        { "slot_code": "ST", "x": 82, "y": 26 },
+        { "slot_code": "ST", "x": 82, "y": 42 }
+      ]
     },
     {
       "code": "442 (Defensive)",
-      "name": "442 (Defensive)",
+      "name": "4-4-2 (Defensive)",
       "style": "Defensive",
+      "family": "4-back",
       "slot_map": [
-        {
-          "slot_code": "GK",
-          "x": 50,
-          "y": 94
-        },
-        {
-          "slot_code": "RB",
-          "x": 85,
-          "y": 82
-        },
-        {
-          "slot_code": "LB",
-          "x": 15,
-          "y": 82
-        },
-        {
-          "slot_code": "CB",
-          "x": 62.0,
-          "y": 86
-        },
-        {
-          "slot_code": "CB",
-          "x": 38.0,
-          "y": 86
-        },
-        {
-          "slot_code": "CDM",
-          "x": 60.0,
-          "y": 70
-        },
-        {
-          "slot_code": "CDM",
-          "x": 40.0,
-          "y": 70
-        },
-        {
-          "slot_code": "RM",
-          "x": 86,
-          "y": 62
-        },
-        {
-          "slot_code": "LM",
-          "x": 14,
-          "y": 62
-        },
-        {
-          "slot_code": "ST",
-          "x": 62.0,
-          "y": 28
-        },
-        {
-          "slot_code": "ST",
-          "x": 38.0,
-          "y": 28
-        }
-      ],
-      "position_counts_sum": 11
+        { "slot_code": "GK",  "x": 8, "y": 34 },
+        { "slot_code": "RB",  "x": 29, "y": 9 },
+        { "slot_code": "LB",  "x": 29, "y": 59 },
+        { "slot_code": "CB",  "x": 26, "y": 26 },
+        { "slot_code": "CB",  "x": 26, "y": 42 },
+        { "slot_code": "CDM", "x": 45, "y": 27 },
+        { "slot_code": "CDM", "x": 45, "y": 41 },
+        { "slot_code": "RM",  "x": 58, "y": 8 },
+        { "slot_code": "LM",  "x": 58, "y": 60 },
+        { "slot_code": "ST",  "x": 82, "y": 26 },
+        { "slot_code": "ST",  "x": 82, "y": 42 }
+      ]
     },
     {
       "code": "451 (Balanced)",
-      "name": "451 (Balanced)",
+      "name": "4-5-1 (Balanced)",
       "style": "Balanced",
+      "family": "4-back",
       "slot_map": [
-        {
-          "slot_code": "GK",
-          "x": 50,
-          "y": 94
-        },
-        {
-          "slot_code": "RB",
-          "x": 85,
-          "y": 82
-        },
-        {
-          "slot_code": "LB",
-          "x": 15,
-          "y": 82
-        },
-        {
-          "slot_code": "CB",
-          "x": 62.0,
-          "y": 86
-        },
-        {
-          "slot_code": "CB",
-          "x": 38.0,
-          "y": 86
-        },
-        {
-          "slot_code": "CM",
-          "x": 65.0,
-          "y": 62
-        },
-        {
-          "slot_code": "CM",
-          "x": 50,
-          "y": 62
-        },
-        {
-          "slot_code": "CM",
-          "x": 35.0,
-          "y": 62
-        },
-        {
-          "slot_code": "RM",
-          "x": 86,
-          "y": 62
-        },
-        {
-          "slot_code": "LM",
-          "x": 14,
-          "y": 62
-        },
-        {
-          "slot_code": "ST",
-          "x": 50,
-          "y": 28
-        }
-      ],
-      "position_counts_sum": 11
+        { "slot_code": "GK", "x": 8, "y": 34 },
+        { "slot_code": "RB", "x": 29, "y": 9 },
+        { "slot_code": "LB", "x": 29, "y": 59 },
+        { "slot_code": "CB", "x": 26, "y": 26 },
+        { "slot_code": "CB", "x": 26, "y": 42 },
+        { "slot_code": "CM", "x": 56, "y": 22 },
+        { "slot_code": "CM", "x": 54, "y": 34 },
+        { "slot_code": "CM", "x": 56, "y": 46 },
+        { "slot_code": "RM", "x": 58, "y": 8 },
+        { "slot_code": "LM", "x": 58, "y": 60 },
+        { "slot_code": "ST", "x": 82, "y": 34 }
+      ]
     },
     {
       "code": "451 (Attacking)",
-      "name": "451 (Attacking)",
+      "name": "4-5-1 (Attacking)",
       "style": "Attacking",
+      "family": "4-back",
       "slot_map": [
-        {
-          "slot_code": "GK",
-          "x": 50,
-          "y": 94
-        },
-        {
-          "slot_code": "RB",
-          "x": 85,
-          "y": 82
-        },
-        {
-          "slot_code": "LB",
-          "x": 15,
-          "y": 82
-        },
-        {
-          "slot_code": "CB",
-          "x": 62.0,
-          "y": 86
-        },
-        {
-          "slot_code": "CB",
-          "x": 38.0,
-          "y": 86
-        },
-        {
-          "slot_code": "CM",
-          "x": 50,
-          "y": 62
-        },
-        {
-          "slot_code": "RM",
-          "x": 86,
-          "y": 62
-        },
-        {
-          "slot_code": "LM",
-          "x": 14,
-          "y": 62
-        },
-        {
-          "slot_code": "CAM",
-          "x": 62.0,
-          "y": 52
-        },
-        {
-          "slot_code": "CAM",
-          "x": 38.0,
-          "y": 52
-        },
-        {
-          "slot_code": "ST",
-          "x": 50,
-          "y": 28
-        }
-      ],
-      "position_counts_sum": 11
+        { "slot_code": "GK",  "x": 8, "y": 34 },
+        { "slot_code": "RB",  "x": 29, "y": 9 },
+        { "slot_code": "LB",  "x": 29, "y": 59 },
+        { "slot_code": "CB",  "x": 26, "y": 26 },
+        { "slot_code": "CB",  "x": 26, "y": 42 },
+        { "slot_code": "CM",  "x": 54, "y": 34 },
+        { "slot_code": "RM",  "x": 58, "y": 8 },
+        { "slot_code": "LM",  "x": 58, "y": 60 },
+        { "slot_code": "CAM", "x": 65, "y": 26 },
+        { "slot_code": "CAM", "x": 65, "y": 40 },
+        { "slot_code": "ST",  "x": 82, "y": 34 }
+      ]
     },
+
     {
       "code": "5212",
-      "name": "5212",
+      "name": "5-2-1-2",
       "style": "Balanced",
+      "family": "5-back",
       "slot_map": [
-        {
-          "slot_code": "GK",
-          "x": 50,
-          "y": 94
-        },
-        {
-          "slot_code": "RWB",
-          "x": 84,
-          "y": 78
-        },
-        {
-          "slot_code": "LWB",
-          "x": 16,
-          "y": 78
-        },
-        {
-          "slot_code": "CB",
-          "x": 62.0,
-          "y": 86
-        },
-        {
-          "slot_code": "CB",
-          "x": 50,
-          "y": 86
-        },
-        {
-          "slot_code": "CB",
-          "x": 38.0,
-          "y": 86
-        },
-        {
-          "slot_code": "CM",
-          "x": 65.0,
-          "y": 62
-        },
-        {
-          "slot_code": "CM",
-          "x": 35.0,
-          "y": 62
-        },
-        {
-          "slot_code": "CAM",
-          "x": 50,
-          "y": 52
-        },
-        {
-          "slot_code": "ST",
-          "x": 62.0,
-          "y": 28
-        },
-        {
-          "slot_code": "ST",
-          "x": 38.0,
-          "y": 28
-        }
-      ],
-      "position_counts_sum": 11
+        { "slot_code": "GK",  "x": 8, "y": 34 },
+        { "slot_code": "RWB", "x": 37, "y": 5 },
+        { "slot_code": "LWB", "x": 37, "y": 63 },
+        { "slot_code": "CB",  "x": 25, "y": 17 },
+        { "slot_code": "CB",  "x": 25, "y": 34 },
+        { "slot_code": "CB",  "x": 25, "y": 51 },
+        { "slot_code": "CM",  "x": 55, "y": 27 },
+        { "slot_code": "CM",  "x": 55, "y": 43 },
+        { "slot_code": "CAM", "x": 65, "y": 34 },
+        { "slot_code": "ST",  "x": 82, "y": 26 },
+        { "slot_code": "ST",  "x": 82, "y": 42 }
+      ]
     },
     {
       "code": "5221",
-      "name": "5221",
+      "name": "5-2-2-1",
       "style": "Defensive",
+      "family": "5-back",
       "slot_map": [
-        {
-          "slot_code": "GK",
-          "x": 50,
-          "y": 94
-        },
-        {
-          "slot_code": "RWB",
-          "x": 84,
-          "y": 78
-        },
-        {
-          "slot_code": "LWB",
-          "x": 16,
-          "y": 78
-        },
-        {
-          "slot_code": "CB",
-          "x": 62.0,
-          "y": 86
-        },
-        {
-          "slot_code": "CB",
-          "x": 50,
-          "y": 86
-        },
-        {
-          "slot_code": "CB",
-          "x": 38.0,
-          "y": 86
-        },
-        {
-          "slot_code": "CM",
-          "x": 65.0,
-          "y": 62
-        },
-        {
-          "slot_code": "CM",
-          "x": 35.0,
-          "y": 62
-        },
-        {
-          "slot_code": "RF",
-          "x": 62,
-          "y": 34
-        },
-        {
-          "slot_code": "LF",
-          "x": 38,
-          "y": 34
-        },
-        {
-          "slot_code": "ST",
-          "x": 50,
-          "y": 28
-        }
-      ],
-      "position_counts_sum": 11
+        { "slot_code": "GK",  "x": 8, "y": 34 },
+        { "slot_code": "RWB", "x": 37, "y": 5 },
+        { "slot_code": "LWB", "x": 37, "y": 63 },
+        { "slot_code": "CB",  "x": 25, "y": 17 },
+        { "slot_code": "CB",  "x": 25, "y": 34 },
+        { "slot_code": "CB",  "x": 25, "y": 51 },
+        { "slot_code": "CM",  "x": 55, "y": 27 },
+        { "slot_code": "CM",  "x": 55, "y": 43 },
+        { "slot_code": "RF",  "x": 72, "y": 27 },
+        { "slot_code": "LF",  "x": 72, "y": 41 },
+        { "slot_code": "ST",  "x": 82, "y": 34 }
+      ]
     },
     {
       "code": "523",
-      "name": "523",
+      "name": "5-2-3",
       "style": "Wide",
+      "family": "5-back",
       "slot_map": [
-        {
-          "slot_code": "GK",
-          "x": 50,
-          "y": 94
-        },
-        {
-          "slot_code": "RWB",
-          "x": 84,
-          "y": 78
-        },
-        {
-          "slot_code": "LWB",
-          "x": 16,
-          "y": 78
-        },
-        {
-          "slot_code": "CB",
-          "x": 62.0,
-          "y": 86
-        },
-        {
-          "slot_code": "CB",
-          "x": 50,
-          "y": 86
-        },
-        {
-          "slot_code": "CB",
-          "x": 38.0,
-          "y": 86
-        },
-        {
-          "slot_code": "CM",
-          "x": 65.0,
-          "y": 62
-        },
-        {
-          "slot_code": "CM",
-          "x": 35.0,
-          "y": 62
-        },
-        {
-          "slot_code": "RW",
-          "x": 88,
-          "y": 40
-        },
-        {
-          "slot_code": "LW",
-          "x": 12,
-          "y": 40
-        },
-        {
-          "slot_code": "ST",
-          "x": 50,
-          "y": 28
-        }
-      ],
-      "position_counts_sum": 11
+        { "slot_code": "GK",  "x": 8, "y": 34 },
+        { "slot_code": "RWB", "x": 37, "y": 5 },
+        { "slot_code": "LWB", "x": 37, "y": 63 },
+        { "slot_code": "CB",  "x": 25, "y": 17 },
+        { "slot_code": "CB",  "x": 25, "y": 34 },
+        { "slot_code": "CB",  "x": 25, "y": 51 },
+        { "slot_code": "CM",  "x": 55, "y": 27 },
+        { "slot_code": "CM",  "x": 55, "y": 43 },
+        { "slot_code": "RW",  "x": 78, "y": 8 },
+        { "slot_code": "LW",  "x": 78, "y": 60 },
+        { "slot_code": "ST",  "x": 82, "y": 34 }
+      ]
     },
     {
       "code": "532",
-      "name": "532",
+      "name": "5-3-2",
       "style": "Defensive",
+      "family": "5-back",
       "slot_map": [
-        {
-          "slot_code": "GK",
-          "x": 50,
-          "y": 94
-        },
-        {
-          "slot_code": "RWB",
-          "x": 84,
-          "y": 78
-        },
-        {
-          "slot_code": "LWB",
-          "x": 16,
-          "y": 78
-        },
-        {
-          "slot_code": "CB",
-          "x": 62.0,
-          "y": 86
-        },
-        {
-          "slot_code": "CB",
-          "x": 50,
-          "y": 86
-        },
-        {
-          "slot_code": "CB",
-          "x": 38.0,
-          "y": 86
-        },
-        {
-          "slot_code": "CM",
-          "x": 65.0,
-          "y": 62
-        },
-        {
-          "slot_code": "CM",
-          "x": 50,
-          "y": 62
-        },
-        {
-          "slot_code": "CM",
-          "x": 35.0,
-          "y": 62
-        },
-        {
-          "slot_code": "ST",
-          "x": 62.0,
-          "y": 28
-        },
-        {
-          "slot_code": "ST",
-          "x": 38.0,
-          "y": 28
-        }
-      ],
-      "position_counts_sum": 11
+        { "slot_code": "GK",  "x": 8, "y": 34 },
+        { "slot_code": "RWB", "x": 37, "y": 5 },
+        { "slot_code": "LWB", "x": 37, "y": 63 },
+        { "slot_code": "CB",  "x": 25, "y": 17 },
+        { "slot_code": "CB",  "x": 25, "y": 34 },
+        { "slot_code": "CB",  "x": 25, "y": 51 },
+        { "slot_code": "CM",  "x": 56, "y": 22 },
+        { "slot_code": "CM",  "x": 54, "y": 34 },
+        { "slot_code": "CM",  "x": 56, "y": 46 },
+        { "slot_code": "ST",  "x": 82, "y": 26 },
+        { "slot_code": "ST",  "x": 82, "y": 42 }
+      ]
     },
     {
       "code": "541",
-      "name": "541",
+      "name": "5-4-1",
       "style": "Defensive",
+      "family": "5-back",
       "slot_map": [
-        {
-          "slot_code": "GK",
-          "x": 50,
-          "y": 94
-        },
-        {
-          "slot_code": "RWB",
-          "x": 84,
-          "y": 78
-        },
-        {
-          "slot_code": "LWB",
-          "x": 16,
-          "y": 78
-        },
-        {
-          "slot_code": "CB",
-          "x": 62.0,
-          "y": 86
-        },
-        {
-          "slot_code": "CB",
-          "x": 50,
-          "y": 86
-        },
-        {
-          "slot_code": "CB",
-          "x": 38.0,
-          "y": 86
-        },
-        {
-          "slot_code": "CM",
-          "x": 65.0,
-          "y": 62
-        },
-        {
-          "slot_code": "CM",
-          "x": 35.0,
-          "y": 62
-        },
-        {
-          "slot_code": "RM",
-          "x": 86,
-          "y": 62
-        },
-        {
-          "slot_code": "LM",
-          "x": 14,
-          "y": 62
-        },
-        {
-          "slot_code": "ST",
-          "x": 50,
-          "y": 28
-        }
-      ],
-      "position_counts_sum": 11
+        { "slot_code": "GK",  "x": 8, "y": 34 },
+        { "slot_code": "RWB", "x": 37, "y": 5 },
+        { "slot_code": "LWB", "x": 37, "y": 63 },
+        { "slot_code": "CB",  "x": 25, "y": 17 },
+        { "slot_code": "CB",  "x": 25, "y": 34 },
+        { "slot_code": "CB",  "x": 25, "y": 51 },
+        { "slot_code": "CM",  "x": 55, "y": 27 },
+        { "slot_code": "CM",  "x": 55, "y": 43 },
+        { "slot_code": "RM",  "x": 58, "y": 8 },
+        { "slot_code": "LM",  "x": 58, "y": 60 },
+        { "slot_code": "ST",  "x": 82, "y": 34 }
+      ]
     }
   ]
 }
