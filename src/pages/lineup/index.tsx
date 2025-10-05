@@ -488,21 +488,26 @@ function LineupPageContent() {
                     return formation.slot_map.map((slot: any) => {
                       const playerId = working.onField?.[slot.slot_code];
                       const player = playerId ? currentTeam.players.find(p => p.id === playerId) : undefined;
-                      
+
                       // Use draft positions if available in edit mode
                       const draftPos = editDraft[working.formationCode]?.slots?.[slot.slot_code];
                       const baseX = draftPos?.x ?? slot.x;
                       const baseY = draftPos?.y ?? slot.y;
 
-                      // Use coordinates directly from canonical formations.json
-                      // No transforms - data is already in correct orientation
+                      // Canonical data: absolute 105×68, bottom-left origin
+                      // SlotMarker needs: percentage 0-100, top-left origin
+                      const PITCH_W = 105;
+                      const PITCH_H = 68;
+
+                      const renderX = (baseX / PITCH_W) * 100;
+                      const renderY = ((PITCH_H - baseY) / PITCH_H) * 100; // Flip Y
 
                       return (
                         <SlotMarker
-                          key={slot.slot_code}
+                          key={slot.slot_id || slot.slot_code}
                           slotCode={slot.slot_code}
-                          x={baseX}
-                          y={baseY}
+                          x={renderX}
+                          y={renderY}
                           player={player}
                           isSelected={selectedSlotCode === slot.slot_code}
                           tunerOn={positionsEditor}

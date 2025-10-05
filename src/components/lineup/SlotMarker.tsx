@@ -5,8 +5,8 @@ import { CARD_W, CARD_H, PLACEHOLDER_W, PLACEHOLDER_H } from '../../lib/sizes';
 
 interface SlotMarkerProps {
   slotCode: string;
-  x: number; // percentage (0-100)
-  y: number; // percentage (0-100)
+  x: number; // percentage (0-100), top-left origin
+  y: number; // percentage (0-100), top-left origin
   player?: Player;
   isSelected?: boolean;
   onClick: () => void;

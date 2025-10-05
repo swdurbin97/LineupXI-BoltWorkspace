@@ -39,17 +39,20 @@ export default function FormationFieldV2({
   const nodes = useMemo(() => {
     if (formationData?.slot_map && Array.isArray(formationData.slot_map)) {
       // Use coordinates from canonical formations.json
-      // Data format: 0-100 percentage values
-      // Pitch SVG viewBox is 0 0 105 68
+      // Data: absolute 105×68, bottom-left origin
+      // SVG: 105×68 viewBox, top-left origin
+      // Therefore: flip Y-axis only
+      const PITCH_W = 105;
+      const PITCH_H = 68;
+
       return formationData.slot_map.map(slot => {
-        // Convert from percentage (0-100) to pitch coordinates (105x68)
-        const pitchX = (slot.x / 100) * 105;
-        const pitchY = (slot.y / 100) * 68;
+        const renderX = slot.x;
+        const renderY = PITCH_H - slot.y; // Flip Y: bottom-left → top-left
 
         return {
-          x: pitchX,
-          y: pitchY,
-          label: formatSlotLabel(slot.slot_code),
+          x: renderX,
+          y: renderY,
+          label: slot.slot_code, // Use clean label directly
           band: getBandFromSlot(slot.slot_code),
           tooltip: getTooltipText(slot.slot_code)
         };
