@@ -41,7 +41,7 @@ export function SavedLineupCard({ lineup, onRename, onDuplicate, onDelete }: Sav
   const hasPreview = lineup.formation?.code && onFieldCount > 0;
 
   return (
-    <div className="bg-white rounded-xl border border-slate-200 shadow-sm hover:shadow-md transition p-4">
+    <div className="bg-white rounded-xl border border-slate-200 shadow-sm hover:shadow-lg hover:border-slate-300 transition-shadow duration-150 p-4">
       {/* Header */}
       <div className="pb-3 border-b border-slate-100">
         <div className="flex items-start justify-between gap-2">
