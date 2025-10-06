@@ -66,10 +66,6 @@ export default function SavedLineupsPage() {
     }
   };
 
-  const handleLoad = (lineup: SavedLineup) => {
-    // Navigate to lineup page with lineup ID in state
-    navigate('/lineup', { state: { loadSavedId: lineup.id } });
-  };
 
   // Get unique teams and formations for filters
   const uniqueTeams = useMemo(() => {
@@ -223,7 +219,6 @@ export default function SavedLineupsPage() {
               <SavedLineupCard
                 key={lineup.id}
                 lineup={lineup}
-                onLoad={() => handleLoad(lineup)}
                 onRename={() => setRenameModal({ isOpen: true, lineup })}
                 onDuplicate={() => handleDuplicate(lineup.id)}
                 onDelete={() => setDeleteModal({ isOpen: true, lineup })}
@@ -238,29 +233,27 @@ export default function SavedLineupsPage() {
                   <th className="text-left px-4 py-3 font-medium text-gray-700">Name</th>
                   <th className="text-left px-4 py-3 font-medium text-gray-700">Team</th>
                   <th className="text-left px-4 py-3 font-medium text-gray-700">Formation</th>
+                  <th className="text-left px-4 py-3 font-medium text-gray-700">Players</th>
                   <th className="text-left px-4 py-3 font-medium text-gray-700">Updated</th>
-                  <th className="text-right px-4 py-3 font-medium text-gray-700">Actions</th>
                 </tr>
               </thead>
               <tbody>
-                {filteredLineups.map(lineup => (
-                  <tr key={lineup.id} className="border-b hover:bg-gray-50">
-                    <td className="px-4 py-3 font-medium">{lineup.name}</td>
-                    <td className="px-4 py-3 text-gray-600">{lineup.teamName || '—'}</td>
-                    <td className="px-4 py-3 text-gray-600">{lineup.formation.name}</td>
-                    <td className="px-4 py-3 text-gray-600">
-                      {new Date(lineup.updatedAt).toLocaleDateString()}
-                    </td>
-                    <td className="px-4 py-3 text-right">
-                      <button
-                        onClick={() => handleLoad(lineup)}
-                        className="px-3 py-1 bg-blue-600 text-white text-sm rounded hover:bg-blue-700"
-                      >
-                        Load
-                      </button>
-                    </td>
-                  </tr>
-                ))}
+                {filteredLineups.map(lineup => {
+                  const onFieldCount = Object.values(lineup.assignments.onField).filter(id => id !== null).length;
+                  return (
+                    <tr key={lineup.id} className="border-b hover:bg-gray-50">
+                      <td className="px-4 py-3 font-medium">{lineup.name}</td>
+                      <td className="px-4 py-3 text-gray-600">{lineup.teamName || '—'}</td>
+                      <td className="px-4 py-3 text-gray-600">{lineup.formation.name}</td>
+                      <td className="px-4 py-3 text-gray-600">
+                        {onFieldCount}/11 on field, {lineup.assignments.bench.length} on bench
+                      </td>
+                      <td className="px-4 py-3 text-gray-600">
+                        {new Date(lineup.updatedAt).toLocaleDateString()}
+                      </td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
           </div>

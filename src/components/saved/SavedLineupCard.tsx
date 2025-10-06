@@ -4,13 +4,12 @@ import FormationRenderer from '../field/FormationRenderer';
 
 interface SavedLineupCardProps {
   lineup: SavedLineup;
-  onLoad: () => void;
   onRename: () => void;
   onDuplicate: () => void;
   onDelete: () => void;
 }
 
-export function SavedLineupCard({ lineup, onLoad, onRename, onDuplicate, onDelete }: SavedLineupCardProps) {
+export function SavedLineupCard({ lineup, onRename, onDuplicate, onDelete }: SavedLineupCardProps) {
   const [showMenu, setShowMenu] = useState(false);
 
   const timeAgo = (timestamp: number) => {
@@ -59,15 +58,6 @@ export function SavedLineupCard({ lineup, onLoad, onRename, onDuplicate, onDelet
               <>
                 <div className="fixed inset-0 z-10" onClick={() => setShowMenu(false)} />
                 <div className="absolute right-0 top-8 z-20 bg-white rounded-lg shadow-lg border border-gray-200 py-1 w-40">
-                  <button
-                    onClick={() => {
-                      onLoad();
-                      setShowMenu(false);
-                    }}
-                    className="w-full px-4 py-2 text-left hover:bg-gray-50 text-sm"
-                  >
-                    Load
-                  </button>
                   <button
                     onClick={() => {
                       onRename();
@@ -132,14 +122,8 @@ export function SavedLineupCard({ lineup, onLoad, onRename, onDuplicate, onDelet
           <span>{onFieldCount}/11 on field</span>
           <span>{lineup.assignments.bench.length} on bench</span>
         </div>
-        <div className="flex items-center justify-between">
-          <span className="text-xs text-gray-500">Updated {timeAgo(lineup.updatedAt)}</span>
-          <button
-            onClick={onLoad}
-            className="px-4 py-2 bg-blue-600 text-white text-sm rounded-md hover:bg-blue-700 transition-colors font-medium"
-          >
-            Load
-          </button>
+        <div className="text-xs text-gray-500">
+          Updated {timeAgo(lineup.updatedAt)}
         </div>
       </div>
     </div>

@@ -15,17 +15,12 @@ import { useElementSize } from '../../lib/useElementSize';
 import { useFieldFit } from '../../lib/useFieldFit';
 import { CARD_H, GAP_X, PAD_M, PAD_S, PAD_L, UI_SCALE } from '../../lib/sizes';
 import { SaveLineupModal } from '../../components/modals/SaveLineupModal';
-import { LoadLineupModal, LoadOptions } from '../../components/modals/LoadLineupModal';
-import { serializeLineup, isEqual, savedToSerialized, computeDiff } from '../../lib/lineupSerializer';
+import { serializeLineup, isEqual } from '../../lib/lineupSerializer';
 import * as savedLineupsLib from '../../lib/savedLineups';
 import type { SavedLineup, SerializedBuilderState } from '../../types/lineup';
 import { toast } from '../../lib/toast';
 
-interface LineupBuilderCoreProps {
-  loadSavedId?: string | null;
-}
-
-function LineupBuilderCore({ loadSavedId }: LineupBuilderCoreProps) {
+function LineupPageContent() {
   const { teams, currentTeamId, setCurrentTeam } = useTeamsStore();
   const { working, startLineup, placePlayer, removeFromSlot, setRole, resetWorking, assignToBench, removeFromBench } = useLineupsStore();
   const [formations, setFormations] = useState<any[]>([]);
@@ -61,10 +56,6 @@ function LineupBuilderCore({ loadSavedId }: LineupBuilderCoreProps) {
   const [loadedLineupName, setLoadedLineupName] = useState<string>('');
   const [lastSavedSnapshot, setLastSavedSnapshot] = useState<SerializedBuilderState | null>(null);
   const [saveModalOpen, setSaveModalOpen] = useState(false);
-  const [loadModalOpen, setLoadModalOpen] = useState(false);
-  const [lineupToLoad, setLineupToLoad] = useState<SavedLineup | null>(null);
-  const [statusMenuOpen, setStatusMenuOpen] = useState(false);
-  const [hydrating, setHydrating] = useState<null | { id: string; saved: SavedLineup; options: LoadOptions }>(null);
 
   // Field sizing
   const { availRef, fieldRef, fitH, recalc } = useFieldFit();
@@ -272,11 +263,6 @@ function LineupBuilderCore({ loadSavedId }: LineupBuilderCoreProps) {
         loadedLineupId,
         loadedLineupName,
         isDirty,
-        hydrating: hydrating ? {
-          id: hydrating.id,
-          savedName: hydrating.saved.name,
-          options: hydrating.options
-        } : null,
         working: working ? {
           teamId: working.teamId,
           formationCode: working.formationCode,
@@ -291,68 +277,7 @@ function LineupBuilderCore({ loadSavedId }: LineupBuilderCoreProps) {
     return () => {
       delete (window as any).__dumpLineup;
     };
-  }, [currentSerialized, currentFormation, loadedLineupId, loadedLineupName, isDirty, hydrating, working]);
-
-  // Phase 2: Apply assignments once team/formation are ready
-  useEffect(() => {
-    if (!hydrating) return;
-
-    const { saved, options } = hydrating;
-
-    // Wait for formation and team to be ready
-    const formationReady = !!currentFormation?.code;
-    const teamReady = !!working?.teamId && !!working?.formationCode;
-
-    console.log('Hydration check:', {
-      formationReady,
-      teamReady,
-      currentFormationCode: currentFormation?.code,
-      workingFormationCode: working?.formationCode,
-      workingTeamId: working?.teamId
-    });
-
-    if (!formationReady || !teamReady) {
-      console.log('Waiting for formation/team to be ready...');
-      return;
-    }
-
-    try {
-      console.log('Applying assignments from saved lineup:', saved.id);
-
-      // Apply onField assignments
-      Object.entries(saved.assignments.onField).forEach(([slotId, playerId]) => {
-        if (playerId && working?.onField && slotId in working.onField) {
-          placePlayer(slotId, playerId);
-        }
-      });
-
-      // Apply bench assignments
-      saved.assignments.bench.forEach((playerId, index) => {
-        if (playerId && index < 8) {
-          assignToBench(index, playerId);
-        }
-      });
-
-      // Apply roles
-      if (saved.roles) {
-        Object.entries(saved.roles).forEach(([role, playerId]) => {
-          if (playerId) {
-            setRole(role as any, playerId);
-          }
-        });
-      }
-
-      // Finalize
-      setLastSavedSnapshot(savedToSerialized(saved));
-      setHydrating(null);
-      toast(`Loaded '${saved.name}'`, 'success');
-      console.log('Hydration complete');
-    } catch (err) {
-      console.error('Phase 2 apply failed:', err);
-      toast('Failed to apply lineup assignments', 'error');
-      setHydrating(null);
-    }
-  }, [hydrating, currentFormation?.code, working?.teamId, working?.formationCode, working?.onField, placePlayer, assignToBench, setRole]);
+  }, [currentSerialized, currentFormation, loadedLineupId, loadedLineupName, isDirty, working]);
 
   // Saved lineup: handlers
   const handleSave = () => {
@@ -480,57 +405,6 @@ function LineupBuilderCore({ loadSavedId }: LineupBuilderCoreProps) {
       }
     }
   };
-
-  // Phase 1: Begin loading - switch team/formation and mark hydrating
-  const beginApplyLoadedLineup = (saved: SavedLineup, options: LoadOptions) => {
-    try {
-      console.log('beginApplyLoadedLineup:', { savedId: saved.id, options });
-
-      // Step 1: Switch team if requested
-      if (options.switchTeam && saved.teamId) {
-        console.log('Switching team to:', saved.teamId, saved.teamName);
-        setCurrentTeam(saved.teamId);
-      }
-
-      // Step 2: Switch formation if requested
-      if (options.switchFormation) {
-        const targetFormation = formations.find(f => f.code === saved.formation.code);
-        if (targetFormation) {
-          console.log('Switching formation to:', saved.formation.code);
-          const teamId = saved.teamId || currentTeamId || '';
-          const team = teams.find(t => t.id === teamId);
-          startLineup(
-            teamId,
-            targetFormation.code,
-            targetFormation.slot_map.map((s: any) => ({ slot_id: s.slot_id, slot_code: s.slot_code })),
-            team?.players.map(p => p.id) || []
-          );
-        }
-      }
-
-      // Mark as hydrating - Phase 2 will apply assignments
-      setHydrating({ id: saved.id, saved, options });
-      setLoadedLineupId(saved.id);
-      setLoadedLineupName(saved.name);
-    } catch (err) {
-      console.error('beginApplyLoadedLineup failed:', err);
-      toast('Failed to load lineup', 'error');
-      setHydrating(null);
-    }
-  };
-
-  // Load from saved page
-  useEffect(() => {
-    if (loadSavedId) {
-      const saved = savedLineupsLib.get(loadSavedId);
-      if (saved) {
-        setLineupToLoad(saved);
-        setLoadModalOpen(true);
-      } else {
-        toast('Lineup not found', 'error');
-      }
-    }
-  }, [loadSavedId]);
 
   // Keyboard shortcuts
   useEffect(() => {
@@ -681,39 +555,6 @@ function LineupBuilderCore({ loadSavedId }: LineupBuilderCoreProps) {
         
         {/* Right side controls */}
         <div className="flex items-center gap-2">
-          {/* Loaded status chip */}
-          {loadedLineupId && (
-            <div className="relative">
-              <div className="flex items-center gap-2 px-3 py-1 bg-blue-50 border border-blue-200 rounded text-sm">
-                <span className="text-blue-700 font-medium">Loaded: {loadedLineupName}</span>
-                {isDirty && (
-                  <span className="w-2 h-2 bg-orange-500 rounded-full" title="Unsaved changes"></span>
-                )}
-                <button
-                  onClick={() => setStatusMenuOpen(!statusMenuOpen)}
-                  className="p-0.5 hover:bg-blue-100 rounded"
-                >
-                  <svg className="w-4 h-4 text-blue-700" fill="currentColor" viewBox="0 0 20 20">
-                    <path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z" />
-                  </svg>
-                </button>
-              </div>
-              {statusMenuOpen && (
-                <>
-                  <div className="fixed inset-0 z-10" onClick={() => setStatusMenuOpen(false)} />
-                  <div className="absolute right-0 top-full mt-1 z-20 bg-white rounded-lg shadow-lg border border-gray-200 py-1 w-48">
-                    <button
-                      onClick={() => { navigate('/saved'); setStatusMenuOpen(false); }}
-                      className="w-full px-4 py-2 text-left hover:bg-gray-50 text-sm"
-                    >
-                      Open Saved Lineups
-                    </button>
-                  </div>
-                </>
-              )}
-            </div>
-          )}
-
           {/* Save / Save Changes button */}
           <button
             onClick={handleSave}
@@ -1023,86 +864,14 @@ function LineupBuilderCore({ loadSavedId }: LineupBuilderCoreProps) {
         benchCount={(working?.benchSlots || []).filter(Boolean).length}
         loadedLineupId={loadedLineupId}
       />
-
-      {lineupToLoad && (
-        <LoadLineupModal
-          isOpen={loadModalOpen}
-          onClose={() => {
-            setLoadModalOpen(false);
-            setLineupToLoad(null);
-          }}
-          onLoad={(options) => {
-            beginApplyLoadedLineup(lineupToLoad, options);
-            setLoadModalOpen(false);
-            setLineupToLoad(null);
-          }}
-          lineupName={lineupToLoad.name}
-          diff={currentSerialized ? computeDiff(currentSerialized, lineupToLoad, currentTeam?.players.map(p => p.id) || []) : null}
-        />
-      )}
     </div>
   );
-}
-
-// Shell component that handles routing and error states
-function LineupPageShell() {
-  const location = useLocation();
-  const navigate = useNavigate();
-  const [error, setError] = useState<string | null>(null);
-
-  // Parse routing state
-  const state = location.state as { loadSavedId?: string } | null;
-  const loadSavedId = state?.loadSavedId || null;
-
-  // Clear navigation state after reading
-  useEffect(() => {
-    if (state?.loadSavedId) {
-      navigate(location.pathname, { replace: true, state: {} });
-    }
-  }, [state?.loadSavedId, navigate, location.pathname]);
-
-  // Defensive localStorage parsing
-  useEffect(() => {
-    try {
-      const saved = localStorage.getItem('lineupxi:saved_lineups:v1');
-      if (saved) {
-        JSON.parse(saved);
-      }
-    } catch (err) {
-      console.error('Failed to parse saved lineups:', err);
-      setError('Failed to load saved lineups. Storage may be corrupted.');
-    }
-  }, []);
-
-  // Error panel
-  if (error) {
-    return (
-      <div className="flex items-center justify-center min-h-screen p-4">
-        <div className="bg-red-50 border border-red-200 rounded-lg p-6 max-w-md">
-          <h2 className="text-xl font-bold text-red-800 mb-2">Error</h2>
-          <p className="text-red-700">{error}</p>
-          <button
-            onClick={() => {
-              localStorage.removeItem('lineupxi:saved_lineups:v1');
-              setError(null);
-              window.location.reload();
-            }}
-            className="mt-4 px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
-          >
-            Clear Storage and Reload
-          </button>
-        </div>
-      </div>
-    );
-  }
-
-  return <LineupBuilderCore loadSavedId={loadSavedId} />;
 }
 
 export default function LineupPage() {
   return (
     <ErrorBoundary>
-      <LineupPageShell />
+      <LineupPageContent />
     </ErrorBoundary>
   );
 }
