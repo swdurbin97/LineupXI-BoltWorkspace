@@ -5,6 +5,7 @@ import type { SavedLineup } from '../../types/lineup';
 import { SavedLineupCard } from '../../components/saved/SavedLineupCard';
 import { DeleteConfirmModal } from '../../components/modals/DeleteConfirmModal';
 import { RenameLineupModal } from '../../components/modals/RenameLineupModal';
+import SavedLineupViewerModal from '../../components/saved/SavedLineupViewerModal';
 import { toast } from '../../lib/toast';
 import * as savedLineupsLib from '../../lib/savedLineups';
 
@@ -19,7 +20,7 @@ function ListRowActions({ lineup, onRename, onDuplicate, onDelete }: ListRowActi
   const [showMenu, setShowMenu] = useState(false);
 
   return (
-    <div className="relative">
+    <div className="relative" onClick={(e) => e.stopPropagation()}>
       <button
         onClick={() => setShowMenu(!showMenu)}
         className="p-1 hover:bg-slate-100 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -85,6 +86,9 @@ export default function SavedLineupsPage() {
     isOpen: false,
     lineup: null
   });
+
+  const [viewerOpen, setViewerOpen] = useState(false);
+  const [viewerLineup, setViewerLineup] = useState<SavedLineup | null>(null);
 
   const refreshLineups = () => {
     setLineups(list());
@@ -281,6 +285,10 @@ export default function SavedLineupsPage() {
                 onRename={() => setRenameModal({ isOpen: true, lineup })}
                 onDuplicate={() => handleDuplicate(lineup.id)}
                 onDelete={() => setDeleteModal({ isOpen: true, lineup })}
+                onView={() => {
+                  setViewerLineup(lineup);
+                  setViewerOpen(true);
+                }}
               />
             ))}
           </div>
@@ -302,7 +310,14 @@ export default function SavedLineupsPage() {
                   const onFieldCount = Object.values(lineup.assignments?.onField ?? {}).filter(Boolean).length;
                   const benchCount = lineup.assignments?.bench?.length ?? 0;
                   return (
-                    <tr key={lineup.id} className="border-b hover:bg-slate-50">
+                    <tr
+                      key={lineup.id}
+                      className="border-b hover:bg-slate-50 cursor-pointer"
+                      onClick={() => {
+                        setViewerLineup(lineup);
+                        setViewerOpen(true);
+                      }}
+                    >
                       <td className="px-4 py-3 font-medium">{lineup.name}</td>
                       <td className="px-4 py-3 text-slate-600">{lineup.teamName || '—'}</td>
                       <td className="px-4 py-3 text-slate-600">
@@ -344,6 +359,15 @@ export default function SavedLineupsPage() {
         onClose={() => setRenameModal({ isOpen: false, lineup: null })}
         onRename={(newName) => renameModal.lineup && handleRename(renameModal.lineup.id, newName)}
         currentName={renameModal.lineup?.name || ''}
+      />
+
+      <SavedLineupViewerModal
+        open={viewerOpen}
+        lineup={viewerLineup}
+        onClose={() => {
+          setViewerOpen(false);
+          setViewerLineup(null);
+        }}
       />
     </div>
   );

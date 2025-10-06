@@ -7,9 +7,10 @@ interface SavedLineupCardProps {
   onRename: () => void;
   onDuplicate: () => void;
   onDelete: () => void;
+  onView: () => void;
 }
 
-export function SavedLineupCard({ lineup, onRename, onDuplicate, onDelete }: SavedLineupCardProps) {
+export function SavedLineupCard({ lineup, onRename, onDuplicate, onDelete, onView }: SavedLineupCardProps) {
   const [showMenu, setShowMenu] = useState(false);
 
   const timeAgo = (timestamp: number) => {
@@ -28,14 +29,20 @@ export function SavedLineupCard({ lineup, onRename, onDuplicate, onDelete }: Sav
   const benchCount = lineup.assignments?.bench?.length ?? 0;
 
   return (
-    <div className="bg-white rounded-xl border border-slate-200 shadow-sm hover:shadow-lg hover:border-slate-300 transition-shadow duration-150 p-4">
+    <div
+      className="bg-white rounded-xl border border-slate-200 shadow-sm hover:shadow-lg hover:border-slate-300 transition-shadow duration-150 p-4 cursor-pointer"
+      onClick={onView}
+    >
       {/* Header */}
       <div className="pb-3 border-b border-slate-100">
         <div className="flex items-start justify-between gap-2">
           <h3 className="text-lg font-bold flex-1 truncate">{lineup.name}</h3>
           <div className="relative">
             <button
-              onClick={() => setShowMenu(!showMenu)}
+              onClick={(e) => {
+                e.stopPropagation();
+                setShowMenu(!showMenu);
+              }}
               className="p-1 hover:bg-slate-100 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
               aria-label={`Actions for ${lineup.name}`}
             >

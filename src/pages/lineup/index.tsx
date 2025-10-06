@@ -281,6 +281,11 @@ function LineupPageContent() {
 
   // Saved lineup: handlers
   const handleSave = () => {
+    if (!canSave) {
+      toast('You need a full XI with exactly 1 GK to save', 'error');
+      return;
+    }
+
     if (loadedLineupId) {
       // Update existing lineup
       if (!currentSerialized || !currentFormation) {
@@ -487,11 +492,13 @@ function LineupPageContent() {
       ).length
     : 0;
 
-  const onFieldCount = working?.onField 
-    ? Object.values(working.onField).filter(id => id).length 
+  const onFieldCount = working?.onField
+    ? Object.values(working.onField).filter(id => id).length
     : 0;
   const maxPlayers = 11;
-  
+
+  const canSave = onFieldCount === 11 && gkCount === 1;
+
   // Compute available players (not on field, not on bench)
   const availablePlayers = useMemo(() => {
     if (!currentTeam || !working) return [];
@@ -556,18 +563,26 @@ function LineupPageContent() {
         {/* Right side controls */}
         <div className="flex items-center gap-2">
           {/* Save / Save Changes button */}
-          <button
-            onClick={handleSave}
-            disabled={loadedLineupId && !isDirty}
-            className={`px-3 py-1 text-sm rounded transition-colors font-medium ${
-              loadedLineupId && !isDirty
-                ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                : 'bg-blue-600 text-white hover:bg-blue-700'
-            }`}
-            title="Ctrl/Cmd+S"
-          >
-            {loadedLineupId ? 'Save Changes' : 'Save Lineup'}
-          </button>
+          <div className="flex flex-col">
+            <button
+              onClick={handleSave}
+              disabled={!canSave || (loadedLineupId && !isDirty)}
+              className={`px-3 py-1 text-sm rounded transition-colors font-medium ${
+                !canSave || (loadedLineupId && !isDirty)
+                  ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                  : 'bg-blue-600 text-white hover:bg-blue-700'
+              }`}
+              title={!canSave ? 'Add a full XI with exactly 1 GK to save' : 'Ctrl/Cmd+S'}
+            >
+              {loadedLineupId ? 'Save Changes' : 'Save Lineup'}
+            </button>
+            {!canSave && (
+              <div className="mt-1 text-xs text-slate-500 flex items-center gap-1" role="status" aria-live="polite">
+                <span>(i)</span>
+                <span>You can save once you have a full XI with exactly 1 GK.</span>
+              </div>
+            )}
+          </div>
 
           {/* Send Rest to Bench button */}
           <button
