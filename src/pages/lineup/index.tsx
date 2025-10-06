@@ -563,11 +563,11 @@ function LineupPageContent() {
         {/* Right side controls */}
         <div className="flex items-center gap-2">
           {/* Save / Save Changes button */}
-          <div className="flex flex-col">
+          <div className="inline-flex flex-col shrink-0">
             <button
               onClick={handleSave}
               disabled={!canSave || (loadedLineupId && !isDirty)}
-              className={`px-3 py-1 text-sm rounded transition-colors font-medium ${
+              className={`min-w-[132px] px-3 py-1 text-sm rounded transition-colors font-medium ${
                 !canSave || (loadedLineupId && !isDirty)
                   ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
                   : 'bg-blue-600 text-white hover:bg-blue-700'
@@ -577,9 +577,8 @@ function LineupPageContent() {
               {loadedLineupId ? 'Save Changes' : 'Save Lineup'}
             </button>
             {!canSave && (
-              <div className="mt-1 text-xs text-slate-500 flex items-center gap-1" role="status" aria-live="polite">
-                <span>(i)</span>
-                <span>You can save once you have a full XI with exactly 1 GK.</span>
+              <div className="mt-1 max-w-[280px] text-xs text-slate-500 leading-snug" role="status" aria-live="polite">
+                You can save once you have 11 starters with exactly 1 GK.
               </div>
             )}
           </div>

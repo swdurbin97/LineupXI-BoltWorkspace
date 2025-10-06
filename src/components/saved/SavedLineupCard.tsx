@@ -29,15 +29,18 @@ export function SavedLineupCard({ lineup, onRename, onDuplicate, onDelete, onVie
   const benchCount = lineup.assignments?.bench?.length ?? 0;
 
   return (
-    <div
-      className="bg-white rounded-xl border border-slate-200 shadow-sm hover:shadow-lg hover:border-slate-300 transition-shadow duration-150 p-4 cursor-pointer"
-      onClick={onView}
-    >
+    <div className="bg-white rounded-xl border border-slate-200 shadow-sm hover:shadow-lg hover:border-slate-300 transition-shadow duration-150 p-4">
       {/* Header */}
       <div className="pb-3 border-b border-slate-100">
         <div className="flex items-start justify-between gap-2">
-          <h3 className="text-lg font-bold flex-1 truncate">{lineup.name}</h3>
-          <div className="relative">
+          <button
+            type="button"
+            onClick={onView}
+            className="text-lg font-bold flex-1 truncate text-left cursor-pointer hover:text-blue-600 transition-colors"
+          >
+            {lineup.name}
+          </button>
+          <div className="relative" onClick={(e) => e.stopPropagation()}>
             <button
               onClick={(e) => {
                 e.stopPropagation();
@@ -55,7 +58,9 @@ export function SavedLineupCard({ lineup, onRename, onDuplicate, onDelete, onVie
                 <div className="fixed inset-0 z-10" onClick={() => setShowMenu(false)} />
                 <div className="absolute right-0 top-8 z-20 bg-white rounded-lg shadow-lg border border-slate-200 py-1 w-40">
                   <button
-                    onClick={() => {
+                    onMouseDown={(e) => e.stopPropagation()}
+                    onClick={(e) => {
+                      e.stopPropagation();
                       onRename();
                       setShowMenu(false);
                     }}
@@ -64,7 +69,9 @@ export function SavedLineupCard({ lineup, onRename, onDuplicate, onDelete, onVie
                     Rename
                   </button>
                   <button
-                    onClick={() => {
+                    onMouseDown={(e) => e.stopPropagation()}
+                    onClick={(e) => {
+                      e.stopPropagation();
                       onDuplicate();
                       setShowMenu(false);
                     }}
@@ -73,7 +80,9 @@ export function SavedLineupCard({ lineup, onRename, onDuplicate, onDelete, onVie
                     Duplicate
                   </button>
                   <button
-                    onClick={() => {
+                    onMouseDown={(e) => e.stopPropagation()}
+                    onClick={(e) => {
+                      e.stopPropagation();
                       onDelete();
                       setShowMenu(false);
                     }}
@@ -101,7 +110,13 @@ export function SavedLineupCard({ lineup, onRename, onDuplicate, onDelete, onVie
       </div>
 
       {/* Preview */}
-      <MiniPitchPreview lineup={lineup} />
+      <button
+        type="button"
+        onClick={onView}
+        className="w-full cursor-pointer"
+      >
+        <MiniPitchPreview lineup={lineup} />
+      </button>
 
       {/* Footer */}
       <div className="pt-3 border-t border-slate-100">

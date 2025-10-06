@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import type { SavedLineup } from '../../types/lineup';
 import type { Player } from '../../lib/types';
 import { useTeamsStore } from '../../store/teams';
@@ -38,6 +38,8 @@ export default function SavedLineupViewerModal({
   const { teams } = useTeamsStore();
   const [formation, setFormation] = useState<FormationData | null>(null);
   const [loading, setLoading] = useState(true);
+  const [markerScale, setMarkerScale] = useState(0.8);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!open || !lineup?.formation?.code) {
@@ -62,6 +64,21 @@ export default function SavedLineupViewerModal({
 
     loadFormation();
   }, [open, lineup]);
+
+  useEffect(() => {
+    if (!containerRef.current) return;
+
+    const observer = new ResizeObserver((entries) => {
+      for (const entry of entries) {
+        const width = entry.contentRect.width;
+        const scale = Math.max(0.78, Math.min(0.85, width / 680));
+        setMarkerScale(scale);
+      }
+    });
+
+    observer.observe(containerRef.current);
+    return () => observer.disconnect();
+  }, []);
 
   if (!open || !lineup) return null;
 
@@ -127,8 +144,8 @@ export default function SavedLineupViewerModal({
             </button>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-[60%_40%] gap-6">
-            <div className="relative aspect-[105/68] rounded-lg overflow-hidden border border-slate-200 bg-white">
+          <div className="grid grid-cols-1 lg:grid-cols-[minmax(540px,1fr)_minmax(320px,380px)] gap-8">
+            <div ref={containerRef} className="relative w-full aspect-[105/68] rounded-md border border-slate-200 bg-white">
               {loading ? (
                 <div className="absolute inset-0 flex items-center justify-center">
                   <span className="text-slate-400">Loading formation...</span>
@@ -138,13 +155,13 @@ export default function SavedLineupViewerModal({
                   <span className="text-slate-400">Formation not available</span>
                 </div>
               ) : (
-                <div className="absolute inset-0 p-4">
+                <div className="absolute inset-0">
                   <div className="w-full h-full">
                     <FormationRenderer
                       formation={formation}
                       interactive={false}
                       showLabels={false}
-                      markerScale={0.8}
+                      markerScale={markerScale}
                     />
                   </div>
                 </div>

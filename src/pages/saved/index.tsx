@@ -35,7 +35,9 @@ function ListRowActions({ lineup, onRename, onDuplicate, onDelete }: ListRowActi
           <div className="fixed inset-0 z-10" onClick={() => setShowMenu(false)} />
           <div className="absolute right-0 top-8 z-20 bg-white rounded-lg shadow-lg border border-slate-200 py-1 w-40">
             <button
-              onClick={() => {
+              onMouseDown={(e) => e.stopPropagation()}
+              onClick={(e) => {
+                e.stopPropagation();
                 onRename();
                 setShowMenu(false);
               }}
@@ -44,7 +46,9 @@ function ListRowActions({ lineup, onRename, onDuplicate, onDelete }: ListRowActi
               Rename
             </button>
             <button
-              onClick={() => {
+              onMouseDown={(e) => e.stopPropagation()}
+              onClick={(e) => {
+                e.stopPropagation();
                 onDuplicate();
                 setShowMenu(false);
               }}
@@ -53,7 +57,9 @@ function ListRowActions({ lineup, onRename, onDuplicate, onDelete }: ListRowActi
               Duplicate
             </button>
             <button
-              onClick={() => {
+              onMouseDown={(e) => e.stopPropagation()}
+              onClick={(e) => {
+                e.stopPropagation();
                 onDelete();
                 setShowMenu(false);
               }}

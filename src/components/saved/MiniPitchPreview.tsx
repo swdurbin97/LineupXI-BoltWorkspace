@@ -63,7 +63,7 @@ export default function MiniPitchPreview({
     const observer = new ResizeObserver((entries) => {
       for (const entry of entries) {
         const width = entry.contentRect.width;
-        const scale = Math.max(0.50, Math.min(0.65, width / 600));
+        const scale = Math.max(0.52, Math.min(0.66, width / 960 + 0.02));
         setMarkerScale(scale);
       }
     });
@@ -76,30 +76,33 @@ export default function MiniPitchPreview({
 
   return (
     <div
-      ref={containerRef}
-      className={`relative my-3 aspect-[105/68] rounded-lg overflow-hidden border border-slate-200 bg-white ${className}`}
+      className={`relative my-3 rounded-lg border border-slate-200 bg-white ${className}`}
       aria-label={`Preview for ${lineup?.name ?? 'Saved lineup'}`}
     >
-      {loading ? (
-        <div className="absolute inset-0 flex items-center justify-center">
-          <span className="text-slate-400 text-sm">Loading...</span>
+      <div className="relative p-2">
+        <div ref={containerRef} className="relative w-full aspect-[105/68]">
+          {loading ? (
+            <div className="absolute inset-0 flex items-center justify-center">
+              <span className="text-slate-400 text-sm">Loading...</span>
+            </div>
+          ) : showPlaceholder ? (
+            <div className="absolute inset-0 flex items-center justify-center">
+              <span className="text-slate-400 text-sm">No preview</span>
+            </div>
+          ) : (
+            <div className="absolute inset-0 pointer-events-none select-none">
+              <div className="w-full h-full">
+                <FormationRenderer
+                  formation={formation}
+                  interactive={false}
+                  showLabels={false}
+                  markerScale={markerScale}
+                />
+              </div>
+            </div>
+          )}
         </div>
-      ) : showPlaceholder ? (
-        <div className="absolute inset-0 flex items-center justify-center">
-          <span className="text-slate-400 text-sm">No preview</span>
-        </div>
-      ) : (
-        <div className="absolute inset-0 p-2 pointer-events-none select-none">
-          <div className="w-full h-full">
-            <FormationRenderer
-              formation={formation}
-              interactive={false}
-              showLabels={false}
-              markerScale={markerScale}
-            />
-          </div>
-        </div>
-      )}
+      </div>
     </div>
   );
 }
