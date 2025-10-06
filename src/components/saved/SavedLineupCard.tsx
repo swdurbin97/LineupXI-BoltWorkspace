@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import type { SavedLineup } from '../../types/lineup';
-import FormationRenderer from '../field/FormationRenderer';
+import MiniPitchPreview from './MiniPitchPreview';
 
 interface SavedLineupCardProps {
   lineup: SavedLineup;
@@ -24,21 +24,8 @@ export function SavedLineupCard({ lineup, onRename, onDuplicate, onDelete }: Sav
     return new Date(timestamp).toLocaleDateString();
   };
 
-  // Create minimal formation object for preview
-  const formationForPreview = {
-    code: lineup.formation.code,
-    name: lineup.formation.name,
-    slots: Object.keys(lineup.assignments.onField).map(slotId => ({
-      slot_id: slotId,
-      slot_code: slotId.split(':')[1] || 'P',
-      x: 0.5,
-      y: 0.5
-    }))
-  };
-
   const onFieldCount = Object.values(lineup.assignments?.onField ?? {}).filter(Boolean).length;
   const benchCount = lineup.assignments?.bench?.length ?? 0;
-  const hasPreview = lineup.formation?.code && onFieldCount > 0;
 
   return (
     <div className="bg-white rounded-xl border border-slate-200 shadow-sm hover:shadow-lg hover:border-slate-300 transition-shadow duration-150 p-4">
@@ -107,23 +94,7 @@ export function SavedLineupCard({ lineup, onRename, onDuplicate, onDelete }: Sav
       </div>
 
       {/* Preview */}
-      <div
-        className="my-3 h-[220px] sm:h-[180px] rounded-lg overflow-hidden border border-slate-200 bg-white flex items-center justify-center p-3"
-        aria-label={`Preview for ${lineup.name}`}
-      >
-        {hasPreview ? (
-          <div className="w-full h-full">
-            <FormationRenderer
-              formation={formationForPreview as any}
-              interactive={false}
-              showLabels={false}
-              markerScale={0.62}
-            />
-          </div>
-        ) : (
-          <span className="text-slate-400 text-sm">No preview</span>
-        )}
-      </div>
+      <MiniPitchPreview lineup={lineup} />
 
       {/* Footer */}
       <div className="pt-3 border-t border-slate-100">
