@@ -36,34 +36,36 @@ export function SavedLineupCard({ lineup, onRename, onDuplicate, onDelete }: Sav
     }))
   };
 
-  const onFieldCount = Object.values(lineup.assignments.onField).filter(id => id !== null).length;
+  const onFieldCount = Object.values(lineup.assignments?.onField ?? {}).filter(Boolean).length;
+  const benchCount = lineup.assignments?.bench?.length ?? 0;
+  const hasPreview = lineup.formation?.code && onFieldCount > 0;
 
   return (
-    <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-shadow">
+    <div className="bg-white rounded-xl border border-slate-200 shadow-sm hover:shadow-md transition p-4">
       {/* Header */}
-      <div className="p-4 border-b border-gray-100">
+      <div className="pb-3 border-b border-slate-100">
         <div className="flex items-start justify-between gap-2">
-          <h3 className="text-lg font-bold text-center flex-1">{lineup.name}</h3>
+          <h3 className="text-lg font-bold flex-1 truncate">{lineup.name}</h3>
           <div className="relative">
             <button
               onClick={() => setShowMenu(!showMenu)}
-              className="p-1 hover:bg-gray-100 rounded"
-              aria-label="More options"
+              className="p-1 hover:bg-slate-100 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+              aria-label={`Actions for ${lineup.name}`}
             >
-              <svg className="w-5 h-5 text-gray-600" fill="currentColor" viewBox="0 0 20 20">
+              <svg className="w-5 h-5 text-slate-600" fill="currentColor" viewBox="0 0 20 20">
                 <path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z" />
               </svg>
             </button>
             {showMenu && (
               <>
                 <div className="fixed inset-0 z-10" onClick={() => setShowMenu(false)} />
-                <div className="absolute right-0 top-8 z-20 bg-white rounded-lg shadow-lg border border-gray-200 py-1 w-40">
+                <div className="absolute right-0 top-8 z-20 bg-white rounded-lg shadow-lg border border-slate-200 py-1 w-40">
                   <button
                     onClick={() => {
                       onRename();
                       setShowMenu(false);
                     }}
-                    className="w-full px-4 py-2 text-left hover:bg-gray-50 text-sm"
+                    className="w-full px-4 py-2 text-left hover:bg-slate-50 text-sm focus:outline-none focus:bg-slate-50"
                   >
                     Rename
                   </button>
@@ -72,7 +74,7 @@ export function SavedLineupCard({ lineup, onRename, onDuplicate, onDelete }: Sav
                       onDuplicate();
                       setShowMenu(false);
                     }}
-                    className="w-full px-4 py-2 text-left hover:bg-gray-50 text-sm"
+                    className="w-full px-4 py-2 text-left hover:bg-slate-50 text-sm focus:outline-none focus:bg-slate-50"
                   >
                     Duplicate
                   </button>
@@ -81,7 +83,7 @@ export function SavedLineupCard({ lineup, onRename, onDuplicate, onDelete }: Sav
                       onDelete();
                       setShowMenu(false);
                     }}
-                    className="w-full px-4 py-2 text-left hover:bg-gray-50 text-sm text-red-600"
+                    className="w-full px-4 py-2 text-left hover:bg-slate-50 text-sm text-red-600 focus:outline-none focus:bg-slate-50"
                   >
                     Delete
                   </button>
@@ -92,38 +94,42 @@ export function SavedLineupCard({ lineup, onRename, onDuplicate, onDelete }: Sav
         </div>
 
         {/* Chips */}
-        <div className="flex flex-wrap gap-2 mt-2">
+        <div className="flex flex-wrap gap-2 mt-1">
           {lineup.teamName && (
-            <span className="px-2 py-1 bg-blue-100 text-blue-700 text-xs rounded-full">
+            <span className="px-2 py-1 bg-blue-100 text-blue-700 text-xs rounded-full truncate">
               {lineup.teamName}
             </span>
           )}
-          <span className="px-2 py-1 bg-green-100 text-green-700 text-xs rounded-full">
-            {lineup.formation.name}
+          <span className="px-2 py-1 bg-green-100 text-green-700 text-xs rounded-full truncate">
+            {lineup.formation?.name || lineup.formation?.code || 'Unknown formation'}
           </span>
         </div>
       </div>
 
       {/* Preview */}
-      <div className="bg-gray-50 p-4 h-48 flex items-center justify-center">
-        <div className="w-full h-full">
-          <FormationRenderer
-            formation={formationForPreview as any}
-            interactive={false}
-            showLabels={false}
-            markerScale={0.72}
-          />
-        </div>
+      <div
+        className="my-3 h-[220px] sm:h-[180px] rounded-lg overflow-hidden border border-slate-200 bg-white flex items-center justify-center p-3"
+        aria-label={`Preview for ${lineup.name}`}
+      >
+        {hasPreview ? (
+          <div className="w-full h-full">
+            <FormationRenderer
+              formation={formationForPreview as any}
+              interactive={false}
+              showLabels={false}
+              markerScale={0.62}
+            />
+          </div>
+        ) : (
+          <span className="text-slate-400 text-sm">No preview</span>
+        )}
       </div>
 
       {/* Footer */}
-      <div className="p-4 border-t border-gray-100">
-        <div className="flex items-center justify-between text-sm text-gray-600 mb-3">
-          <span>{onFieldCount}/11 on field</span>
-          <span>{lineup.assignments.bench.length} on bench</span>
-        </div>
-        <div className="text-xs text-gray-500">
-          Updated {timeAgo(lineup.updatedAt)}
+      <div className="pt-3 border-t border-slate-100">
+        <div className="flex items-center justify-between text-sm text-slate-500">
+          <span>{onFieldCount}/11 on field • {benchCount} on bench</span>
+          <span className="text-xs">Updated {timeAgo(lineup.updatedAt)}</span>
         </div>
       </div>
     </div>

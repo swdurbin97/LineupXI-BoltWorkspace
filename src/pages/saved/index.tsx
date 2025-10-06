@@ -8,6 +8,65 @@ import { RenameLineupModal } from '../../components/modals/RenameLineupModal';
 import { toast } from '../../lib/toast';
 import * as savedLineupsLib from '../../lib/savedLineups';
 
+interface ListRowActionsProps {
+  lineup: SavedLineup;
+  onRename: () => void;
+  onDuplicate: () => void;
+  onDelete: () => void;
+}
+
+function ListRowActions({ lineup, onRename, onDuplicate, onDelete }: ListRowActionsProps) {
+  const [showMenu, setShowMenu] = useState(false);
+
+  return (
+    <div className="relative">
+      <button
+        onClick={() => setShowMenu(!showMenu)}
+        className="p-1 hover:bg-slate-100 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+        aria-label={`Actions for ${lineup.name}`}
+      >
+        <svg className="w-5 h-5 text-slate-600" fill="currentColor" viewBox="0 0 20 20">
+          <path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z" />
+        </svg>
+      </button>
+      {showMenu && (
+        <>
+          <div className="fixed inset-0 z-10" onClick={() => setShowMenu(false)} />
+          <div className="absolute right-0 top-8 z-20 bg-white rounded-lg shadow-lg border border-slate-200 py-1 w-40">
+            <button
+              onClick={() => {
+                onRename();
+                setShowMenu(false);
+              }}
+              className="w-full px-4 py-2 text-left hover:bg-slate-50 text-sm focus:outline-none focus:bg-slate-50"
+            >
+              Rename
+            </button>
+            <button
+              onClick={() => {
+                onDuplicate();
+                setShowMenu(false);
+              }}
+              className="w-full px-4 py-2 text-left hover:bg-slate-50 text-sm focus:outline-none focus:bg-slate-50"
+            >
+              Duplicate
+            </button>
+            <button
+              onClick={() => {
+                onDelete();
+                setShowMenu(false);
+              }}
+              className="w-full px-4 py-2 text-left hover:bg-slate-50 text-sm text-red-600 focus:outline-none focus:bg-slate-50"
+            >
+              Delete
+            </button>
+          </div>
+        </>
+      )}
+    </div>
+  );
+}
+
 export default function SavedLineupsPage() {
   const navigate = useNavigate();
   const [lineups, setLineups] = useState<SavedLineup[]>(() => list());
@@ -228,28 +287,40 @@ export default function SavedLineupsPage() {
         ) : (
           <div className="bg-white rounded-lg shadow-sm overflow-hidden">
             <table className="w-full">
-              <thead className="bg-gray-50 border-b">
+              <thead className="bg-slate-50 border-b">
                 <tr>
-                  <th className="text-left px-4 py-3 font-medium text-gray-700">Name</th>
-                  <th className="text-left px-4 py-3 font-medium text-gray-700">Team</th>
-                  <th className="text-left px-4 py-3 font-medium text-gray-700">Formation</th>
-                  <th className="text-left px-4 py-3 font-medium text-gray-700">Players</th>
-                  <th className="text-left px-4 py-3 font-medium text-gray-700">Updated</th>
+                  <th className="text-left px-4 py-3 font-medium text-slate-700">Name</th>
+                  <th className="text-left px-4 py-3 font-medium text-slate-700">Team</th>
+                  <th className="text-left px-4 py-3 font-medium text-slate-700">Formation</th>
+                  <th className="text-left px-4 py-3 font-medium text-slate-700">Players</th>
+                  <th className="text-left px-4 py-3 font-medium text-slate-700">Updated</th>
+                  <th className="text-right px-4 py-3 font-medium text-slate-700">Actions</th>
                 </tr>
               </thead>
               <tbody>
                 {filteredLineups.map(lineup => {
-                  const onFieldCount = Object.values(lineup.assignments.onField).filter(id => id !== null).length;
+                  const onFieldCount = Object.values(lineup.assignments?.onField ?? {}).filter(Boolean).length;
+                  const benchCount = lineup.assignments?.bench?.length ?? 0;
                   return (
-                    <tr key={lineup.id} className="border-b hover:bg-gray-50">
+                    <tr key={lineup.id} className="border-b hover:bg-slate-50">
                       <td className="px-4 py-3 font-medium">{lineup.name}</td>
-                      <td className="px-4 py-3 text-gray-600">{lineup.teamName || '—'}</td>
-                      <td className="px-4 py-3 text-gray-600">{lineup.formation.name}</td>
-                      <td className="px-4 py-3 text-gray-600">
-                        {onFieldCount}/11 on field, {lineup.assignments.bench.length} on bench
+                      <td className="px-4 py-3 text-slate-600">{lineup.teamName || '—'}</td>
+                      <td className="px-4 py-3 text-slate-600">
+                        {lineup.formation?.name || lineup.formation?.code || 'Unknown'}
                       </td>
-                      <td className="px-4 py-3 text-gray-600">
+                      <td className="px-4 py-3 text-slate-600">
+                        {onFieldCount}/11 on field • {benchCount} on bench
+                      </td>
+                      <td className="px-4 py-3 text-slate-600">
                         {new Date(lineup.updatedAt).toLocaleDateString()}
+                      </td>
+                      <td className="px-4 py-3 text-right">
+                        <ListRowActions
+                          lineup={lineup}
+                          onRename={() => setRenameModal({ isOpen: true, lineup })}
+                          onDuplicate={() => handleDuplicate(lineup.id)}
+                          onDelete={() => setDeleteModal({ isOpen: true, lineup })}
+                        />
                       </td>
                     </tr>
                   );
