@@ -497,20 +497,21 @@ function LineupPageContent() {
     : 0;
   const maxPlayers = 11;
 
-  const canSave = onFieldCount === 11 && gkCount === 1;
-
   // Compute available players (not on field, not on bench)
   const availablePlayers = useMemo(() => {
     if (!currentTeam || !working) return [];
-    
+
     const onFieldIds = new Set(Object.values(working.onField || {}).filter(Boolean));
     const benchSlots = working.benchSlots ?? Array(8).fill(null);
     const benchIds = new Set(benchSlots.filter(Boolean));
-    
-    return currentTeam.players.filter(p => 
+
+    return currentTeam.players.filter(p =>
       !onFieldIds.has(p.id) && !benchIds.has(p.id)
     );
   }, [currentTeam, working]);
+
+  const availableCount = availablePlayers?.length ?? 0;
+  const canSave = onFieldCount === 11 && availableCount === 0;
 
   return (
     <div className="mx-auto w-full px-4 py-4" style={{ maxWidth: lp.fw || 1280 }}>
@@ -567,18 +568,18 @@ function LineupPageContent() {
             <button
               onClick={handleSave}
               disabled={!canSave || (loadedLineupId && !isDirty)}
-              className={`min-w-[132px] px-3 py-1 text-sm rounded transition-colors font-medium ${
+              className={`w-[132px] px-3 py-1 text-sm rounded transition-colors font-medium ${
                 !canSave || (loadedLineupId && !isDirty)
                   ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
                   : 'bg-blue-600 text-white hover:bg-blue-700'
               }`}
-              title={!canSave ? 'Add a full XI with exactly 1 GK to save' : 'Ctrl/Cmd+S'}
+              title={!canSave ? 'You need 11 starters and no players in Available' : 'Ctrl/Cmd+S'}
             >
               {loadedLineupId ? 'Save Changes' : 'Save Lineup'}
             </button>
             {!canSave && (
               <div className="mt-1 max-w-[280px] text-xs text-slate-500 leading-snug" role="status" aria-live="polite">
-                You can save once you have 11 starters with exactly 1 GK.
+                You can save once you have 11 starters and no players in Available.
               </div>
             )}
           </div>

@@ -71,7 +71,7 @@ export default function SavedLineupViewerModal({
     const observer = new ResizeObserver((entries) => {
       for (const entry of entries) {
         const width = entry.contentRect.width;
-        const scale = Math.max(0.78, Math.min(0.85, width / 680));
+        const scale = Math.max(0.88, Math.min(1.02, width / 640));
         setMarkerScale(scale);
       }
     });
@@ -144,8 +144,8 @@ export default function SavedLineupViewerModal({
             </button>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-[minmax(540px,1fr)_minmax(320px,380px)] gap-8">
-            <div ref={containerRef} className="relative w-full aspect-[105/68] rounded-md border border-slate-200 bg-white">
+          <div className="grid grid-cols-1 lg:grid-cols-[minmax(640px,1fr)_minmax(320px,420px)] gap-8">
+            <div ref={containerRef} className="relative w-full aspect-[105/68] rounded-md border border-slate-200 bg-white overflow-hidden">
               {loading ? (
                 <div className="absolute inset-0 flex items-center justify-center">
                   <span className="text-slate-400">Loading formation...</span>
@@ -156,14 +156,12 @@ export default function SavedLineupViewerModal({
                 </div>
               ) : (
                 <div className="absolute inset-0">
-                  <div className="w-full h-full">
-                    <FormationRenderer
-                      formation={formation}
-                      interactive={false}
-                      showLabels={false}
-                      markerScale={markerScale}
-                    />
-                  </div>
+                  <FormationRenderer
+                    formation={formation}
+                    interactive={false}
+                    showLabels={false}
+                    markerScale={markerScale}
+                  />
                 </div>
               )}
             </div>

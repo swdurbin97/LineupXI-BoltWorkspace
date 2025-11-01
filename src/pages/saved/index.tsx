@@ -1,4 +1,5 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useRef, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { useNavigate } from 'react-router-dom';
 import { list, remove, duplicate } from '../../lib/savedLineups';
 import type { SavedLineup } from '../../types/lineup';
@@ -18,10 +19,29 @@ interface ListRowActionsProps {
 
 function ListRowActions({ lineup, onRename, onDuplicate, onDelete }: ListRowActionsProps) {
   const [showMenu, setShowMenu] = useState(false);
+  const [menuPosition, setMenuPosition] = useState({ top: 0, left: 0, flipUp: false });
+  const buttonRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    if (showMenu && buttonRef.current) {
+      const rect = buttonRef.current.getBoundingClientRect();
+      const viewportHeight = window.innerHeight;
+      const menuHeight = 120;
+      const spaceBelow = viewportHeight - rect.bottom;
+      const flipUp = spaceBelow < menuHeight;
+
+      setMenuPosition({
+        top: flipUp ? rect.top - menuHeight : rect.bottom + 4,
+        left: rect.right - 160,
+        flipUp
+      });
+    }
+  }, [showMenu]);
 
   return (
     <div className="relative" onClick={(e) => e.stopPropagation()}>
       <button
+        ref={buttonRef}
         onClick={() => setShowMenu(!showMenu)}
         className="p-1 hover:bg-slate-100 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
         aria-label={`Actions for ${lineup.name}`}
@@ -30,10 +50,16 @@ function ListRowActions({ lineup, onRename, onDuplicate, onDelete }: ListRowActi
           <path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z" />
         </svg>
       </button>
-      {showMenu && (
+      {showMenu && createPortal(
         <>
-          <div className="fixed inset-0 z-10" onClick={() => setShowMenu(false)} />
-          <div className="absolute right-0 top-8 z-20 bg-white rounded-lg shadow-lg border border-slate-200 py-1 w-40">
+          <div className="fixed inset-0 z-40" onClick={() => setShowMenu(false)} />
+          <div
+            className="fixed z-50 bg-white rounded-lg shadow-lg border border-slate-200 py-1 w-40"
+            style={{
+              top: `${menuPosition.top}px`,
+              left: `${menuPosition.left}px`
+            }}
+          >
             <button
               onMouseDown={(e) => e.stopPropagation()}
               onClick={(e) => {
@@ -68,7 +94,8 @@ function ListRowActions({ lineup, onRename, onDuplicate, onDelete }: ListRowActi
               Delete
             </button>
           </div>
-        </>
+        </>,
+        document.body
       )}
     </div>
   );
