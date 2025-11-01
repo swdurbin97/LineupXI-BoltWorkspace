@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import type { SavedLineup } from '../../types/lineup';
-import MiniPitchPreview from './MiniPitchPreview';
 
 interface SavedLineupCardProps {
   lineup: SavedLineup;
@@ -109,13 +108,15 @@ export function SavedLineupCard({ lineup, onRename, onDuplicate, onDelete, onVie
         </div>
       </div>
 
-      {/* Preview */}
+      {/* Preview Placeholder */}
       <button
         type="button"
         onClick={onView}
-        className="w-full cursor-pointer"
+        className="w-full cursor-pointer rounded-lg border border-slate-200 bg-slate-100 p-2 my-3"
       >
-        <MiniPitchPreview lineup={lineup} />
+        <div className="aspect-[105/68] w-full flex items-center justify-center text-sm text-slate-500">
+          Field preview coming soon
+        </div>
       </button>
 
       {/* Footer */}

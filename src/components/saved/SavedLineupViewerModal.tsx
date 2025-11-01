@@ -71,7 +71,10 @@ export default function SavedLineupViewerModal({
     const observer = new ResizeObserver((entries) => {
       for (const entry of entries) {
         const width = entry.contentRect.width;
-        const scale = Math.max(0.88, Math.min(1.02, width / 640));
+        const height = entry.contentRect.height;
+        const fitWidthFromHeight = height * (105 / 68);
+        const fitBasis = Math.min(width, fitWidthFromHeight);
+        const scale = Math.max(0.82, Math.min(0.95, fitBasis / 700));
         setMarkerScale(scale);
       }
     });
@@ -166,10 +169,10 @@ export default function SavedLineupViewerModal({
               )}
             </div>
 
-            <div className="space-y-6">
+            <div className="max-w-[420px] leading-snug space-y-3">
               <div>
                 <h3 className="text-lg font-bold mb-3 text-slate-700">Starting XI</h3>
-                <div className="space-y-4">
+                <div className="space-y-3">
                   {(['GK', 'DEF', 'MID', 'ATT'] as const).map(line => {
                     if (grouped[line].length === 0) return null;
                     return (
@@ -196,7 +199,7 @@ export default function SavedLineupViewerModal({
               </div>
 
               {benchPlayers.length > 0 && (
-                <div className="pt-4 border-t border-slate-200">
+                <div className="pt-3 border-t border-slate-200">
                   <h4 className="text-sm font-semibold text-slate-600 mb-2">Substitutes</h4>
                   <div className="space-y-1">
                     {benchPlayers.map(({ playerId, player }) => (
@@ -216,7 +219,7 @@ export default function SavedLineupViewerModal({
               )}
 
               {lineup.notes && (
-                <div className="pt-4 border-t border-slate-200">
+                <div className="pt-3 border-t border-slate-200">
                   <h4 className="text-sm font-semibold text-slate-600 mb-2">Notes</h4>
                   <p className="text-sm text-slate-700 whitespace-pre-wrap">{lineup.notes}</p>
                 </div>
