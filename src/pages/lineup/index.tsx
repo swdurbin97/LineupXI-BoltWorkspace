@@ -20,6 +20,7 @@ import * as savedLineupsLib from '../../lib/savedLineups';
 import type { SavedLineup, SerializedBuilderState } from '../../types/lineup';
 import { toast } from '../../lib/toast';
 import ScaledPage from '../../components/layout/ScaledPage';
+import AvailablePlayerCard from '../../components/players/AvailablePlayerCard';
 
 function LineupPageContent() {
   const { teams, currentTeamId, setCurrentTeam } = useTeamsStore();
@@ -633,7 +634,7 @@ function LineupPageContent() {
             </div>
 
             {/* Two-column grid: Field left, Available right */}
-            <div className="grid grid-cols-1 lg:grid-cols-[minmax(820px,1fr)_360px] gap-6">
+            <div className="grid grid-cols-1 lg:grid-cols-[minmax(800px,1fr)_380px] gap-6">
               {/* Left column: Field */}
               <section className={debugCls}>
                 <div ref={fieldRef} className="rounded-lg border border-slate-200 bg-white">
@@ -773,22 +774,9 @@ function LineupPageContent() {
                     </h3>
                   </div>
                   <div ref={availRef} className="p-3 h-[calc(720px-48px)] overflow-y-auto">
-                    <div className="flex flex-col gap-3">
+                    <div className="grid grid-cols-2 gap-3">
                       {availablePlayers.map(player => (
-                        <div
-                          key={player.id}
-                          draggable
-                          onDragStart={(e) => {
-                            e.dataTransfer.setData('playerId', player.id);
-                            e.dataTransfer.effectAllowed = 'move';
-                          }}
-                          className="px-3 py-2 bg-white border border-slate-200 rounded-md hover:border-blue-400 hover:shadow-sm cursor-move transition-all"
-                        >
-                          <div className="flex items-center gap-2">
-                            <span className="font-semibold text-slate-700">{player.jersey}</span>
-                            <span className="text-sm text-slate-600">{player.name}</span>
-                          </div>
-                        </div>
+                        <AvailablePlayerCard key={player.id} player={player} />
                       ))}
                     </div>
                   </div>

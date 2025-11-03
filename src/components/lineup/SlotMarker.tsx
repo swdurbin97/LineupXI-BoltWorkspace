@@ -98,11 +98,19 @@ export default function SlotMarker({
   const handleDrop = (e: React.DragEvent) => {
     e.preventDefault();
     setIsDragOver(false);
-    
+
     try {
+      // Check for simple player ID format first (from Available sidebar)
+      const playerId = e.dataTransfer.getData('application/x-player-id');
+      if (playerId && onDrop) {
+        onDrop(playerId);
+        return;
+      }
+
+      // Fallback to old JSON format
       const payloadStr = e.dataTransfer.getData('application/x-yslm') || e.dataTransfer.getData('text/plain');
       if (!payloadStr) return;
-      
+
       const payload = JSON.parse(payloadStr);
       if (payload.playerId && onDrop) {
         onDrop(payload.playerId);
