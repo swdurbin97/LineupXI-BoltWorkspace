@@ -61,7 +61,7 @@ function LineupPageContent() {
   // Field sizing
   const { availRef, fieldRef, fitH, recalc } = useFieldFit();
   const { ref: fieldContainerRef, width: fieldWidth } = useElementSize<HTMLDivElement>();
-  const scale = 1; // No scaling anymore, all cards are fixed size
+  const scale = 1.06; // Slightly enlarged markers for better visibility in aspect-ratio container
 
   // Layout params & edit mode
   const lp = getLayoutParams();
@@ -517,9 +517,10 @@ function LineupPageContent() {
   return (
     <div className="h-[calc(100vh-64px)]">
       <ScaledPage baseWidth={1440} baseHeight={900}>
-        <div className="mx-auto w-full px-4 py-2" style={{ maxWidth: lp.fw || 1280 }}>
-      {/* Compact header row */}
-      <div className="mb-2 flex items-center justify-between">
+        <div className="w-full flex justify-center py-4">
+          <div className="w-[1280px] max-w-full bg-slate-50 rounded-xl shadow-sm border border-slate-200 p-4">
+            {/* Compact header row */}
+            <div className="mb-4 flex items-center justify-between">
         <div className="flex items-center gap-3">
           {/* Team selector */}
           <select
@@ -617,56 +618,27 @@ function LineupPageContent() {
         </div>
       </div>
 
-      {/* Status indicators */}
-      <div className="mb-3 flex items-center gap-4 text-sm">
-        <div className={`px-2 py-1 rounded ${
-          onFieldCount === maxPlayers ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-600'
-        }`}>
-          {onFieldCount}/{maxPlayers} on field
-        </div>
-        {gkCount !== 1 && (
-          <div className="px-2 py-1 rounded bg-yellow-100 text-yellow-800">
-            ⚠️ Need exactly 1 GK (have {gkCount})
-          </div>
-        )}
-      </div>
-
-      {/* Section 2: Available Players (full-width) */}
-      {currentTeam && working && (
-        <div className={`mb-2 ${debugCls}`}>
-          {lp.debug &&
-            <span className="absolute -top-2 left-2 text-[10px] bg-sky-50 px-1 rounded z-10">
-              Available
-            </span>
-          }
-          <div className="rounded-lg border bg-white w-full" style={{ padding: `${Math.round(PAD_M * 0.85)}px` }}>
-            <h3 className="text-sm font-semibold mb-1">
-              Available Players ({availablePlayers.length})
-            </h3>
-            <div ref={availRef}>
-              <AvailableGrid 
-                players={availablePlayers}
-                scale={scale}
-                onAutoPlace={(playerId) => {
-                  console.log('Auto-place player:', playerId);
-                  // TODO: Implement auto-place logic
-                }}
-              />
+            {/* Status indicators */}
+            <div className="mb-4 flex items-center gap-4 text-sm">
+              <div className={`px-2 py-1 rounded ${
+                onFieldCount === maxPlayers ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-600'
+              }`}>
+                {onFieldCount}/{maxPlayers} on field
+              </div>
+              {gkCount !== 1 && (
+                <div className="px-2 py-1 rounded bg-yellow-100 text-yellow-800">
+                  ⚠️ Need exactly 1 GK (have {gkCount})
+                </div>
+              )}
             </div>
-          </div>
-        </div>
-      )}
 
-      {/* Section 3: Field (full-width) */}
-      <div className={`mb-2 ${debugCls}`}>
-        {lp.debug &&
-          <span className="absolute -top-2 left-2 text-[10px] bg-sky-50 px-1 rounded z-10">
-            Field
-          </span>
-        }
-        <div ref={fieldRef} className="rounded-lg border bg-white w-full" style={{ padding: `${Math.round(PAD_M * 0.85)}px` }}>
-          <div className="flex items-center justify-between mb-1">
-            <h3 className="text-sm font-semibold">Field</h3>
+            {/* Two-column grid: Field left, Available right */}
+            <div className="grid grid-cols-1 lg:grid-cols-[minmax(820px,1fr)_360px] gap-6">
+              {/* Left column: Field */}
+              <section className={debugCls}>
+                <div ref={fieldRef} className="rounded-lg border border-slate-200 bg-white">
+                  <div className="px-4 py-3 border-b border-slate-200 flex items-center justify-between">
+                    <h3 className="text-sm font-semibold text-slate-700">Field</h3>
             <button
               onClick={() => setPositionsEditor(!positionsEditor)}
               className={`px-3 py-1 text-xs rounded transition-colors ${
@@ -677,46 +649,41 @@ function LineupPageContent() {
             >
               Adjust Positions {positionsEditor ? 'ON' : 'OFF'}
             </button>
-          </div>
-            {working && formations.length > 0 && (
-              <div className="relative">
-                {/* Editor HUD */}
-                {positionsEditor && (
-                  <div className="absolute top-0 right-0 z-20 bg-white border rounded-lg shadow-lg p-3 m-2">
-                    <div className="text-xs font-semibold mb-2 text-blue-600">Position Editor</div>
-                    <div className="space-y-2">
-                      <button
-                        onClick={handleExport}
-                        className="w-full px-2 py-1 text-xs bg-blue-600 text-white hover:bg-blue-700 rounded"
-                        disabled={Object.keys(editDraft).length === 0}
-                      >
-                        Export overrides.json
-                      </button>
-                      <button
-                        onClick={handleResetFormation}
-                        className="w-full px-2 py-1 text-xs bg-gray-100 hover:bg-gray-200 rounded"
-                        disabled={!editDraft[working?.formation || '']}
-                      >
-                        Reset this formation
-                      </button>
-                    </div>
-                    <div className="mt-3 text-[10px] text-gray-500">
-                      Click slot → use arrows<br/>
-                      Shift+arrows for fine<br/>
-                      Save to /public/data/
-                    </div>
                   </div>
-                )}
-                
-                <div className="relative w-full rounded-lg border overflow-hidden" style={{ height: targetH }}>
-                  <div className="relative w-full h-full">
-                    <div
-                      className="absolute left-1/2 -translate-x-1/2 top-0"
-                      style={{
-                        height: targetH,
-                        width: Math.floor(targetH * (105/68))
-                      }}
-                    >
+                  <div className="p-3">
+                    {working && formations.length > 0 && (
+                      <div className="relative">
+                        {/* Editor HUD */}
+                        {positionsEditor && (
+                          <div className="absolute top-0 right-0 z-20 bg-white border rounded-lg shadow-lg p-3 m-2">
+                            <div className="text-xs font-semibold mb-2 text-blue-600">Position Editor</div>
+                            <div className="space-y-2">
+                              <button
+                                onClick={handleExport}
+                                className="w-full px-2 py-1 text-xs bg-blue-600 text-white hover:bg-blue-700 rounded"
+                                disabled={Object.keys(editDraft).length === 0}
+                              >
+                                Export overrides.json
+                              </button>
+                              <button
+                                onClick={handleResetFormation}
+                                className="w-full px-2 py-1 text-xs bg-gray-100 hover:bg-gray-200 rounded"
+                                disabled={!editDraft[working?.formation || '']}
+                              >
+                                Reset this formation
+                              </button>
+                            </div>
+                            <div className="mt-3 text-[10px] text-gray-500">
+                              Click slot → use arrows<br/>
+                              Shift+arrows for fine<br/>
+                              Save to /public/data/
+                            </div>
+                          </div>
+                        )}
+
+                        {/* Pitch container with aspect ratio */}
+                        <div className="relative w-full aspect-[105/68] overflow-hidden rounded-md border border-slate-200 bg-white">
+                          <div className="absolute inset-0">
                   {/* 1) Green gradient fills 100% */}
                   <div className="absolute inset-0" style={{
                     background: 'linear-gradient(180deg, #198754 0%, #0f5132 100%)'
@@ -784,29 +751,56 @@ function LineupPageContent() {
                       );
                     });
                   })()}
-                    </div>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                    {(!working || formations.length === 0) && (
+                      <div className="bg-green-100 h-96 rounded flex items-center justify-center">
+                        <p className="text-gray-500">Select a formation to begin</p>
+                      </div>
+                    )}
                   </div>
                 </div>
-              </div>
-            )}
-            {(!working || formations.length === 0) && (
-              <div className="bg-green-100 h-96 rounded flex items-center justify-center">
-                <p className="text-gray-500">Select a formation to begin</p>
-              </div>
-            )}
-        </div>
-      </div>
-      
-      {/* Section 4: Bench (full-width) */}
-      {working && currentTeam && (
-        <div className={`mb-2 ${debugCls}`}>
-          {lp.debug &&
-            <span className="absolute -top-2 left-2 text-[10px] bg-sky-50 px-1 rounded z-10">
-              Bench
-            </span>
-          }
-          <div className="rounded-lg border bg-white w-full" style={{ padding: `${Math.round(PAD_M * 0.85)}px` }}>
-            <h3 className="text-sm font-semibold mb-1">Bench (8 slots)</h3>
+              </section>
+
+              {/* Right column: Available Players */}
+              {currentTeam && working && (
+                <aside className="rounded-lg border border-slate-200 bg-white">
+                  <div className="px-4 py-3 border-b border-slate-200">
+                    <h3 className="text-sm font-semibold text-slate-700">
+                      Available Players ({availablePlayers.length})
+                    </h3>
+                  </div>
+                  <div ref={availRef} className="p-3 h-[calc(720px-48px)] overflow-y-auto">
+                    <div className="flex flex-col gap-3">
+                      {availablePlayers.map(player => (
+                        <div
+                          key={player.id}
+                          draggable
+                          onDragStart={(e) => {
+                            e.dataTransfer.setData('playerId', player.id);
+                            e.dataTransfer.effectAllowed = 'move';
+                          }}
+                          className="px-3 py-2 bg-white border border-slate-200 rounded-md hover:border-blue-400 hover:shadow-sm cursor-move transition-all"
+                        >
+                          <div className="flex items-center gap-2">
+                            <span className="font-semibold text-slate-700">{player.jersey}</span>
+                            <span className="text-sm text-slate-600">{player.name}</span>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </aside>
+              )}
+            </div>
+
+            {/* Section 4: Bench (full-width below grid) */}
+            {working && currentTeam && (
+              <div className={`mt-6 ${debugCls}`}>
+                <div className="rounded-lg border border-slate-200 bg-white" style={{ padding: `${Math.round(PAD_M * 0.85)}px` }}>
+                  <h3 className="text-sm font-semibold mb-3 text-slate-700">Bench (8 slots)</h3>
             <BenchGrid
               benchSlots={working.benchSlots ?? Array(8).fill(null)}
               players={currentTeam.players}
@@ -818,15 +812,15 @@ function LineupPageContent() {
                 removeFromBench(index);
               }}
             />
-          </div>
-        </div>
-      )}
-      
-      {/* Section 5: Roles */}
-      {working && currentTeam && (
-        <div className="mb-2">
-          <div className="rounded-lg border bg-white w-full" style={{ padding: `${Math.round(PAD_M * 0.85)}px` }}>
-            <h3 className="text-sm font-semibold mb-1">Roles</h3>
+                </div>
+              </div>
+            )}
+
+            {/* Section 5: Roles */}
+            {working && currentTeam && (
+              <div className="mt-6">
+                <div className="rounded-lg border border-slate-200 bg-white" style={{ padding: `${Math.round(PAD_M * 0.85)}px` }}>
+                  <h3 className="text-sm font-semibold mb-3 text-slate-700">Roles</h3>
               <div className="space-y-2">
                 {[
                   { key: 'captain', label: 'Captain (C)', color: 'yellow' },
@@ -864,12 +858,12 @@ function LineupPageContent() {
                   );
                 })}
               </div>
-            </div>
-        </div>
-      )}
+                </div>
+              </div>
+            )}
 
-      {/* Modals */}
-      <SaveLineupModal
+            {/* Modals */}
+            <SaveLineupModal
         isOpen={saveModalOpen}
         onClose={() => setSaveModalOpen(false)}
         onSave={handleSaveNew}
@@ -881,6 +875,7 @@ function LineupPageContent() {
         benchCount={(working?.benchSlots || []).filter(Boolean).length}
         loadedLineupId={loadedLineupId}
       />
+          </div>
         </div>
       </ScaledPage>
     </div>
