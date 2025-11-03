@@ -6,6 +6,7 @@ import { CARD_W, CARD_H } from '../../lib/sizes';
 interface PlayerCardProps {
   player: Player;
   size?: 'DEFAULT' | 'FIELD' | 'BENCH';
+  variant?: 'rail' | 'default';
   onDragStart?: (e: React.DragEvent<HTMLDivElement>) => void;
   onDoubleClick?: () => void;
   isDragging?: boolean;
@@ -49,12 +50,18 @@ const CARD_SIZES = {
     primaryText: 'text-sm',
     jerseyText: 'text-xs',
     footerText: 'text-[10px]'
+  },
+  RAIL: {
+    header: 18,
+    bar: 8,
+    footer: 12
   }
 };
 
 export default function PlayerCard({
   player,
   size = 'DEFAULT',
+  variant = 'default',
   onDragStart,
   onDoubleClick,
   isDragging = false,
@@ -66,11 +73,13 @@ export default function PlayerCard({
   const line = getLineForPos(player.primaryPos);
   const color = LINE_COLORS[line];
   const cardSize = CARD_SIZES[size];
+  const isRail = variant === 'rail';
 
-  // Dense mode adjustments for rail
-  const headerHeight = dense ? cardSize.header - 2 : cardSize.header;
-  const bodyHeight = dense ? cardSize.body - 4 : cardSize.body;
-  const footerHeight = dense ? 8 : cardSize.footer;
+  // Rail variant overrides
+  const headerHeight = isRail ? CARD_SIZES.RAIL.header : (dense ? cardSize.header - 2 : cardSize.header);
+  const barHeight = isRail ? CARD_SIZES.RAIL.bar : 8;
+  const footerHeight = isRail ? CARD_SIZES.RAIL.footer : (dense ? 8 : cardSize.footer);
+  const bodyHeight = isRail ? (104 - headerHeight - barHeight - footerHeight) : (dense ? cardSize.body - 4 : cardSize.body);
   
   // Format name: FirstName + LastInitial
   const nameParts = player.name.split(' ');
@@ -102,10 +111,10 @@ export default function PlayerCard({
     >
       {/* White header with name */}
       <div
-        className={`bg-white border-b flex items-center ${dense ? 'px-1' : 'px-1.5'}`}
+        className={`bg-white border-b flex items-center ${isRail ? 'justify-center px-1.5' : (dense ? 'px-1' : 'px-1.5')}`}
         style={{ height: `${headerHeight}px` }}
       >
-        <div className={`font-medium truncate w-full ${cardSize.nameText}`}>
+        <div className={`font-medium truncate ${isRail ? 'text-center text-[13px]' : `w-full ${cardSize.nameText}`}`}>
           {displayName}
         </div>
       </div>
@@ -118,17 +127,23 @@ export default function PlayerCard({
           height: `${bodyHeight}px`
         }}
       >
-        <div className={`font-bold uppercase ${cardSize.primaryText}`}>
+        <div className={`font-bold uppercase leading-tight ${isRail ? 'text-[22px]' : cardSize.primaryText}`}>
           {player.primaryPos || 'POS'}
         </div>
-        <div className={`font-bold ${cardSize.jerseyText} ${dense ? 'mt-0.5' : 'mt-1'}`}>
+        <div className={`font-bold ${isRail ? 'text-[13px]' : cardSize.jerseyText} ${dense ? 'mt-0.5' : 'mt-1'}`}>
           #{player.jersey}
         </div>
       </div>
 
-      {/* Dark footer with secondary positions */}
+      {/* Black bar */}
       <div
-        className="bg-gray-800 text-gray-300 px-1 flex items-center"
+        className="bg-gray-800"
+        style={{ height: `${barHeight}px` }}
+      />
+
+      {/* White footer with secondary positions */}
+      <div
+        className="bg-white text-gray-600 px-1 flex items-center"
         style={{ height: `${footerHeight}px` }}
       >
         <div className={`truncate text-center w-full ${cardSize.footerText}`}>
