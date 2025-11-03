@@ -41,10 +41,10 @@ const CARD_SIZES = {
   },
   BENCH: {
     width: 80,
-    height: 112,
+    height: 104,
     header: 16,
     body: 60,
-    footer: 16,
+    footer: 8,
     nameText: 'text-[10px]',
     primaryText: 'text-sm',
     jerseyText: 'text-xs',
@@ -70,7 +70,7 @@ export default function PlayerCard({
   // Dense mode adjustments for rail
   const headerHeight = dense ? cardSize.header - 2 : cardSize.header;
   const bodyHeight = dense ? cardSize.body - 4 : cardSize.body;
-  const footerHeight = dense ? 12 : cardSize.footer;
+  const footerHeight = dense ? 8 : cardSize.footer;
   
   // Format name: FirstName + LastInitial
   const nameParts = player.name.split(' ');
