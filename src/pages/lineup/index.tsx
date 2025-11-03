@@ -4,7 +4,6 @@ import { useTeamsStore } from '../../store/teams';
 import { useLineupsStore } from '../../store/lineups';
 import FormationPicker from '../../components/lineup/FormationPicker';
 import SlotMarker from '../../components/lineup/SlotMarker';
-import AvailableGrid from '../../components/lineup/AvailableGrid';
 import BenchGrid from '../../components/lineup/BenchGrid';
 import ErrorBoundary from './ErrorBoundary';
 import { LAYOUT } from './layout-constants';

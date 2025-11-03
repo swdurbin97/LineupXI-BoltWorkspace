@@ -20,6 +20,7 @@ export default function AvailablePlayerCard({ player }: AvailablePlayerCardProps
       role="button"
       tabIndex={0}
       draggable
+      onMouseDown={(e) => e.preventDefault()}
       onDragStart={(e) => {
         e.dataTransfer.setData('application/x-player-id', String(player.id));
         e.dataTransfer.effectAllowed = 'move';
