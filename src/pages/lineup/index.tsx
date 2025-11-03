@@ -633,7 +633,7 @@ function LineupPageContent() {
             </div>
 
             {/* Two-column grid: Field left, Available right */}
-            <div className="grid grid-cols-1 lg:grid-cols-[minmax(800px,1fr)_380px] gap-6">
+            <div className="grid grid-cols-1 lg:grid-cols-[minmax(900px,1fr)_320px] gap-6">
               {/* Left column: Field */}
               <section className={debugCls}>
                 <div ref={fieldRef} className="rounded-lg border border-slate-200 bg-white">
@@ -767,27 +767,28 @@ function LineupPageContent() {
               {/* Right column: Available Players */}
               {currentTeam && working && (
                 <aside className="rounded-lg border border-slate-200 bg-white">
-                  <div className="px-4 py-3 border-b border-slate-200">
+                  <div className="px-3 py-2 border-b border-slate-200">
                     <h3 className="text-sm font-semibold text-slate-700">
                       Available Players ({availablePlayers.length})
                     </h3>
                   </div>
-                  <div ref={availRef} className="p-3 h-[calc(720px-48px)] overflow-y-auto">
-                    <div className="grid grid-cols-2 gap-3">
+                  <div ref={availRef} className="p-2 h-[calc(720px-44px)] overflow-y-auto">
+                    <div className="grid grid-cols-2 gap-2">
                       {availablePlayers.map((p) => (
-                        <PlayerCard
-                          key={p.id}
-                          player={p}
-                          size="BENCH"
-                          onDragStart={(e) => {
-                            e.dataTransfer.setData('application/x-player-id', String(p.id));
-                            e.dataTransfer.setData('application/x-yslm', JSON.stringify({ playerId: String(p.id) }));
-                            e.dataTransfer.effectAllowed = 'move';
+                        <div key={p.id} className="scale-90 origin-top-left">
+                          <PlayerCard
+                            player={p}
+                            size="BENCH"
+                            onDragStart={(e) => {
+                              e.dataTransfer.setData('application/x-player-id', String(p.id));
+                              e.dataTransfer.setData('application/x-yslm', JSON.stringify({ playerId: String(p.id) }));
+                              e.dataTransfer.effectAllowed = 'move';
 
-                            const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
-                            e.dataTransfer.setDragImage(e.currentTarget as HTMLElement, rect.width * 0.2, rect.height * 0.2);
-                          }}
-                        />
+                              const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
+                              e.dataTransfer.setDragImage(e.currentTarget as HTMLElement, rect.width * 0.2, rect.height * 0.2);
+                            }}
+                          />
+                        </div>
                       ))}
                     </div>
                   </div>
