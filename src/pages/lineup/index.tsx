@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo } from 'react';
+import React, { useEffect, useState, useMemo, useLayoutEffect, useRef } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useTeamsStore } from '../../store/teams';
 import { useLineupsStore } from '../../store/lineups';
@@ -61,13 +61,39 @@ function LineupPageContent() {
   const { availRef, fieldRef, fitH, recalc } = useFieldFit();
   const { ref: fieldContainerRef, width: fieldWidth } = useElementSize<HTMLDivElement>();
   const scale = 1; // No scaling anymore, all cards are fixed size
-  
+
+  // Viewport-aware height calculation
+  const pitchContainerRef = useRef<HTMLDivElement>(null);
+  const [maxH, setMaxH] = useState<number>();
+  const [markerScale, setMarkerScale] = useState(0.85);
+
+  useLayoutEffect(() => {
+    const update = () => {
+      const top = pitchContainerRef.current?.getBoundingClientRect().top ?? 0;
+      const vh = window.innerHeight;
+      const padding = 16;
+      const calculatedHeight = Math.max(240, vh - top - padding);
+      setMaxH(calculatedHeight);
+
+      // Height-aware marker scaling
+      const width = pitchContainerRef.current?.clientWidth ?? 0;
+      const height = calculatedHeight;
+      const fitWidthFromHeight = height * (105 / 68);
+      const fitBasis = Math.min(width, fitWidthFromHeight);
+      const scale = Math.max(0.75, Math.min(0.92, fitBasis / 700));
+      setMarkerScale(scale);
+    };
+    update();
+    window.addEventListener('resize', update);
+    return () => window.removeEventListener('resize', update);
+  }, []);
+
   // Layout params & edit mode
   const lp = getLayoutParams();
   const debugCls = lp.debug ? 'outline outline-1 outline-dashed outline-sky-400 relative' : '';
   const q = typeof window !== 'undefined' ? new URLSearchParams(window.location.search) : new URLSearchParams();
   const editMode = q.has('editPositions');
-  
+
   // Track window width for field sizing
   useEffect(() => {
     const handleResize = () => setWindowWidth(window.innerWidth);
@@ -76,11 +102,11 @@ function LineupPageContent() {
   }, []);
 
   const currentTeam = teams.find(t => t.id === currentTeamId);
-  
-  // Calculate target field height
-  const targetH = fieldSize === 'fit' ? fitH : 
-                  fieldSize === 's' ? Math.round(520 * UI_SCALE) : 
-                  fieldSize === 'm' ? Math.round(620 * UI_SCALE) : 
+
+  // Calculate target field height (use viewport-aware height for 'fit' mode)
+  const targetH = fieldSize === 'fit' ? (maxH ?? fitH) :
+                  fieldSize === 's' ? Math.round(520 * UI_SCALE) :
+                  fieldSize === 'm' ? Math.round(620 * UI_SCALE) :
                   Math.round(720 * UI_SCALE);
   
   // Position update handler for edit mode (hoisted to avoid TDZ)
@@ -514,9 +540,9 @@ function LineupPageContent() {
   const canSave = onFieldCount === 11 && availableCount === 0;
 
   return (
-    <div className="mx-auto w-full px-4 py-4" style={{ maxWidth: lp.fw || 1280 }}>
+    <div className="mx-auto w-full px-4 py-2" style={{ maxWidth: lp.fw || 1280 }}>
       {/* Compact header row */}
-      <div className="mb-4 flex items-center justify-between">
+      <div className="mb-2 flex items-center justify-between">
         <div className="flex items-center gap-3">
           {/* Team selector */}
           <select
@@ -630,14 +656,14 @@ function LineupPageContent() {
 
       {/* Section 2: Available Players (full-width) */}
       {currentTeam && working && (
-        <div className={`mb-4 ${debugCls}`}>
-          {lp.debug && 
+        <div className={`mb-2 ${debugCls}`}>
+          {lp.debug &&
             <span className="absolute -top-2 left-2 text-[10px] bg-sky-50 px-1 rounded z-10">
               Available
             </span>
           }
-          <div className="rounded-lg border bg-white w-full" style={{ padding: `${PAD_M}px` }}>
-            <h3 className="text-sm font-semibold mb-2">
+          <div className="rounded-lg border bg-white w-full" style={{ padding: `${Math.round(PAD_M * 0.85)}px` }}>
+            <h3 className="text-sm font-semibold mb-1">
               Available Players ({availablePlayers.length})
             </h3>
             <div ref={availRef}>
@@ -655,14 +681,14 @@ function LineupPageContent() {
       )}
 
       {/* Section 3: Field (full-width) */}
-      <div className={`mb-4 ${debugCls}`}>
-        {lp.debug && 
+      <div className={`mb-2 ${debugCls}`}>
+        {lp.debug &&
           <span className="absolute -top-2 left-2 text-[10px] bg-sky-50 px-1 rounded z-10">
             Field
           </span>
         }
-        <div ref={fieldRef} className="rounded-lg border bg-white w-full" style={{ padding: `${PAD_M}px` }}>
-          <div className="flex items-center justify-between mb-2">
+        <div ref={fieldRef} className="rounded-lg border bg-white w-full" style={{ padding: `${Math.round(PAD_M * 0.85)}px` }}>
+          <div className="flex items-center justify-between mb-1">
             <h3 className="text-sm font-semibold">Field</h3>
             <button
               onClick={() => setPositionsEditor(!positionsEditor)}
@@ -705,16 +731,17 @@ function LineupPageContent() {
                   </div>
                 )}
                 
-                <div className="relative w-full rounded-lg border overflow-hidden" style={{ height: targetH }}>
-                  <div className="relative w-full h-full">
-                    {/* AR box centered horizontally */}
-                    <div 
-                      className="absolute left-1/2 -translate-x-1/2 top-0" 
-                      style={{ 
-                        height: targetH, 
-                        width: Math.floor(targetH * (105/68))
-                      }}
-                    >
+                <div
+                  ref={pitchContainerRef}
+                  className="relative mx-auto rounded-lg border border-slate-200 bg-white overflow-hidden"
+                  style={{
+                    height: maxH ?? targetH,
+                    width: maxH ? `${Math.floor((maxH * 105) / 68)}px` : '100%',
+                    maxWidth: '100%'
+                  }}
+                >
+                  <div className="absolute inset-0">
+                    <div className="relative w-full h-full">
                   {/* 1) Green gradient fills 100% */}
                   <div className="absolute inset-0" style={{
                     background: 'linear-gradient(180deg, #198754 0%, #0f5132 100%)'
@@ -757,7 +784,7 @@ function LineupPageContent() {
                           player={player}
                           isSelected={selectedSlotCode === slot.slot_code}
                           tunerOn={positionsEditor}
-                          scale={scale}
+                          scale={markerScale}
                           onNudge={positionsEditor ? handleNudge : undefined}
                           onSelect={positionsEditor ? setSelectedSlotCode : undefined}
                           onClick={() => {
@@ -797,14 +824,14 @@ function LineupPageContent() {
       
       {/* Section 4: Bench (full-width) */}
       {working && currentTeam && (
-        <div className={`mb-4 ${debugCls}`}>
-          {lp.debug && 
+        <div className={`mb-2 ${debugCls}`}>
+          {lp.debug &&
             <span className="absolute -top-2 left-2 text-[10px] bg-sky-50 px-1 rounded z-10">
               Bench
             </span>
           }
-          <div className="rounded-lg border bg-white w-full" style={{ padding: `${PAD_M}px` }}>
-            <h3 className="text-sm font-semibold mb-2">Bench (8 slots)</h3>
+          <div className="rounded-lg border bg-white w-full" style={{ padding: `${Math.round(PAD_M * 0.85)}px` }}>
+            <h3 className="text-sm font-semibold mb-1">Bench (8 slots)</h3>
             <BenchGrid
               benchSlots={working.benchSlots ?? Array(8).fill(null)}
               players={currentTeam.players}
@@ -822,9 +849,9 @@ function LineupPageContent() {
       
       {/* Section 5: Roles */}
       {working && currentTeam && (
-        <div className="mb-4">
-          <div className="rounded-lg border bg-white w-full" style={{ padding: `${PAD_M}px` }}>
-            <h3 className="text-sm font-semibold mb-2">Roles</h3>
+        <div className="mb-2">
+          <div className="rounded-lg border bg-white w-full" style={{ padding: `${Math.round(PAD_M * 0.85)}px` }}>
+            <h3 className="text-sm font-semibold mb-1">Roles</h3>
               <div className="space-y-2">
                 {[
                   { key: 'captain', label: 'Captain (C)', color: 'yellow' },
