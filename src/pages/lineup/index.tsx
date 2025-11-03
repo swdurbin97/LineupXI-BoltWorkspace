@@ -633,7 +633,7 @@ function LineupPageContent() {
             </div>
 
             {/* Two-column grid: Field left, Available right */}
-            <div className="grid grid-cols-1 lg:grid-cols-[minmax(940px,1fr)_280px] gap-4">
+            <div className="grid grid-cols-1 lg:grid-cols-[minmax(960px,1fr)_260px] gap-4">
               {/* Left column: Field */}
               <section className={debugCls}>
                 <div ref={fieldRef} className="rounded-lg border border-slate-200 bg-white">
@@ -766,13 +766,13 @@ function LineupPageContent() {
 
               {/* Right column: Available Players */}
               {currentTeam && working && (
-                <aside className="w-[280px] rounded-lg border border-slate-200 bg-white">
+                <aside className="w-[260px] rounded-lg border border-slate-200 bg-white">
                   <div className="px-3 py-2 border-b border-slate-200">
                     <h3 className="text-sm font-semibold text-slate-700">
                       Available Players ({availablePlayers.length})
                     </h3>
                   </div>
-                  <div ref={availRef} className="pl-2 pr-1 pt-2 pb-2 h-[calc(720px-44px)] overflow-y-auto">
+                  <div ref={availRef} className="pl-2 pr-0.5 pt-2 pb-2 h-[calc(720px-44px)] overflow-y-auto">
                     <div className="grid grid-cols-2 gap-2">
                       {availablePlayers.map((p) => (
                         <PlayerCard

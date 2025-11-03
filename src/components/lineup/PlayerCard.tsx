@@ -54,7 +54,7 @@ const CARD_SIZES = {
   RAIL: {
     header: 18,
     bar: 8,
-    footer: 12
+    footer: 8
   }
 };
 
@@ -130,7 +130,7 @@ export default function PlayerCard({
         <div className={`font-bold uppercase leading-tight ${isRail ? 'text-[22px]' : cardSize.primaryText}`}>
           {player.primaryPos || 'POS'}
         </div>
-        <div className={`font-bold ${isRail ? 'text-[13px]' : cardSize.jerseyText} ${dense ? 'mt-0.5' : 'mt-1'}`}>
+        <div className={`font-bold ${isRail ? 'text-[13px]' : cardSize.jerseyText} mt-1`}>
           #{player.jersey}
         </div>
       </div>
