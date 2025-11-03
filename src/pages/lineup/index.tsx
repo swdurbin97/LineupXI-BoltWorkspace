@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo, useLayoutEffect, useRef } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useTeamsStore } from '../../store/teams';
 import { useLineupsStore } from '../../store/lineups';
@@ -19,6 +19,7 @@ import { serializeLineup, isEqual } from '../../lib/lineupSerializer';
 import * as savedLineupsLib from '../../lib/savedLineups';
 import type { SavedLineup, SerializedBuilderState } from '../../types/lineup';
 import { toast } from '../../lib/toast';
+import ScaledPage from '../../components/layout/ScaledPage';
 
 function LineupPageContent() {
   const { teams, currentTeamId, setCurrentTeam } = useTeamsStore();
@@ -62,32 +63,6 @@ function LineupPageContent() {
   const { ref: fieldContainerRef, width: fieldWidth } = useElementSize<HTMLDivElement>();
   const scale = 1; // No scaling anymore, all cards are fixed size
 
-  // Viewport-aware height calculation
-  const pitchContainerRef = useRef<HTMLDivElement>(null);
-  const [maxH, setMaxH] = useState<number>();
-  const [markerScale, setMarkerScale] = useState(0.85);
-
-  useLayoutEffect(() => {
-    const update = () => {
-      const top = pitchContainerRef.current?.getBoundingClientRect().top ?? 0;
-      const vh = window.innerHeight;
-      const padding = 16;
-      const calculatedHeight = Math.max(240, vh - top - padding);
-      setMaxH(calculatedHeight);
-
-      // Height-aware marker scaling
-      const width = pitchContainerRef.current?.clientWidth ?? 0;
-      const height = calculatedHeight;
-      const fitWidthFromHeight = height * (105 / 68);
-      const fitBasis = Math.min(width, fitWidthFromHeight);
-      const scale = Math.max(0.75, Math.min(0.92, fitBasis / 700));
-      setMarkerScale(scale);
-    };
-    update();
-    window.addEventListener('resize', update);
-    return () => window.removeEventListener('resize', update);
-  }, []);
-
   // Layout params & edit mode
   const lp = getLayoutParams();
   const debugCls = lp.debug ? 'outline outline-1 outline-dashed outline-sky-400 relative' : '';
@@ -103,8 +78,8 @@ function LineupPageContent() {
 
   const currentTeam = teams.find(t => t.id === currentTeamId);
 
-  // Calculate target field height (use viewport-aware height for 'fit' mode)
-  const targetH = fieldSize === 'fit' ? (maxH ?? fitH) :
+  // Calculate target field height
+  const targetH = fieldSize === 'fit' ? fitH :
                   fieldSize === 's' ? Math.round(520 * UI_SCALE) :
                   fieldSize === 'm' ? Math.round(620 * UI_SCALE) :
                   Math.round(720 * UI_SCALE);
@@ -540,7 +515,9 @@ function LineupPageContent() {
   const canSave = onFieldCount === 11 && availableCount === 0;
 
   return (
-    <div className="mx-auto w-full px-4 py-2" style={{ maxWidth: lp.fw || 1280 }}>
+    <div className="h-[calc(100vh-64px)]">
+      <ScaledPage baseWidth={1440} baseHeight={900}>
+        <div className="mx-auto w-full px-4 py-2" style={{ maxWidth: lp.fw || 1280 }}>
       {/* Compact header row */}
       <div className="mb-2 flex items-center justify-between">
         <div className="flex items-center gap-3">
@@ -731,17 +708,15 @@ function LineupPageContent() {
                   </div>
                 )}
                 
-                <div
-                  ref={pitchContainerRef}
-                  className="relative mx-auto rounded-lg border border-slate-200 bg-white overflow-hidden"
-                  style={{
-                    height: maxH ?? targetH,
-                    width: maxH ? `${Math.floor((maxH * 105) / 68)}px` : '100%',
-                    maxWidth: '100%'
-                  }}
-                >
-                  <div className="absolute inset-0">
-                    <div className="relative w-full h-full">
+                <div className="relative w-full rounded-lg border overflow-hidden" style={{ height: targetH }}>
+                  <div className="relative w-full h-full">
+                    <div
+                      className="absolute left-1/2 -translate-x-1/2 top-0"
+                      style={{
+                        height: targetH,
+                        width: Math.floor(targetH * (105/68))
+                      }}
+                    >
                   {/* 1) Green gradient fills 100% */}
                   <div className="absolute inset-0" style={{
                     background: 'linear-gradient(180deg, #198754 0%, #0f5132 100%)'
@@ -784,7 +759,7 @@ function LineupPageContent() {
                           player={player}
                           isSelected={selectedSlotCode === slot.slot_code}
                           tunerOn={positionsEditor}
-                          scale={markerScale}
+                          scale={scale}
                           onNudge={positionsEditor ? handleNudge : undefined}
                           onSelect={positionsEditor ? setSelectedSlotCode : undefined}
                           onClick={() => {
@@ -906,6 +881,8 @@ function LineupPageContent() {
         benchCount={(working?.benchSlots || []).filter(Boolean).length}
         loadedLineupId={loadedLineupId}
       />
+        </div>
+      </ScaledPage>
     </div>
   );
 }

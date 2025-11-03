@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import FormationCard from "../../components/tactics/FormationCard";
 import FormationRenderer from "../../components/field/FormationRenderer";
 import { loadTactics } from "../../data/tactics";
+import ScaledPage from "../../components/layout/ScaledPage";
 
 function groupByBackline(list) {
   const groups = { "3-Back": [], "4-Back": [], "5-Back": [], Other: [] };
@@ -82,24 +83,28 @@ export default function FormationsPage() {
   };
 
   return (
-    <div className="mx-auto max-w-6xl p-4 sm:p-6">
-      <div className="flex items-center justify-between gap-3 mb-6">
-        <div>
-          <h1 className="text-2xl font-extrabold">Formations</h1>
-          <p className="text-gray-600">Grouped by backline. Search to filter.</p>
-        </div>
-        <input
-          value={q}
-          onChange={(e) => setQ(e.target.value)}
-          placeholder="Search formations..."
-          className="w-64 rounded-xl border px-3 py-2 text-sm outline-none focus:ring"
-        />
-      </div>
+    <div className="h-[calc(100vh-64px)]">
+      <ScaledPage baseWidth={1440} baseHeight={900}>
+        <div className="mx-auto max-w-6xl p-4 sm:p-6">
+          <div className="flex items-center justify-between gap-3 mb-6">
+            <div>
+              <h1 className="text-2xl font-extrabold">Formations</h1>
+              <p className="text-gray-600">Grouped by backline. Search to filter.</p>
+            </div>
+            <input
+              value={q}
+              onChange={(e) => setQ(e.target.value)}
+              placeholder="Search formations..."
+              className="w-64 rounded-xl border px-3 py-2 text-sm outline-none focus:ring"
+            />
+          </div>
 
-      <Section title="3-Back" items={groups["3-Back"]} />
-      <Section title="4-Back" items={groups["4-Back"]} />
-      <Section title="5-Back" items={groups["5-Back"]} />
-      <Section title="Other" items={groups["Other"]} />
+          <Section title="3-Back" items={groups["3-Back"]} />
+          <Section title="4-Back" items={groups["4-Back"]} />
+          <Section title="5-Back" items={groups["5-Back"]} />
+          <Section title="Other" items={groups["Other"]} />
+        </div>
+      </ScaledPage>
     </div>
   );
 }

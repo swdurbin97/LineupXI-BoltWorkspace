@@ -9,6 +9,7 @@ import { RenameLineupModal } from '../../components/modals/RenameLineupModal';
 import SavedLineupViewerModal from '../../components/saved/SavedLineupViewerModal';
 import { toast } from '../../lib/toast';
 import * as savedLineupsLib from '../../lib/savedLineups';
+import ScaledPage from '../../components/layout/ScaledPage';
 
 interface ListRowActionsProps {
   lineup: SavedLineup;
@@ -223,8 +224,10 @@ export default function SavedLineupsPage() {
   }, [lineups, searchQuery, teamFilter, formationFilter, sortBy]);
 
   return (
-    <div className="min-h-screen bg-gray-50 p-4">
-      <div className="max-w-7xl mx-auto">
+    <div className="h-[calc(100vh-64px)]">
+      <ScaledPage baseWidth={1440} baseHeight={900}>
+        <div className="min-h-screen bg-gray-50 p-4">
+          <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="mb-6">
           <h1 className="text-3xl font-bold text-gray-900 mb-2">Saved Lineups</h1>
@@ -377,7 +380,9 @@ export default function SavedLineupsPage() {
             </table>
           </div>
         )}
-      </div>
+          </div>
+        </div>
+      </ScaledPage>
 
       {/* Modals */}
       <DeleteConfirmModal

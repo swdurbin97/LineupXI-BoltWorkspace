@@ -3,6 +3,7 @@ import type { SavedLineup } from '../../types/lineup';
 import type { Player } from '../../lib/types';
 import { useTeamsStore } from '../../store/teams';
 import FormationRenderer from '../field/FormationRenderer';
+import ScaledPage from '../layout/ScaledPage';
 
 interface FormationSlot {
   slot_id: string;
@@ -128,7 +129,9 @@ export default function SavedLineupViewerModal({
         className="bg-white rounded-lg shadow-xl w-full max-w-6xl mx-4 max-h-[90vh] overflow-y-auto"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="p-6">
+        <div className="max-h-[calc(100vh-96px)] overflow-auto">
+          <ScaledPage baseWidth={1280} baseHeight={720}>
+            <div className="p-6">
           <div className="flex items-start justify-between mb-6">
             <div>
               <h2 className="text-2xl font-bold">{lineup.name}</h2>
@@ -235,6 +238,8 @@ export default function SavedLineupViewerModal({
               Close
             </button>
           </div>
+            </div>
+          </ScaledPage>
         </div>
       </div>
     </div>
