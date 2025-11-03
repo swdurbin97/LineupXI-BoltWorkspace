@@ -1,0 +1,130 @@
+=============================================================================
+LineupXI-MVP Source Archive Manifest
+=============================================================================
+
+Archive Filename: LineupXI-MVP_source_20251103_2024.tar.gz
+Created: 2025-11-03 20:24 UTC
+Format: tar.gz (gzip compressed tarball)
+Size: 574 KB (587,776 bytes)
+SHA-256: 846288acb6d4ace0c165b02d745fd2a5852aaa0fb5fc4e4427388e59fbb72b78
+
+=============================================================================
+CONTENTS SUMMARY
+=============================================================================
+
+Total Files: 146 files and directories
+
+Top-Level Directories:
+  - SAFE_BACKUPS/     (1 file)
+  - docs/             (2 files)
+  - public/           (21 files)
+  - src/              (61 files)
+  - tmp/              (2 files)
+  - tools/            (13 files)
+
+File Counts by Directory:
+  src/              — 61 files (React + TypeScript application)
+  public/           — 21 files (static assets and data)
+  tools/            — 13 files (build and utility scripts)
+  docs/             — 2 files (documentation)
+  tmp/              — 2 files (temporary/reference data)
+  SAFE_BACKUPS/     — 1 file (backup files)
+
+Root Configuration Files:
+  - .gitignore
+  - EXAMPLE_SAVED_LINEUP.json
+  - README.md
+  - SAVED_LINEUPS_IMPLEMENTATION.md
+  - eslint.config.js
+  - index.html
+  - package.json
+  - package-lock.json
+  - postcss.config.js
+  - tailwind.config.js
+  - test-layout.html
+  - tsconfig.json
+  - vite.config.js
+
+=============================================================================
+EXCLUSIONS (verified)
+=============================================================================
+
+The following were excluded from the archive:
+  ✓ node_modules/     (0 files included)
+  ✓ dist/             (0 files included)
+  ✓ dist-ssr/         (0 files included)
+  ✓ .git/             (0 files included)
+  ✓ .env*             (0 files included)
+  ✓ .DS_Store         (0 files included)
+  ✓ .vscode/          (0 files included)
+  ✓ .idea/            (0 files included)
+
+=============================================================================
+KEY COMPONENTS INCLUDED
+=============================================================================
+
+Application Source:
+  ✓ src/pages/          (lineup, saved, tactics, teamsheets)
+  ✓ src/components/     (field, layout, lineup, modals, saved, tactics, teams)
+  ✓ src/store/          (contexts and state management)
+  ✓ src/lib/            (utilities, types, hooks)
+  ✓ src/types/          (TypeScript type definitions)
+  ✓ src/data/           (formations, tactics data)
+  ✓ src/assets/         (SVG assets)
+
+Configuration:
+  ✓ package.json & package-lock.json
+  ✓ vite.config.js
+  ✓ tsconfig.json
+  ✓ tailwind.config.js
+  ✓ postcss.config.js
+  ✓ eslint.config.js
+  ✓ .gitignore
+
+Public Assets:
+  ✓ public/data/        (formations, tactics, overrides, backups)
+  ✓ public/assets/      (static files)
+
+Documentation:
+  ✓ README.md
+  ✓ docs/KNOWN_ISSUES.md
+  ✓ docs/MVP_SCOPE.md
+  ✓ SAVED_LINEUPS_IMPLEMENTATION.md
+
+Build Tools:
+  ✓ tools/              (13 utility scripts for data processing)
+
+=============================================================================
+EXTRACTION INSTRUCTIONS
+=============================================================================
+
+To extract this archive:
+
+  tar -xzf LineupXI-MVP_source_20251103_2024.tar.gz
+
+To verify the checksum:
+
+  sha256sum LineupXI-MVP_source_20251103_2024.tar.gz
+
+Expected output:
+  846288acb6d4ace0c165b02d745fd2a5852aaa0fb5fc4e4427388e59fbb72b78
+
+To install dependencies and run:
+
+  cd [extracted-directory]
+  npm install
+  npm run dev
+
+=============================================================================
+ARCHIVE INTEGRITY
+=============================================================================
+
+This is a source-only archive intended for:
+  - Version control (git init + push to GitHub)
+  - Local development setup
+  - Code review and distribution
+
+No build artifacts, dependencies, or secrets are included.
+After extraction, run 'npm install' to download dependencies.
+
+=============================================================================
