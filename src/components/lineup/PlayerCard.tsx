@@ -11,6 +11,8 @@ interface PlayerCardProps {
   isDragging?: boolean;
   customWidth?: number;
   customHeight?: number;
+  dense?: boolean;
+  className?: string;
 }
 
 // Size specifications
@@ -50,18 +52,25 @@ const CARD_SIZES = {
   }
 };
 
-export default function PlayerCard({ 
-  player, 
+export default function PlayerCard({
+  player,
   size = 'DEFAULT',
-  onDragStart, 
+  onDragStart,
   onDoubleClick,
   isDragging = false,
   customWidth,
-  customHeight
+  customHeight,
+  dense = false,
+  className = ''
 }: PlayerCardProps) {
   const line = getLineForPos(player.primaryPos);
   const color = LINE_COLORS[line];
   const cardSize = CARD_SIZES[size];
+
+  // Dense mode adjustments for rail
+  const headerHeight = dense ? cardSize.header - 2 : cardSize.header;
+  const bodyHeight = dense ? cardSize.body - 4 : cardSize.body;
+  const footerHeight = dense ? 12 : cardSize.footer;
   
   // Format name: FirstName + LastInitial
   const nameParts = player.name.split(' ');
@@ -84,42 +93,43 @@ export default function PlayerCard({
         transition-all border shadow-sm flex flex-col
         ${isDragging ? 'opacity-50' : 'opacity-100'}
         hover:shadow-lg hover:scale-105
+        ${className}
       `}
       style={{
-        width: CARD_W,
-        height: CARD_H
+        width: customWidth || CARD_W,
+        height: customHeight || CARD_H
       }}
     >
       {/* White header with name */}
-      <div 
-        className="bg-white px-1.5 border-b flex items-center"
-        style={{ height: `${cardSize.header}px` }}
+      <div
+        className={`bg-white border-b flex items-center ${dense ? 'px-1' : 'px-1.5'}`}
+        style={{ height: `${headerHeight}px` }}
       >
         <div className={`font-medium truncate w-full ${cardSize.nameText}`}>
           {displayName}
         </div>
       </div>
-      
+
       {/* Colored body with position and jersey */}
-      <div 
+      <div
         className="flex flex-col items-center justify-center text-white"
-        style={{ 
+        style={{
           backgroundColor: color,
-          height: `${cardSize.body}px`
+          height: `${bodyHeight}px`
         }}
       >
         <div className={`font-bold uppercase ${cardSize.primaryText}`}>
           {player.primaryPos || 'POS'}
         </div>
-        <div className={`font-bold ${cardSize.jerseyText} mt-1`}>
+        <div className={`font-bold ${cardSize.jerseyText} ${dense ? 'mt-0.5' : 'mt-1'}`}>
           #{player.jersey}
         </div>
       </div>
-      
+
       {/* Dark footer with secondary positions */}
-      <div 
+      <div
         className="bg-gray-800 text-gray-300 px-1 flex items-center"
-        style={{ height: `${cardSize.footer}px` }}
+        style={{ height: `${footerHeight}px` }}
       >
         <div className={`truncate text-center w-full ${cardSize.footerText}`}>
           {secondaries || '\u00A0'}

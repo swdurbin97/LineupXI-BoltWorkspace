@@ -772,13 +772,15 @@ function LineupPageContent() {
                       Available Players ({availablePlayers.length})
                     </h3>
                   </div>
-                  <div ref={availRef} className="p-2 h-[calc(720px-44px)] overflow-y-auto">
-                    <div className="grid grid-cols-2 gap-2">
+                  <div ref={availRef} className="p-1.5 pr-2 h-[calc(720px-44px)] overflow-y-auto">
+                    <div className="grid grid-cols-2 gap-1 justify-items-stretch">
                       {availablePlayers.map((p) => (
                         <div key={p.id} className="scale-90 origin-top-left">
                           <PlayerCard
                             player={p}
                             size="BENCH"
+                            dense
+                            className="w-full"
                             onDragStart={(e) => {
                               e.dataTransfer.setData('application/x-player-id', String(p.id));
                               e.dataTransfer.setData('application/x-yslm', JSON.stringify({ playerId: String(p.id) }));
