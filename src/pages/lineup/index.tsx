@@ -19,7 +19,7 @@ import * as savedLineupsLib from '../../lib/savedLineups';
 import type { SavedLineup, SerializedBuilderState } from '../../types/lineup';
 import { toast } from '../../lib/toast';
 import ScaledPage from '../../components/layout/ScaledPage';
-import AvailablePlayerCard from '../../components/players/AvailablePlayerCard';
+import PlayerCard from '../../components/lineup/PlayerCard';
 
 function LineupPageContent() {
   const { teams, currentTeamId, setCurrentTeam } = useTeamsStore();
@@ -774,8 +774,20 @@ function LineupPageContent() {
                   </div>
                   <div ref={availRef} className="p-3 h-[calc(720px-48px)] overflow-y-auto">
                     <div className="grid grid-cols-2 gap-3">
-                      {availablePlayers.map(player => (
-                        <AvailablePlayerCard key={player.id} player={player} />
+                      {availablePlayers.map((p) => (
+                        <PlayerCard
+                          key={p.id}
+                          player={p}
+                          size="BENCH"
+                          onDragStart={(e) => {
+                            e.dataTransfer.setData('application/x-player-id', String(p.id));
+                            e.dataTransfer.setData('application/x-yslm', JSON.stringify({ playerId: String(p.id) }));
+                            e.dataTransfer.effectAllowed = 'move';
+
+                            const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
+                            e.dataTransfer.setDragImage(e.currentTarget as HTMLElement, rect.width * 0.2, rect.height * 0.2);
+                          }}
+                        />
                       ))}
                     </div>
                   </div>

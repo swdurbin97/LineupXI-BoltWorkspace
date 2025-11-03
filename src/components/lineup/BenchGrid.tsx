@@ -41,11 +41,22 @@ export default function BenchGrid({
   const handleDrop = (e: React.DragEvent, index: number) => {
     e.preventDefault();
     setDragOverIndex(null);
-    
+
     try {
+      // Check for simple player ID format first
+      const simpleId = e.dataTransfer.getData('application/x-player-id');
+      if (simpleId) {
+        const targetPlayer = normalizedSlots[index];
+        if (!targetPlayer && onAssignToBench) {
+          onAssignToBench(index, simpleId);
+        }
+        return;
+      }
+
+      // Fallback to JSON format
       const payloadStr = e.dataTransfer.getData('application/x-yslm') || e.dataTransfer.getData('text/plain');
       if (!payloadStr) return;
-      
+
       const payload = JSON.parse(payloadStr);
       if (!payload.playerId) return;
       
