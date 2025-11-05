@@ -26,3 +26,7 @@ Bolt should work **only inside `frontend/src/`** and follow `/docs/MVP_SCOPE.md`
 ## References
 - `/docs/MVP_SCOPE.md` — scope and priorities
 - `/docs/WORKING_WITH_BOLT.md` — rules of engagement
+
+---
+
+Preview deployment test.
