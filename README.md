@@ -26,9 +26,13 @@ Bolt should work **only inside `frontend/src/`** and follow `/docs/MVP_SCOPE.md`
 
 ---
 
-## References
-- `/docs/MVP_SCOPE.md` — scope and priorities
-- `/docs/WORKING_WITH_BOLT.md` — rules of engagement
+## Documentation
+
+- **[Architecture](/docs/ARCHITECTURE.md)** — Technical architecture, tech stack, component patterns, and data flow
+- **[Data Model](/docs/DATA_MODEL.md)** — Core data structures, validation rules, and database schema
+- **[Glossary](/docs/GLOSSARY.md)** — App-specific terminology and concepts
+- **[MVP Scope](/docs/MVP_SCOPE.md)** — Feature scope and priorities
+- **[Known Issues](/docs/KNOWN_ISSUES.md)** — Tracked bugs and limitations
 
 ---
 

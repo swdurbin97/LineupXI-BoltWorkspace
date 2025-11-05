@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Team, Player } from '../../lib/types';
 import { useTeamsStore } from '../../store/teams';
+import { POSITIONS, POSITION_LABELS, isValidPosition } from '../../data/positions';
+import { normalizePosition } from '../../lib/normalizers';
 
 interface PlayerTableProps {
   team: Team;
@@ -11,6 +13,8 @@ export default function PlayerTable({ team }: PlayerTableProps) {
   const [showAddPlayer, setShowAddPlayer] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [jerseyError, setJerseyError] = useState('');
+  const [importResult, setImportResult] = useState<{imported: number; skipped: number; details: any[]} | null>(null);
+  const [showImportDetails, setShowImportDetails] = useState(false);
 
   // Form state
   const [formData, setFormData] = useState<Partial<Player>>({
@@ -105,15 +109,29 @@ export default function PlayerTable({ team }: PlayerTableProps) {
   const handleImportCSV = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (!file) return;
-    
+
     const reader = new FileReader();
     reader.onload = (e) => {
       const csv = e.target?.result as string;
-      importPlayersCSV(team.id, csv);
+      const result = importPlayersCSV(team.id, csv);
+
+      setImportResult({
+        imported: result.players.length,
+        skipped: result.skipped.length,
+        details: result.skipped
+      });
+
+      console.log('CSV Import Summary:');
+      console.log(`- Imported: ${result.players.length} players`);
+      console.log(`- Skipped: ${result.skipped.length} rows`);
+      if (result.skipped.length > 0) {
+        console.log('Skipped rows details:', result.skipped);
+      }
+
+      setTimeout(() => setImportResult(null), 8000);
     };
     reader.readAsText(file);
-    
-    // Reset input
+
     event.target.value = '';
   };
 
@@ -153,6 +171,45 @@ export default function PlayerTable({ team }: PlayerTableProps) {
         </div>
       )}
 
+      {importResult && (
+        <div className="mb-2 p-3 bg-blue-50 border border-blue-200 rounded text-sm">
+          <div className="flex justify-between items-start">
+            <div>
+              <strong>CSV Import Complete:</strong> Imported {importResult.imported} players
+              {importResult.skipped > 0 && (
+                <span className="text-orange-700"> • Skipped {importResult.skipped} rows (invalid position)</span>
+              )}
+            </div>
+            <button
+              onClick={() => setImportResult(null)}
+              className="text-blue-600 hover:text-blue-800 font-bold"
+            >
+              ×
+            </button>
+          </div>
+          {importResult.skipped > 0 && (
+            <div className="mt-2">
+              <button
+                onClick={() => setShowImportDetails(!showImportDetails)}
+                className="text-xs text-blue-600 hover:underline"
+              >
+                {showImportDetails ? 'Hide details' : 'View details'}
+              </button>
+              {showImportDetails && (
+                <div className="mt-2 p-2 bg-white rounded border border-blue-200 text-xs font-mono max-h-40 overflow-y-auto">
+                  {importResult.details.map((item: any, idx: number) => (
+                    <div key={idx} className="mb-1">
+                      <strong>Row {item.row}:</strong> {item.reason}
+                      <div className="text-gray-600 ml-4">Values: {item.values.join(', ')}</div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+      )}
+
       {showAddPlayer && (
         <div className="mb-4 p-3 border rounded bg-gray-50">
           <div className="grid grid-cols-2 gap-2 mb-2">
@@ -173,13 +230,18 @@ export default function PlayerTable({ team }: PlayerTableProps) {
               }}
               className="px-2 py-1 border rounded"
             />
-            <input
-              type="text"
-              placeholder="Position (e.g., CM)"
-              value={formData.primaryPos}
+            <select
+              value={formData.primaryPos || ''}
               onChange={(e) => setFormData({ ...formData, primaryPos: e.target.value })}
               className="px-2 py-1 border rounded"
-            />
+            >
+              <option value="">Select Position</option>
+              {POSITIONS.map((pos) => (
+                <option key={pos} value={pos}>
+                  {pos} - {POSITION_LABELS[pos]}
+                </option>
+              ))}
+            </select>
             <select
               value={formData.foot}
               onChange={(e) => setFormData({ ...formData, foot: e.target.value as 'L' | 'R' | 'B' })}
@@ -249,12 +311,18 @@ export default function PlayerTable({ team }: PlayerTableProps) {
                         />
                       </td>
                       <td className="py-2 px-2">
-                        <input
-                          type="text"
-                          value={formData.primaryPos}
+                        <select
+                          value={formData.primaryPos || ''}
                           onChange={(e) => setFormData({ ...formData, primaryPos: e.target.value })}
-                          className="w-20 px-1 py-0.5 border rounded"
-                        />
+                          className="px-1 py-0.5 border rounded text-xs"
+                        >
+                          <option value="">-</option>
+                          {POSITIONS.map((pos) => (
+                            <option key={pos} value={pos}>
+                              {pos}
+                            </option>
+                          ))}
+                        </select>
                       </td>
                       <td className="py-2 px-2">
                         <select

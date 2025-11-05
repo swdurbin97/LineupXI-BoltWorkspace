@@ -1,7 +1,8 @@
 import React, { createContext, useContext, useReducer, useEffect } from 'react';
 import { Team, Player } from '../lib/types';
 import { saveLocal, loadLocal } from '../lib/persistence/local';
-import { playersToCSV, csvToPlayers } from '../lib/csv';
+import { playersToCSV, csvToPlayers, CSVImportResult } from '../lib/csv';
+import { normalizeTeamPositions } from '../lib/migrate';
 
 const STORAGE_KEY = 'yslm_teams_v1';
 
@@ -111,7 +112,7 @@ interface TeamsContextType extends TeamsState {
   addPlayer: (teamId: string, player: Omit<Player, 'id'>) => void;
   updatePlayer: (teamId: string, playerId: string, player: Partial<Player>) => void;
   removePlayer: (teamId: string, playerId: string) => void;
-  importPlayersCSV: (teamId: string, csv: string) => void;
+  importPlayersCSV: (teamId: string, csv: string) => CSVImportResult;
   exportPlayersCSV: (teamId: string) => string;
   isJerseyUnique: (teamId: string, jersey: number, excludeId?: string) => boolean;
   getCurrentTeam: () => Team | null;
@@ -125,10 +126,13 @@ export function TeamsProvider({ children }: { children: React.ReactNode }) {
     currentTeamId: null
   });
 
-  // Load from localStorage on mount
+  // Load from localStorage on mount and run migrations
   useEffect(() => {
     const stored = loadLocal<TeamsState>(STORAGE_KEY, { teams: [], currentTeamId: null });
-    dispatch({ type: 'SET_TEAMS', teams: stored.teams });
+
+    const { teams: migratedTeams } = normalizeTeamPositions(stored.teams);
+
+    dispatch({ type: 'SET_TEAMS', teams: migratedTeams });
     if (stored.currentTeamId) {
       dispatch({ type: 'SET_CURRENT_TEAM', teamId: stored.currentTeamId });
     }
@@ -176,9 +180,10 @@ export function TeamsProvider({ children }: { children: React.ReactNode }) {
     dispatch({ type: 'REMOVE_PLAYER', teamId, playerId });
   };
 
-  const importPlayersCSV = (teamId: string, csv: string) => {
-    const players = csvToPlayers(csv);
-    dispatch({ type: 'SET_PLAYERS', teamId, players });
+  const importPlayersCSV = (teamId: string, csv: string): CSVImportResult => {
+    const result = csvToPlayers(csv);
+    dispatch({ type: 'SET_PLAYERS', teamId, players: result.players });
+    return result;
   };
 
   const exportPlayersCSV = (teamId: string): string => {

@@ -1,4 +1,5 @@
-import { Lineup } from './types';
+import { Lineup, Team } from './types';
+import { normalizePosition } from './normalizers';
 
 export function migrateWorkingLineup(raw: any, formationsSeed: any): Lineup | null {
   // If raw is null/undefined → return null
@@ -98,4 +99,77 @@ export function migrateWorkingLineup(raw: any, formationsSeed: any): Lineup | nu
   }
 
   return migrated;
+}
+
+const MIGRATION_FLAG = 'lineupxi:positions-normalized-v1';
+
+export function normalizeTeamPositions(teams: Team[]): { teams: Team[]; stats: { total: number; normalized: number; unchanged: number; failed: number } } {
+  const hasRun = localStorage.getItem(MIGRATION_FLAG);
+  if (hasRun === 'true') {
+    console.log('[Migration] Position normalization already completed, skipping...');
+    return {
+      teams,
+      stats: { total: 0, normalized: 0, unchanged: 0, failed: 0 }
+    };
+  }
+
+  console.log('[Migration] Starting position normalization for all teams...');
+
+  let totalPlayers = 0;
+  let normalizedCount = 0;
+  let unchangedCount = 0;
+  let failedCount = 0;
+
+  const migratedTeams = teams.map(team => {
+    const migratedPlayers = team.players.map(player => {
+      totalPlayers++;
+
+      if (!player.primaryPos || player.primaryPos.trim() === '') {
+        unchangedCount++;
+        return player;
+      }
+
+      const normalized = normalizePosition(player.primaryPos);
+
+      if (!normalized) {
+        failedCount++;
+        console.warn(`[Migration] Failed to normalize position "${player.primaryPos}" for player ${player.name} (#${player.jersey})`);
+        return player;
+      }
+
+      if (normalized === player.primaryPos) {
+        unchangedCount++;
+        return player;
+      }
+
+      normalizedCount++;
+      console.log(`[Migration] Normalized "${player.primaryPos}" → "${normalized}" for ${player.name} (#${player.jersey})`);
+
+      return {
+        ...player,
+        primaryPos: normalized
+      };
+    });
+
+    return {
+      ...team,
+      players: migratedPlayers
+    };
+  });
+
+  localStorage.setItem(MIGRATION_FLAG, 'true');
+
+  const stats = {
+    total: totalPlayers,
+    normalized: normalizedCount,
+    unchanged: unchangedCount,
+    failed: failedCount
+  };
+
+  console.log('[Migration] Position normalization complete:', stats);
+
+  return {
+    teams: migratedTeams,
+    stats
+  };
 }
